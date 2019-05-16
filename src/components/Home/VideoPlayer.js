@@ -10,15 +10,8 @@ class VideoPlayer extends Component {
     }
 
     componentDidMount() {
-        const videoJsOptions = {
-            loop: true,
-            preload: "auto",
-            sources: [{
-                src: this.props.viedosrc,
-                type: 'video/mp4'
-            }]
-        };
-        
+        this.player = videojs(this.videoNode, this.props, function onPlayerReady() {});
+
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -35,17 +28,16 @@ class VideoPlayer extends Component {
     };
 
     render() {
+
+
+
         return (
             <div>
-                <h2>videos</h2>
-                <div>
-                    <video className="video-js" 
-                        width="100%" height="100%" 
-                        onClick={this.handleClick} 
-                        onTouchStart={this.handleClick}
-                        >
-                        <source src="http://localhost/source.mp4" type="video/mp4" />
-                    </video>
+                <div data-vjs-player="true" 
+                    style={{width : "100%", height : "100%"}} 
+                    onClick={this.handleClick} 
+                    onTouchStart={this.handleClick}>
+                    <video ref={ node => this.videoNode = node} className="video-js"></video>
                 </div>
             </div>
         );

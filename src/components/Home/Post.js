@@ -6,9 +6,18 @@ import VideoPlayer from './VideoPlayer';
 class Post extends Component {
 
     render() {
+        const videoJsOptions = {
+            loop: true,
+            preload: "auto",
+            sources: [{
+                src: this.props.post.videosrc,
+                type: 'video/mp4'
+            }]
+        };
+
         return (
             <div>
-                <VideoPlayer key={this.props.key} videosrc={this.props.post.videosrc}/>
+                <VideoPlayer {...videoJsOptions}/>
                 <Description />
                 <Icons />
             </div>
