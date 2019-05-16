@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './Home';
+import Footer from './Footer';
+import './index.css';
 
 const Index = () => (
     <div>
         <Home />
+        <Footer />
     </div>
 );
 

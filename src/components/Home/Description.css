@@ -1,0 +1,12 @@
+.discription-wrapper {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    z-index: 5;
+    bottom: 16%;
+    left : 5%;
+    width: 45%;
+    background: transparent;
+    color: white;
+    font-size: 12px;
+}

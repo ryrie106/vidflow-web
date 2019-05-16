@@ -10,9 +10,9 @@ class VideoPlayer extends Component {
     }
 
     componentDidMount() {
-        this.player = videojs(this.videoNode, this.props, function onPlayerReady() {});
-
-        this.handleClick = this.handleClick.bind(this);
+        this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
+            console.log(this);
+        });
     }
 
     handleClick() {
@@ -28,17 +28,12 @@ class VideoPlayer extends Component {
     };
 
     render() {
-
-
-
         return (
-            <div>
-                <div data-vjs-player="true" 
-                    style={{width : "100%", height : "100%"}} 
-                    onClick={this.handleClick} 
-                    onTouchStart={this.handleClick}>
-                    <video ref={ node => this.videoNode = node} className="video-js"></video>
-                </div>
+            <div data-vjs-player="true" 
+                style={{width : "100%", height : "100%"}} 
+                onClick={this.handleClick} 
+                onTouchStart={this.handleClick}>
+                <video ref={ node => this.videoNode = node} className="video-js"></video>
             </div>
         );
     }

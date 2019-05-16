@@ -1,13 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
+import './Description.css';
 
-class Description extends Component {
-    render() {
-        return (
+const Description = ({writer, content}) => {
+    return (
+        <div className="discription-wrapper">
             <div>
-
+                @{writer}
             </div>
-        );
-    }
-}
+            <div>
+                {content}
+            </div>
+        </div>
+    );
+};
 
 export default Description;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Icons from './Icons';
 import Description from './Description';
 import VideoPlayer from './VideoPlayer';
+import './Post.css';
 
 class Post extends Component {
 
@@ -16,9 +17,12 @@ class Post extends Component {
         };
 
         return (
-            <div>
+            <div className="post-wrapper">
                 <VideoPlayer {...videoJsOptions}/>
-                <Description />
+                <Description 
+                    writer={this.props.post.writer}
+                    content={this.props.post.content}
+                />
                 <Icons />
             </div>
         )

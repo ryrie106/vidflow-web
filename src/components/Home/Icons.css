@@ -1,0 +1,37 @@
+.icon-wrapper {
+    display: flex;
+    position: absolute;
+    z-index: 5;
+    width: 28%;
+    bottom: 16%;
+    right : 4%;
+    color: white;
+}
+
+.follow-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.like-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.comment-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.share-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}

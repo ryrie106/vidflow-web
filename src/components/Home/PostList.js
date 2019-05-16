@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Swiper from "react-id-swiper";
 import 'react-id-swiper/src/styles/css/swiper.css';
 
@@ -17,11 +18,9 @@ class PostList extends Component {
         );
 
         return(
-            <div className="wrapper">
-                <Swiper {...params}>
-                    {postList}
-                </Swiper>
-            </div>
+            <Swiper {...params}>
+                {postList}
+            </Swiper>
         )
     }
 }

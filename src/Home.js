@@ -19,7 +19,9 @@ class Home extends Component {
 
     render() {
         return (
-            <PostList postlist={this.state.posts}/>
+            <div className="home-wrapper">
+                <PostList postlist={this.state.posts}/>
+            </div>
         )
     }
 }

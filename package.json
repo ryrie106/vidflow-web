@@ -7,10 +7,13 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-id-swiper": "^1.6.8",
+    "react-icons": "^3.7.0",
     "axios": "^0.18.0",
     "video.js": "^7.5.4",
     "@videojs/http-streaming": "^1.10.2",
-    "cross-env": "^5.2.0"
+    "cross-env": "^5.2.0",
+    "redux": "4.0.1",
+    "react-redux": "^7.0.3"
   },
   "scripts": {
     "start": "cross-env react-scripts start",
