@@ -20,7 +20,7 @@ class Post extends Component {
             <div className="post-wrapper">
                 <VideoPlayer {...videoJsOptions}/>
                 <Description 
-                    writer={this.props.post.writer}
+                    writer={this.props.post.writer.nickname}
                     content={this.props.post.content}
                 />
                 <Icons />

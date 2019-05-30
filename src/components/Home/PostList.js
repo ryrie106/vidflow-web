@@ -5,7 +5,21 @@ import 'react-id-swiper/src/styles/css/swiper.css';
 
 import Post from './Post';
 
+const axios = require('axios');
+
 class PostList extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {posts: []};
+    }
+
+    componentDidMount() {
+        axios.get('/posts/all').then(response => {
+                console.log(response);
+                this.setState({posts: response.data});
+        });
+    }
 
     render() {
         const params = {
@@ -13,8 +27,8 @@ class PostList extends Component {
             shouldSwiperUpdate: true,
         };
 
-        const postList = this.props.postlist.map(post =>
-            <div key={post._links.self.href}><Post post={post} /></div>
+        const postList = this.state.posts.map(post =>
+            <div key={post.postno}><Post post={post} /></div>
         );
 
         return(

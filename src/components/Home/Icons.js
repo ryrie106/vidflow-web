@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
 import './Icons.css';
+import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots } from 'react-icons/fa';
 
 class Icons extends Component {
     render() {
         return (
             <div className="icon-wrapper">
                 <div className="follow-button">
-                    F
+                    <FaPlusCircle style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="like-button">
-                    L
+                    <FaHeart style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="comment-button">
-                    C
+                    <FaCommentDots style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="share-button">
-                    S
+                    <FaShareAlt style={{width:"35px", height:"35px"}}/>
                 </div>
             </div>
         );

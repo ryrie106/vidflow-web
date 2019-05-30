@@ -7,11 +7,15 @@
 
     width: 100%;
     max-width: 1080px;
-    height: 15%;
+    height: 50px;
 
     background: transparent;
 
     z-index: 5;
+
+    border-style: solid;
+    border-top-color: #CCC;
+    border-top-width: 1px;
 }
 
 .footer-button {
@@ -21,7 +25,5 @@
     justify-content: center;
 
     width: 20%;
-
-    font-size: 100%;
     color: #CCC;
 }

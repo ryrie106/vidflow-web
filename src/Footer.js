@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { FaDotCircle } from 'react-icons/fa';
+import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 class Footer extends Component {
@@ -17,19 +18,19 @@ class Footer extends Component {
         return (
             <div className="footer-wrapper">
                 <div className="footer-button">
-                    <FaDotCircle />
+                    <FaHome style={{width:"35px", height:"35px"}} />
                 </div>
                 <div className="footer-button">
-                    <FaDotCircle />
+                    <FaGlobe style={{width:"35px", height:"35px"}}/>
+                </div>
+                <Link className="footer-button" to="/write">
+                    <FaFolderPlus style={{width:"35px", height:"35px"}} />
+                </Link>
+                <div className="footer-button">
+                    <FaComment style={{width:"35px", height:"35px"}} />
                 </div>
                 <div className="footer-button">
-                    <FaDotCircle />
-                </div>
-                <div className="footer-button">
-                    <FaDotCircle />
-                </div>
-                <div className="footer-button">
-                    <FaDotCircle />
+                    <FaUser style={{width:"35px", height:"35px"}} />
                 </div>
             </div>
         )

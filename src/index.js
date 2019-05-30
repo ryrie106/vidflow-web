@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Home from './Home';
 import Footer from './Footer';
+import Write from './Write';
 import './index.css';
 
 const Index = () => (
-    <div>
-        <Home />
+    <BrowserRouter>
+        <Route exact path="/" component={Home} />
+        <Route path="/write" component={Write} />
         <Footer />
-    </div>
+    </BrowserRouter>
 );
 
 ReactDOM.render(<Index/>, document.getElementById('root'));
