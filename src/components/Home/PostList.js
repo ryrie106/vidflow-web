@@ -11,7 +11,9 @@ class PostList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {posts: []};
+        this.state = {
+            posts: []
+        };
     }
 
     componentDidMount() {

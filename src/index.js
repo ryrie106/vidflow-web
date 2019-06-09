@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './Home';
-import Footer from './Footer';
-import Write from './Write';
+import App from './App';
 import './index.css';
 
 const Index = () => (
     <BrowserRouter>
-        <Route exact path="/" component={Home} />
-        <Route path="/write" component={Write} />
-        <Footer />
+        <App />
     </BrowserRouter>
 );
 

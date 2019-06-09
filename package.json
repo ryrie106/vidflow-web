@@ -3,25 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@videojs/http-streaming": "^1.10.2",
+    "antd": "^3.19.2",
+    "axios": "^0.18.0",
+    "cross-env": "^5.2.0",
+    "formik": "^1.5.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "react-id-swiper": "^1.6.8",
     "react-icons": "^3.7.0",
-    "axios": "^0.18.0",
-    "video.js": "^7.5.4",
-    "@videojs/http-streaming": "^1.10.2",
-    "cross-env": "^5.2.0",
-    "redux": "4.0.1",
+    "react-id-swiper": "^1.6.8",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "formik": "^1.5.7"
+    "react-scripts": "3.0.1",
+    "redux": "4.0.1",
+    "video.js": "^7.5.4"
   },
   "scripts": {
-    "start": "cross-env react-scripts start",
-    "build": "cross-env react-scripts build",
-    "test": "cross-env react-scripts test",
+    "start": "cross-env react-app-rewired start",
+    "build": "cross-env react-app-rewired build",
+    "test": "cross-env react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
