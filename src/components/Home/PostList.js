@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Swiper from "react-id-swiper";
 import 'react-id-swiper/src/styles/css/swiper.css';
 
+import { getAllPosts } from '../../utils/APIUtils';
 import Post from './Post';
 
-const axios = require('axios');
 
 class PostList extends Component {
 
@@ -17,10 +16,11 @@ class PostList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/posts/all').then(response => {
-                console.log(response);
-                this.setState({posts: response.data});
-        });
+        getAllPosts().then(response => {
+            this.setState({
+                posts: response
+            })
+        })
     }
 
     render() {

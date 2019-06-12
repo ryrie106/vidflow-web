@@ -25,7 +25,7 @@ const request = (options) => {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signin",
+        url: API_BASE_URL + "/user/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -33,7 +33,7 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signup",
+        url: API_BASE_URL + "/user/create",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -61,6 +61,20 @@ export function getCurrentUser() {
 
     return request({
         url: API_BASE_URL + "/user/me",
+        method: 'GET'
+    });
+}
+
+export function checkUsernameAvailability(username) {
+    return request({
+        url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
+        method: 'GET'
+    });
+}
+
+export function checkEmailAvailability(email) {
+    return request({
+        url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
         method: 'GET'
     });
 }

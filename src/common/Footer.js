@@ -17,9 +17,9 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer-wrapper">
-                <div className="footer-button">
+                <Link className="footer-button" to="/">
                     <FaHome style={{width:"35px", height:"35px"}} />
-                </div>
+                </Link>
                 <div className="footer-button">
                     <FaGlobe style={{width:"35px", height:"35px"}}/>
                 </div>
@@ -29,9 +29,15 @@ class Footer extends Component {
                 <div className="footer-button">
                     <FaComment style={{width:"35px", height:"35px"}} />
                 </div>
-                <div className="footer-button">
-                    <FaUser style={{width:"35px", height:"35px"}} />
-                </div>
+                {this.props.isAuthenticated ? 
+                    <Link className="footer-button" to="/mypage">
+                        <FaUser style={{width:"35px", height:"35px"}} />
+                    </Link>
+                    :
+                    <Link className="footer-button" to="/login">
+                        <FaUser style={{width:"35px", height:"35px"}} />
+                    </Link>
+                }
             </div>
         )
     }

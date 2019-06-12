@@ -20,7 +20,7 @@ class Post extends Component {
             <div className="post-wrapper">
                 <VideoPlayer {...videoJsOptions}/>
                 <Description 
-                    writer={this.props.post.writer.nickname}
+                    writer={this.props.post.writer}
                     content={this.props.post.content}
                 />
                 <Icons />
@@ -28,17 +28,4 @@ class Post extends Component {
         )
     }
 }
-
-/*
-postno : {this.props.post.postno}<br/>
-writer : {this.props.post.writer}<br/>
-content : {this.props.post.content}<br/>
-numcomment : {this.props.post.numcomment}<br/>
-regdate : {this.props.post.regdate}<br/>
-updatedate : {this.props.post.updatedate}<br/>
-<video className="video-js" width="600" height="400" controls>
-    <source src={this.props.post.videosrc} type="application/x-mpegURL" />
-</video>
- */
-
 export default Post;
