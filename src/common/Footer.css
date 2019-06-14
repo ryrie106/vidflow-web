@@ -6,8 +6,9 @@
     bottom: 0px;
 
     width: 100%;
-    max-width: 1080px;
     height: 50px;
+    margin-left: auto;
+    margin-right: auto;
 
     background: transparent;
 

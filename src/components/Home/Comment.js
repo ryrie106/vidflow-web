@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import './Comment.css';
 
-class PostWrite extends Component {
+class Comment extends Component {
     render() {
         return (
-            <div>
-                <h2>글쓰기 ㅎㅎ</h2>
+            <div className="comment">
                 
             </div>
         );
     }
 }
 
-export default PostWrite;
+export default Comment;

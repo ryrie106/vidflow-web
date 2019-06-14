@@ -1,0 +1,13 @@
+.comment-container {
+    position: fixed;
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    height: 85%;
+    bottom: 0px;
+    z-index: 100;
+}
+
+.comment-writer {
+    bottom: 0px;
+}

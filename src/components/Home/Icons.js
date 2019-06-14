@@ -4,6 +4,9 @@ import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots } from 'react-icons/fa
 
 class Icons extends Component {
     render() {
+        /**
+         * this.props.toggleCommentPanel은 Home -> PostList -> Post -> Icons 컴포넌트로 내려옴
+         */
         return (
             <div className="icon-wrapper">
                 <div className="follow-button">
@@ -12,7 +15,7 @@ class Icons extends Component {
                 <div className="like-button">
                     <FaHeart style={{width:"35px", height:"35px"}}/>
                 </div>
-                <div className="comment-button">
+                <div className="comment-button" onClick={this.props.toggleCommentPanel}>
                     <FaCommentDots style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="share-button">

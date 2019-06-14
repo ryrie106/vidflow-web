@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Switch, notification } from 'antd';
 
 import { createPost } from '../utils/APIUtils';
+import './Write.css';
 const { TextArea } = Input;
 
 // class Write extends Component {
@@ -64,7 +65,7 @@ class WriteForm extends Component {
         const { getFieldDecorator } = this.props.form;
 
         return (
-            <div >
+            <div className="write-wrapper">
                 <div className="new-post-title">
                     게시
                 </div>

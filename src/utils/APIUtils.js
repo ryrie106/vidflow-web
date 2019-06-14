@@ -54,6 +54,23 @@ export function createPost(postData) {
     });
 }
 
+export function getCommentsByPostId(postId) {
+    return request({
+        url: API_BASE_URL + "/comments/" + postId,
+        method: 'GET'
+    });
+}
+
+export function createComment(commentId, commentData) {
+    return request({
+        url: API_BASE_URL + "/comments/" + commentId,
+        method: 'POST',
+        body: JSON.stringify(commentData)
+    });
+}
+
+
+
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
