@@ -5,9 +5,30 @@
     max-width: 600px;
     height: 85%;
     bottom: 0px;
-    z-index: 100;
+    z-index: 150;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-counter {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.close-comment-container-button {
+    right: 0px;
 }
 
 .comment-writer {
     bottom: 0px;
+    position: fixed;
+    width: 100%;
+    max-width: 600px;
+    height: 55px;
+    border-style: solid;
+    border-color: #CCC;
+    border-width: 1px 0 0 0;
 }

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import './CommentList.css';
-import { Avatar, Form, Button, List, Input } from 'antd';
+import { List, InputItem } from 'antd-mobile';
+import { createForm } from 'rc-form';
 
-import { Comment } from './Comment';
-import { getCommentsByPostId } from '../../utils/APIUtils';
-class CommentList extends Component {
+import { FaAt, FaLaugh, FaPaperPlane } from 'react-icons/fa';
+import Comment from './Comment';
+import './CommentList.css';
+import { getCommentsByPostId, createComment } from '../../utils/APIUtils';
+
+class CommentListForm extends Component {
 
     constructor(props) {
         super(props);
@@ -13,8 +16,8 @@ class CommentList extends Component {
             content: ""// TODO: 이름 고치기.
 
         }
-        this.onChange = this.onChange.bind();
-        this.onSubmit = this.onSubmit.bind();
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -32,14 +35,23 @@ class CommentList extends Component {
     };
 
     onSubmit() {
-
+        const commentRequest = {
+            content: this.props.form.getFieldsValue()
+        };
+        createComment(this.props.currentPostId, commentRequest)
+            .then(response => {
+                console.log("successfully created comment");
+            }).catch(error => {
+                console.log("createComment failed");
+            })
     };
 
     render() {
         const commentList = this.state.comments.map(comment =>
             <div key={comment.id}><Comment comment={comment} /></div>
-            )
+        )
 
+        const { getFieldProps, getFieldError } = this.props.form;
 
         return (
             <div className="comment-container">
@@ -51,23 +63,32 @@ class CommentList extends Component {
                         X
                     </div>
                 </div>
-                <div clasaName="comment-list">
+                <div className="comment-list">
                     {commentList}
                 </div>
                 <div className="comment-writer">
-                    <Form.Item>
-                        <Input.TextArea onChange={this.onChange}/>
-                    </Form.Item>
-                    <Form.Item>
-                    <Button htmlType="submit" onClick={this.onSubmit} type="primary">
-                        Add Comment
-                    </Button>
-                    </Form.Item>
+                    <InputItem
+                        {...getFieldProps('content', {})}
+                        placeholder="댓글 추가"
+                        // value={this.state.content}
+                        // onChange={this.onChange}
+                        extra={
+                        <div>
+                            <FaAt style={{width:"30px", height:"30px", marginLeft:"5px"}}/>
+                            <FaLaugh style={{width:"30px", height:"30px", marginLeft:"5px"}}/>
+                            <FaPaperPlane 
+                                style={{width:"30px", height:"30px", marginLeft:"5px"}}
+                                onClick={this.onSubmit}
+                            />
+                        </div>
+                        } 
+                    />
                 </div>
-
             </div>
         );
     }
 }
+
+const CommentList = createForm()(CommentListForm);
 
 export default CommentList;

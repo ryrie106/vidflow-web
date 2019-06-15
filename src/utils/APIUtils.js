@@ -82,9 +82,9 @@ export function getCurrentUser() {
     });
 }
 
-export function checkUsernameAvailability(username) {
+export function checkNameAvailability(name) {
     return request({
-        url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
+        url: API_BASE_URL + "/user/checkNameAvailability?name=" + name,
         method: 'GET'
     });
 }

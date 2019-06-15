@@ -5,12 +5,9 @@ import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
 
 import Login from './Pages/Login';
-import Home from './Pages/Home';
-import Mypage from './Pages/Mypage';
+import Main from './Pages/Main';
 import Signup from './Pages/Signup';
 import Write from './Pages/Write';
-import Footer from './common/Footer';
-import RequireLoginPopup from './common/RequireLoginPopup';
 
 class App extends Component {
     constructor(props) {
@@ -70,15 +67,11 @@ class App extends Component {
 
         return (
             <div className="app">
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Main} />
                 <Route path="/write" component={Write} />
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/mypage" 
-                    render={(props) => <Mypage onLogout={this.handleLogout} {...props} />} />
-                <Footer isAuthenticated={isAuthenticated}/>
-                {isLoginRequired ? <RequireLoginPopup /> : null}
             </div>
         );
     }

@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@videojs/http-streaming": "^1.10.2",
-    "antd": "^3.19.2",
     "antd-mobile": "^2.2.13",
     "cross-env": "^5.2.0",
     "rc-form": "^2.4.5",

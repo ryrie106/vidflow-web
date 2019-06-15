@@ -1,89 +1,110 @@
 import React, { Component } from 'react';
-import { login } from '../utils/APIUtils';
-import './Login.css';
 import { Link } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../constants';
-import { Form, Input, Button, Icon, notification } from 'antd';
+import { InputItem,  Button  } from 'antd-mobile';
+import { createForm } from 'rc-form';
 
-class Login extends Component {
-    render() {
-        const AntWrappedLoginForm = Form.create()(LoginForm)
-        return (
-            <div className="login-container">
-                <h1 className="page-title">로그인</h1>
-                <div className="login-content">
-                    <AntWrappedLoginForm onLogin={this.props.onLogin} />
-                </div>
-            </div>
-        );
-    }
-}
+import { login } from '../utils/APIUtils';
+import { ACCESS_TOKEN } from '../constants';
+import './Login.css';
+import {
+    EMAIL_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
+} from '../constants';
+
 
 class LoginForm extends Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.validateEmail = this.validateEmail(this);
     }
 
-    handleSubmit(event) {
-        event.preventDefault();   
+    onSubmit(e) {
+        e.preventDefault();   
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const loginRequest = Object.assign({}, values);
-                login(loginRequest)
+                // const loginRequest = Object.assign({}, values);
+                login(this.props.form.getFieldValue())
                 .then(response => {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
                     if(error.status === 401) {
-                        notification.error({
-                            message: 'Polling App',
-                            description: 'Your Username or Password is incorrect. Please try again!'
-                        });                    
+                        console.log("error 401. username or password error");                  
                     } else {
-                        notification.error({
-                            message: 'Polling App',
-                            description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        });                                            
+                        console.log("login error");                                        
                     }
                 });
             }
         });
+        // console.log(this.props.form.getFieldsValue());
+    }
+
+    validateEmail(email) {
+        if(!email) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email may not be empty'                
+            }
+        }
+
+        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
+        if(!EMAIL_REGEX.test(email)) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email not valid'
+            }
+        }
+
+        if(email.length > EMAIL_MAX_LENGTH) {
+            return {
+                validateStatus: 'error',
+                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
+            }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
+        }
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldProps } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                <Form.Item>
-                    {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your username or email!' }],
-                    })(
-                    <Input 
-                        prefix={<Icon type="user" />}
-                        size="large"
-                        name="username" 
-                        placeholder="Username or Email" />    
-                    )}
-                </Form.Item>
-                <Form.Item>
-                {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
-                })(
-                    <Input 
-                        prefix={<Icon type="lock" />}
-                        size="large"
-                        name="password" 
-                        type="password" 
-                        placeholder="Password"  />                        
-                )}
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    <Link to="/signup">회원 가입</Link>
-                </Form.Item>
-            </Form>
+            <div className="login-page">
+            <div className="login-container">
+                <InputItem
+                    {...getFieldProps('email', {
+                        rules: [
+                            {required: true},
+                            {validator: this.validateEmail}
+                        ]
+                    })}
+                    placeholder="이메일 주소를 입력하세요"
+                >
+                이메일
+                </InputItem>
+                <InputItem
+                    {...getFieldProps('password', {
+                        rules: [
+                            {required: true}
+                        ]
+                    })}
+                    placeholder="비밀번호를 입력하세요"
+                >
+                비밀번호
+                </InputItem>
+                
+                <Button type="primary" onClick={this.onSubmit}>로그인</Button>
+                <Link to="/signin">회원가입</Link>
+                <Link to="/">돌아가기</Link>
+
+            </div>    
+            </div>
         );
     }
 }
+
+const Login = createForm()(LoginForm);
 export default Login;
