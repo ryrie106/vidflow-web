@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-//import {  } from 'antd-mobile';
+import { Link } from 'react-router-dom';
+import { Button, Icon, InputItem, NavBar, TextareaItem, WingBlank, WhiteSpace, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
@@ -7,61 +8,66 @@ import './Write.css';
 
 class WriteForm extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            content: "",
-            videosrc: ""
-        }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleContentChange = this.handleContentChange.bind(this);
-    }
-
-    handleSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
-        const postPayload = {
-            content: this.state.content,
-            videosrc: this.state.videosrc
-        };
-
-        createPost(postPayload)
-            .then(response => {
-                this.props.history.push("/");
-            }).catch(error => {
-                console.log("write failed"); 
-            });
-
-    }
-
-    handleContentChange(e) {
-        const value = e.target.value;
-        this.setState({
-            content: value
-        });
-    }
-
-    handleVideosrcChange(e) {
-        const value = e.target.value;
-        this.setState({
-            videosrc: value
-        });
+        this.props.form.validateFields((err, values) => {
+            if(!err) {
+                const postRequest = Object.assign({}, values);
+                createPost(postRequest)
+                .then(response => {
+                    this.props.history.push("/");
+                    Toast.success("작성 성공!", 2)
+                }).catch(error => {
+                    Toast.error("작성 실패!", 1);
+                })
+            }
+        })
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldProps } = this.props.form;
 
         return (
             <div className="write-wrapper">
-                <div className="new-post-title">
-                    게시
-                </div>
+                <WingBlank size="lg">
+                <NavBar
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => this.props.history.push("/")}
+
+                >게시</NavBar>
                 <div className="new-post-content">
+                <TextareaItem
+                    {...getFieldProps('content', {
+                        rules: [
+                            {required: true},
+                        ]
+                    })}
+                    placeholder="동영상을 설명하세요"
+                    rows={4}
+                />
+                <WhiteSpace size="lg" />
+                <InputItem
+                    {...getFieldProps('videosrc', {
+                        rules: [
+                            {required: true},
+                            {validator: this.validatePassword}
+                        ]
+                    })}
+                    placeholder="영상경로(임시)"
+                />
+                <WhiteSpace size="lg" />
+                <div className="write-buttons" style={{display: "flex", }}>
+                    <Button style={{flexGrow:"1"}}>임시 저장</Button>
+                    <Button style={{flexGrow:"1"}}type="warning" onClick={this.onSubmit}>게시</Button>
+                </div>                
+                
                 </div>
+                </WingBlank>
             </div>
         );
     }
 }
 
-const Write = createForm(WriteForm);
+const Write = createForm()(WriteForm);
 
 export default Write;

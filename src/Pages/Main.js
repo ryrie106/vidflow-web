@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
 import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
-import { TabBar } from 'antd-mobile';
+import { Button, Modal, TabBar, Toast, WhiteSpace, WingBlank } from 'antd-mobile';
 
 import Home from '../Tabs/Home';
-import Mypage from '../Tabs/Mypage';
+import My from '../Tabs/My';
+import './Main.css';
 
-class Main extends React.Component {
+function closest(el, selector) {
+  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+  while (el) {
+    if (matchesSelector.call(el, selector)) {
+      return el;
+    }
+    el = el.parentElement;
+  }
+  return null;
+}
+
+class Main extends Component {
     constructor(props) {
       super(props);
       this.state = {
         selectedTab: 'homeTab',
+        requireLoginModal: false,
       };
-      this.onPressHomeTab = this.onPressHomeTab.bind(this);
+    }
+
+    componentDidMount() {
+      if(!this.props.isAuthenticated) {
+        Toast.info("위 아래로 움직여보세요", 2);
+      }
     }
   
     renderContent(pageText) {
@@ -22,8 +40,20 @@ class Main extends React.Component {
       );
     }
 
-    onPressHomeTab() {
-        console.log("TabBar: Home Clicked");
+    showModal = key => () => {
+      this.setState({
+        [key]: true,
+      });
+    }
+
+    onClose = key => () => {
+      this.setState({
+        [key]: false,
+      })
+    }
+
+    onPressHomeTab = () => {
+        // console.log("TabBar: Home Clicked");
     }
   
     render() {
@@ -75,7 +105,13 @@ class Main extends React.Component {
               key="write"
               selected={this.state.selectedTab === 'writeTab'}
               onPress={() => {
-                this.props.history.push("/write")
+                if(!this.props.isAuthenticated) {
+                  this.setState({
+                    requireLoginModal: true
+                  });
+                } else {
+                  this.props.history.push("/write")
+                }
               }}
             >
             </TabBar.Item>
@@ -106,11 +142,38 @@ class Main extends React.Component {
                 });
               }}
             >
-              {this.renderContent('My')}
+              <My onLogout={this.props.onLogout} />
             </TabBar.Item>
           </TabBar>
+
+          <Modal
+            popup
+            visible={this.state.requireLoginModal}
+            onClose={this.onClose('requireLoginModal')}
+            animationType="slide-up"
+            transparent="true"
+            afterClose={()=>{}}
+          >
+            <div className="require-login-modal"> 
+              계속하려면 로그인이 필요합니다.<WhiteSpace />
+              <Button type="warning" onClick={() => {this.props.history.push("/signup")}}>회원가입</Button>
+              <Foo/>
+
+            </div>
+          </Modal>
         </div>
       );
+    }
+  }
+
+  class Foo extends Component {
+    componentDidMount() {
+      console.log("Foo Mounted!");
+    }
+    render() {
+      return (
+        <div/>
+      )
     }
   }
 

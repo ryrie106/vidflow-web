@@ -7,6 +7,11 @@
     background-color: #FFFFFF;
 }
 
+.login-container {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .login-form-button {
     width: 100%;
 }

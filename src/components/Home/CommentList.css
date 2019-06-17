@@ -1,11 +1,11 @@
 .comment-container {
-    position: fixed;
-    background: white;
+    /* position: fixed; */
+    /* background: white; */
     width: 100%;
-    max-width: 600px;
-    height: 85%;
-    bottom: 0px;
-    z-index: 150;
+    /* max-width: 600px; */
+    height: 85vh;
+    /* bottom: 0px; */
+    /* z-index: 150; */
 }
 
 .comment-header {
@@ -19,16 +19,30 @@
 }
 
 .close-comment-container-button {
-    right: 0px;
+    position: absolute;
+    right: 15px;
 }
 
 .comment-writer {
-    bottom: 0px;
+    display: flex;
     position: fixed;
+    bottom: 0px;
     width: 100%;
-    max-width: 600px;
+    /* max-width: 600px; */
     height: 55px;
     border-style: solid;
     border-color: #CCC;
     border-width: 1px 0 0 0;
+}
+
+.comment-writer-input {
+    width: 85%;
+}
+
+.comment-writer-button {
+    position: absolute;
+    display: flex;
+    right: 0px;
+    width: 110px;
+    height: 100%;
 }

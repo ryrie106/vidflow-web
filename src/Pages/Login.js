@@ -1,79 +1,62 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { InputItem,  Button  } from 'antd-mobile';
+import { Button, Icon, InputItem, NavBar, Toast, WingBlank, WhiteSpace } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
 import { login } from '../utils/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import './Login.css';
-import {
-    EMAIL_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../constants';
+import { EMAIL_MAX_LENGTH } from '../constants';
 
 
 class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.validateEmail = this.validateEmail(this);
-    }
 
-    onSubmit(e) {
-        e.preventDefault();   
+    onSubmit = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // const loginRequest = Object.assign({}, values);
-                login(this.props.form.getFieldValue())
+                const loginRequest = Object.assign({}, values);
+                login(loginRequest)
                 .then(response => {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
                     if(error.status === 401) {
-                        console.log("error 401. username or password error");                  
+                        Toast.fail("이메일이나 비밀번호가 틀립니다.", 1);                  
                     } else {
-                        console.log("login error");                                        
+                        Toast.fail("로그인 에러!", 1);                                
                     }
                 });
             }
         });
-        // console.log(this.props.form.getFieldsValue());
     }
 
-    validateEmail(email) {
+    validateEmail = (rule, email, callback) => {
         if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email may not be empty'                
-            }
+            callback(new Error());
         }
 
         const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
         if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email not valid'
-            }
+            callback(new Error());
         }
 
         if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-            }
+            callback(new Error());
         }
 
-        return {
-            validateStatus: null,
-            errorMsg: null
-        }
+        callback();
     }
 
     render() {
-        const { getFieldProps } = this.props.form;
+        const { getFieldProps, getFieldError } = this.props.form;
         return (
             <div className="login-page">
             <div className="login-container">
+                <WingBlank size="lg">
+                <NavBar
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => this.props.history.push("/")}
+                />
                 <InputItem
                     {...getFieldProps('email', {
                         rules: [
@@ -82,9 +65,10 @@ class LoginForm extends Component {
                         ]
                     })}
                     placeholder="이메일 주소를 입력하세요"
-                >
-                이메일
-                </InputItem>
+                >이메일</InputItem>
+                
+                <WhiteSpace size="lg" />
+                
                 <InputItem
                     {...getFieldProps('password', {
                         rules: [
@@ -92,14 +76,17 @@ class LoginForm extends Component {
                         ]
                     })}
                     placeholder="비밀번호를 입력하세요"
-                >
-                비밀번호
-                </InputItem>
+                    type="password"
+                >비밀번호</InputItem>
                 
-                <Button type="primary" onClick={this.onSubmit}>로그인</Button>
-                <Link to="/signin">회원가입</Link>
-                <Link to="/">돌아가기</Link>
+                <WhiteSpace size="lg" />
 
+                <Button type="primary" onClick={this.onSubmit}>로그인</Button>
+
+                <WhiteSpace size="lg" />
+
+                <Link to="/signup">회원가입</Link>
+                </WingBlank>
             </div>    
             </div>
         );

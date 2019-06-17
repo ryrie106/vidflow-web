@@ -23,7 +23,7 @@ class Post extends Component {
                     writer={this.props.post.writername}
                     content={this.props.post.content}
                 />
-                <Icons toggleCommentPanel={this.props.toggleCommentPanel}/>
+                <Icons toggleCommentModal={this.props.toggleCommentModal}/>
             </div>
         )
     }

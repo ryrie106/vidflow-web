@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Route, withRouter, Switch } from 'react-router-dom';
+import { Toast } from 'antd-mobile';
 import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
 
@@ -18,12 +19,9 @@ class App extends Component {
             isLoading: false,
             isLoginRequired: false
         }
-        this.handleLogout = this.handleLogout.bind(this);
-        this.loadCurrentUser = this.loadCurrentUser.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
     }
 
-    loadCurrentUser() {
+    loadCurrentUser = () => {
         this.setState({
             isLoading: true
         });
@@ -45,7 +43,7 @@ class App extends Component {
         this.loadCurrentUser();
     }
 
-    handleLogout() {
+    onLogout = () => {
         localStorage.removeItem(ACCESS_TOKEN);
 
         this.setState({
@@ -54,11 +52,13 @@ class App extends Component {
         });
 
         this.props.history.push("/");
+        Toast.info('로그아웃 성공!', 1);
     }
 
-    handleLogin() {
+    onLogin = () => {
         this.loadCurrentUser();
         this.props.history.push("/");
+        Toast.info('로그인 성공!', 1);
     }
 
     render() {
@@ -67,10 +67,14 @@ class App extends Component {
 
         return (
             <div className="app">
-                <Route exact path="/" component={Main} />
+                <Route exact path="/"
+                    render={(props => <Main 
+                                        onLogout={this.onLogout} 
+                                        isAuthenticated={isAuthenticated}
+                                        {...props} />)}/>
                 <Route path="/write" component={Write} />
                 <Route path="/login" 
-                    render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
+                    render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
             </div>
         );

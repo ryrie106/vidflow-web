@@ -15,7 +15,7 @@ class Icons extends Component {
                 <div className="like-button">
                     <FaHeart style={{width:"35px", height:"35px"}}/>
                 </div>
-                <div className="comment-button" onClick={this.props.toggleCommentPanel}>
+                <div className="comment-button" onClick={this.props.toggleCommentModal}>
                     <FaCommentDots style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="share-button">

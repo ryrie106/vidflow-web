@@ -8,38 +8,32 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../constants';
 
-import { List, InputItem, Button, WhiteSpace, Flex } from 'antd-mobile';
+import { Button, Icon, InputItem, List, NavBar, Toast, WhiteSpace, WingBlank } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
-const Item = List.Item;
-
 class SignupForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-        this.validateEmail = this.validateEmail(this);
-        this.validatePassword = this.validatePassword(this);
-        this.validateName = this.validateName(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.validateNameAvailability = this.validateNameAvailability.bind(this);
-        this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
-        this.isFormInvalid = this.isFormInvalid.bind(this);
-    }
 
-    onSubmit(event) {
-        event.preventDefault();
-    
-        signup(this.props.form.getFieldValue())
-        .then(response => {
-            console.log("register success");
-            this.props.history.push("/login");
-        }).catch(error => {
-            console.log("register error");
+    onSubmit = (e) => {    
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const signupRequest = Object.assign({}, values);
+                signup(signupRequest)
+                .then(response => {
+                    this.props.history.push("/login");
+                    Toast.success("회원가입 성공!, 로그인 해주세요", 2);
+                }).catch(error => {
+                    if(error.status === 401) {
+                        Toast.error("회원가입에 실패하였습니다. 401", 1);                 
+                    } else {
+                        Toast.error("회원가입에 실패하였습니다.", 1);
+                    }
+                });
+            }
         });
     }
 
-    isFormInvalid() {
+    isFormInvalid = () => {
         return !(this.state.name.validateStatus === 'success' &&
             this.state.email.validateStatus === 'success' &&
             this.state.password.validateStatus === 'success'
@@ -51,6 +45,11 @@ class SignupForm extends Component {
         return (
             <div className="signup-page">
             <div className="signup-container">
+                <WingBlank size="lg">
+                <NavBar
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => this.props.history.push("/")}
+                />
                 <InputItem
                     {...getFieldProps('email', {
                         rules: [
@@ -63,6 +62,8 @@ class SignupForm extends Component {
                 이메일
                 </InputItem>
                 
+                <WhiteSpace size="lg" />
+
                 <InputItem
                     {...getFieldProps('password', {
                         rules: [
@@ -70,10 +71,13 @@ class SignupForm extends Component {
                             {validator: this.validatePassword}
                         ]
                     })}
+                    type="password"
                     placeholder="비밀번호를 입력하세요(6~20자)"
                 >
                 비밀번호
                 </InputItem>
+
+                <WhiteSpace size="lg" />
 
                 <InputItem
                     {...getFieldProps('name', {
@@ -82,14 +86,16 @@ class SignupForm extends Component {
                             {validator: this.validateName}
                         ]
                     })}
-                    placeholder="표시될 닉네입을 입력하세요(3~10자)"
+                    placeholder="표시될 이름을 입력하세요(3~10자)"
                 >
-                비밀번호
+                이름
                 </InputItem>
 
-                <Button type="primary" onClick={this.onSubmit}>회원가입</Button>
-                로그인
+                <WhiteSpace size="lg" />
 
+                <Button type="primary" onClick={this.onSubmit}>회원가입</Button>
+                <Link to="/login">로그인</Link>
+                </WingBlank>
             </div>    
             </div>
         );
@@ -97,74 +103,43 @@ class SignupForm extends Component {
 
     // Validation Functions
 
-    validateEmail(email) {
+    validateEmail = (rule, email, callback) => {
         if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email may not be empty'                
-            }
+            callback(new Error());
         }
 
         const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
         if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email not valid'
-            }
+            callback(new Error());
         }
 
         if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-            }
+            callback(new Error());
         }
 
-        return {
-            validateStatus: null,
-            errorMsg: null
-        }
+        callback();
     }
 
-    validatePassword(password) {
+    validatePassword = (rule, password, callback) => {
         if(password.length < PASSWORD_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
-            }
+            callback(new Error());
         } else if (password.length > PASSWORD_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
-            }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-            };            
-        }
+            callback(new Error());
+        } else 
+            callback();
     }
 
-    validateName(name) {
+    validateName = (rule, name, callback) => {
         if(name.length < NAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
-            }
+            callback(new Error());
         } else if (name.length > NAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
-            }
+            callback(new Error());
         } else {
-            return {
-                validateStatus: null,
-                errorMsg: null
-            }
+            callback();
         }
     }
 
-    validateNameAvailability() {
+    validateNameAvailability = () => {
         // First check for client side errors in name
         const nameValue = this.state.name.value;
         const nameValidation = this.validateName(nameValue);
@@ -218,7 +193,7 @@ class SignupForm extends Component {
         });
     }
 
-    validateEmailAvailability() {
+    validateEmailAvailability = () => {
         // First check for client side errors in email
         const emailValue = this.state.email.value;
         const emailValidation = this.validateEmail(emailValue);

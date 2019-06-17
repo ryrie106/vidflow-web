@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
+import { Modal } from 'antd-mobile';
 
 import { getAllPosts } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
@@ -18,19 +19,19 @@ class Home extends Component {
 
             currentPostId: 0
         };
-        this.toggleCommentPanel = this.toggleCommentPanel.bind(this);
     }
 
     componentDidMount() {
         getAllPosts().then(response => {
             this.setState({
-                posts: response
+                posts: response,
+                currentPostId: response[0].id
             });
             // this.props.slideTransitionEnd(0, this.state.posts[0].id);
         })
     }
 
-    toggleCommentPanel() {
+    toggleCommentModal = () => {
         this.setState({
             isCommentIconClicked: !this.state.isCommentIconClicked
         });
@@ -69,7 +70,7 @@ class Home extends Component {
         };
 
         const postList = this.state.posts.map(post =>
-            <div key={post.id}><Post post={post} toggleCommentPanel={this.toggleCommentPanel}/></div>
+            <div key={post.id}><Post post={post} toggleCommentModal={this.toggleCommentModal}/></div>
         );
 
         return(
@@ -77,12 +78,20 @@ class Home extends Component {
                 <Swiper {...params}>
                     {postList}
                 </Swiper>
-                {this.state.isCommentIconClicked ? 
-                <CommentList 
-                    toggleCommentPanel={this.toggleCommentPanel}
-                    currentPostId={this.state.currentPostId}
-                />
-                : null}   
+                <Modal
+                    popup
+                    visible={this.state.isCommentIconClicked}
+                    onClose={this.toggleCommentModal}
+                    animationType="slide-up"
+                    // transparent="true"
+                    afterClose={() => {}}
+                >
+                    <CommentList
+                        toggleCommentModal={this.toggleCommentModal}
+                        currentPostId={this.state.currentPostId}
+                    />
+                
+                </Modal>
             </div>
         )
     }
