@@ -33,6 +33,7 @@
     border-style: solid;
     border-color: #CCC;
     border-width: 1px 0 0 0;
+    z-index: 151;
 }
 
 .comment-writer-input {

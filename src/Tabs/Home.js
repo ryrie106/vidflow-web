@@ -53,7 +53,6 @@ class Home extends Component {
 
                             currentPostId: this.state.posts[this.state.currentPage+1].id
                         });
-                        // this.props.slideTransitionEnd(this.state.currentPage, this.state.posts[this.state.currentPage].id);
                     }
                 },
                 slidePrevTransitionEnd: () => {
@@ -63,7 +62,6 @@ class Home extends Component {
 
                             currentPostId: this.state.posts[this.state.currentPage-1].id
                         });
-                        // this.props.slideTransitionEnd(this.state.currentPage, this.state.posts[this.state.currentPage].id);
                     }
                 }
             }

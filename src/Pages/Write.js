@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, InputItem, NavBar, TextareaItem, WingBlank, WhiteSpace, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
+import VideoUpload from '../components/Write/VideoUpload';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
 
-
 class WriteForm extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            videosrc: ''
+        }
+    }
 
     onSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if(!err) {
                 const postRequest = Object.assign({}, values);
+
                 createPost(postRequest)
                 .then(response => {
                     this.props.history.push("/");
@@ -22,6 +30,12 @@ class WriteForm extends Component {
                 })
             }
         })
+    }
+
+    setVideosrc = (src) => {
+        this.setState({
+            videosrc: src
+        });
     }
 
     render() {
@@ -46,7 +60,7 @@ class WriteForm extends Component {
                     rows={4}
                 />
                 <WhiteSpace size="lg" />
-                <InputItem
+                {/* <InputItem
                     {...getFieldProps('videosrc', {
                         rules: [
                             {required: true},
@@ -54,6 +68,10 @@ class WriteForm extends Component {
                         ]
                     })}
                     placeholder="영상경로(임시)"
+                /> */}
+                <VideoUpload 
+                    setVideosrc={this.setVideosrc}
+                    currentUser={this.props.currentUser}
                 />
                 <WhiteSpace size="lg" />
                 <div className="write-buttons" style={{display: "flex", }}>

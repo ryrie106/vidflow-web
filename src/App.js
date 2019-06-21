@@ -68,11 +68,13 @@ class App extends Component {
         return (
             <div className="app">
                 <Route exact path="/"
-                    render={(props => <Main 
+                    render={(props) => <Main 
                                         onLogout={this.onLogout} 
                                         isAuthenticated={isAuthenticated}
-                                        {...props} />)}/>
-                <Route path="/write" component={Write} />
+                                        {...props} />}/>
+                <Route path="/write"
+                    render={(props) => <Write
+                                        currentUser={this.state.currentUser}/>}/>
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
