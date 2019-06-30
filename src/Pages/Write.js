@@ -60,15 +60,6 @@ class WriteForm extends Component {
                     rows={4}
                 />
                 <WhiteSpace size="lg" />
-                {/* <InputItem
-                    {...getFieldProps('videosrc', {
-                        rules: [
-                            {required: true},
-                            {validator: this.validatePassword}
-                        ]
-                    })}
-                    placeholder="영상경로(임시)"
-                /> */}
                 <VideoUpload 
                     setVideosrc={this.setVideosrc}
                     currentUser={this.props.currentUser}

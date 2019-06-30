@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { Toast } from 'antd-mobile';
 import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
@@ -63,7 +63,7 @@ class App extends Component {
 
     render() {
 
-        const { isLoginRequired, isAuthenticated } = this.state;
+        const { isAuthenticated } = this.state;
 
         return (
             <div className="app">

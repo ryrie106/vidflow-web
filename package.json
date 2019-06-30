@@ -22,12 +22,13 @@
     "start": "cross-env react-app-rewired start",
     "build": "cross-env react-app-rewired build",
     "test": "cross-env react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:8080",
+  "homepage": "http://ryrie.github.io/vidflow-view",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "babel-plugin-import": "^1.12.0",
     "customize-cra": "^0.2.13",
+    "gh-pages": "^2.0.1",
     "react-app-rewired": "^2.1.3"
   }
 }

@@ -3,6 +3,7 @@ import Icons from './Icons';
 import Description from './Description';
 import VideoPlayer from './VideoPlayer';
 import './Post.css';
+import { VIDEO_SRC } from '../../constants';
 
 class Post extends Component {
 
@@ -11,7 +12,7 @@ class Post extends Component {
             loop: true,
             preload: "auto",
             sources: [{
-                src: this.props.post.videosrc,
+                src: VIDEO_SRC + this.props.post.videosrc,
                 type: 'video/mp4'
             }]
         };

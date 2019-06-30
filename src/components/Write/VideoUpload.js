@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Progress, Toast } from 'antd-mobile';
-import { connectableObservableDescriptor } from '../../../../../AppData/Local/Microsoft/TypeScript/3.5/node_modules/rxjs/internal/observable/ConnectableObservable';
 
 const CHUNK_SIZE = 1024 * 1024; // 1MB
 
@@ -97,7 +96,7 @@ class VideoUpload extends Component {
                         ws.send(senddata); 
                         break;
 
-                    case "TFANSFER_COMPLETE":
+                    case "TRANSFER_COMPLETE":
                         sendmsg = {
                             type: "TRANSFER_COMPLETE",
                             userid: "this.props.userid"

@@ -1,6 +1,12 @@
+/**
+ * Home, Search, Write, Notice, My 탭을 표시해 주는 Home 페이지
+ * 
+ */
+
+
 import React, { Component } from 'react';
 import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
-import { Button, Modal, TabBar, Toast, WhiteSpace, WingBlank } from 'antd-mobile';
+import { Button, Modal, TabBar, Toast, WhiteSpace } from 'antd-mobile';
 
 import Home from '../Tabs/Home';
 import My from '../Tabs/My';
@@ -67,12 +73,9 @@ class Main extends Component {
           >
             <TabBar.Item
                 key="Home"
-                icon={<FaHome style={{width:"35px", height:"35px"}} />
-                }
-                selectedIcon={<FaHome style={{width:"35px", height:"35px"}} />
-                }
+                icon={<FaHome style={{width:"35px", height:"35px"}} />}
+                selectedIcon={<FaHome style={{width:"35px", height:"35px"}} />}
                 selected={this.state.selectedTab === 'homeTab'}
-                badge={1}
                 onPress={() => {
                     this.onPressHomeTab();
                     this.setState({
@@ -87,7 +90,6 @@ class Main extends Component {
               icon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
               selectedIcon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
               key="Search"
-              badge={'new'}
               selected={this.state.selectedTab === 'searchTab'}
               onPress={() => {
                 this.setState({
@@ -120,7 +122,6 @@ class Main extends Component {
               icon={<FaComment style={{width:"35px", height:"35px"}} />}
               selectedIcon={<FaComment style={{width:"35px", height:"35px"}} />}
               key="Notice"
-              dot
               selected={this.state.selectedTab === 'noticeTab'}
               onPress={() => {
                 this.setState({
@@ -146,19 +147,21 @@ class Main extends Component {
             </TabBar.Item>
           </TabBar>
 
+
+          {/* 로그인이 필요한 기능(글쓰기)에 접근할 때 로그인이 되어 있지 않으면 로그인을 요구 */}
           <Modal
             popup
             visible={this.state.requireLoginModal}
             onClose={this.onClose('requireLoginModal')}
             animationType="slide-up"
-            transparent="true"
+            // transparent="true"
             afterClose={()=>{}}
           >
             <div className="require-login-modal"> 
-              계속하려면 로그인이 필요합니다.<WhiteSpace />
+              계속하려면 Vidflow 계정이 필요합니다.<WhiteSpace />
               <Button type="warning" onClick={() => {this.props.history.push("/signup")}}>회원가입</Button>
               <Foo/>
-
+              <Button className="redirect-to-login" onClick={() => {this.props.history.push("/login")}}>이미 계정이 있으신가요? 로그인</Button>
             </div>
           </Modal>
         </div>
@@ -168,7 +171,7 @@ class Main extends Component {
 
   class Foo extends Component {
     componentDidMount() {
-      console.log("Foo Mounted!");
+      // console.log("Foo Mounted!");
     }
     render() {
       return (
