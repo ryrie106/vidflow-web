@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import FFMPEG from '../components/Write/videoedit/ffmpeg_runner';
+import Range from 'antd-mobile';
+import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
 
 class VideoEdit extends Component {
 
@@ -14,7 +15,6 @@ class VideoEdit extends Component {
             time_end: 1
         }
         this.videoRef = React.createRef();
-        this.canvasRef = React.createRef();
     }
 
     componentDidMount() {
@@ -22,35 +22,33 @@ class VideoEdit extends Component {
             ffmpeg: new FFMPEG(),
             heap_limit: performance.memory.jsHeapSizeLimit
         });
-
     }
 
-    update(){
-        /* width height update 제거 */
-        if (this.videoRef.currentTime < this.state.time_start)
-            video.currentTime = this.state.time_start;
-        if (video.currentTime > this.state.time_end)
-            video.currentTime = this.state.time_start;
-        let complete_percent = 100 * (video.currentTime / video.duration);
-        $(".slider_time_pos").css("left", complete_percent + "%");
-        $(".current_time").text(video.currentTime.toFixed(2));
-        // noinspection JSCheckFunctionSignatures
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height); //TODO: Subimage using crop.
-    
-        let mpeg = build_ffmpeg_string(false);
-        if($('.ffmpeg').text() !== mpeg) {
-            $('.ffmpeg').text(mpeg);
-        }
+    onLoadedMetadata = () => {
+        // TODO: Range의 범위를 지정한다.
+    }
+
+    onLoadedData = (e) => {
+        e.target.play();
+    }
+
+    // 
+    update = () => {
+        const currentTime = this.videoRef.current.currentTime;
+        if (currentTime < this.state.time_start || currentTime > this.state.time_end)
+            this.videoRef.current.currentTime = this.state.time_start;
+        let complete_percent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
+        // TODO: 현재 포지션 변경하기
         requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
     }
 
-    pause_toggle = () => {
+    // 영상 시작/중지 토글
+    togglePlay = () => {
         console.log('toggle play');
-        if(video.paused){
-            video.play().finally(()=>{$(".play_toggle").html('&#10074;&#10074;')});
+        if(this.videoRef.current.paused){
+            this.videoRef.current.play();
         }else{
-            video.pause();
-            $(".play_toggle").html('&#9654;')
+            this.videoRef.current.pause();
         }
     }
 
@@ -67,6 +65,7 @@ class VideoEdit extends Component {
         });
     }
 
+    // 현재 설정을 바탕으로 FFMPEG 커멘드를 생성
     build_ffmpeg_string = (for_browser_run=false) => {
         let ts = (this.state.time_start?this.state.time_start.toFixed(2):0);
         let te = (this.state.time_end?this.state.time_end.toFixed(2):0);
@@ -76,14 +75,12 @@ class VideoEdit extends Component {
             mpeg+=' -vf showinfo'
         }
         mpeg+=' -movflags faststart -t '+(te-ts).toFixed(4)+' ';
-        // crop 제거
         let fn = for_browser_run ? encodeURI(this.state.filename.replace(/\.[^/.]+$/, "")) : 'out';
         mpeg+='-c:a copy '+fn+'.mp4';
         return mpeg;
     }
 
-    
-
+    // '다음' 버튼을 눌렀을 때. FFMPEG 커멘드를 실행한다.
     runFFMPEG = () => {
         if(this.state.heap_limit && 
             this.state.selected_file.size * 2.5 > (this.state.heap_limit - performance.memory.usedJSHeapSize)) {
@@ -91,9 +88,9 @@ class VideoEdit extends Component {
                 return;
         }
         let cmd = this.build_ffmpeg_string(true);
-        let ts = (this.state.time_start?this.state.time_start.toFixed(2):0);
-		let te = (this.state.time_end?this.state.time_end.toFixed(2):0);
-		let duration = te - ts;
+        let time_start = (this.state.time_start?this.state.time_start.toFixed(2):0);
+		let time_end = (this.state.time_end?this.state.time_end.toFixed(2):0);
+		let duration = time_end - time_start;
 		let progress_callback = (prog) => {
 			if(prog.done){
 				console.log("Conversion complete.");
@@ -106,6 +103,7 @@ class VideoEdit extends Component {
 		this.state.ffmpeg.start(this.state.selected_file, cmd, progress_callback);
     }
 
+    // 비디오 파일을 탐색기에서 선택하면 호출
     onChangeVideoSelector = (e) => {
         let fileInput = e.target;
 		let fileUrl = window.URL.createObjectURL(fileInput.files[0]);
@@ -113,10 +111,11 @@ class VideoEdit extends Component {
             filename: fileInput.files[0].name,
             selected_file: fileInput.files[0]
         });
-		$(".video").attr("src", fileUrl);
+        this.videoRef.current.src = fileUrl;
 		e.target.remove();
     }
 
+    //
     onSliderTimeMouseDown = (e) => {
         let ele = e.target;
 		let last_pos = e.clientX;
@@ -141,22 +140,19 @@ class VideoEdit extends Component {
     render() {
         return (
             <div>
-                <div class="ui-widget-content" onClick="pause_toggle()">
-                    <video class="video" loop ref={this.videoRef}></video>
-                    <canvas id="canv" ref={this.canvasRef}></canvas>
+                <div class="ui-widget-content" onClick={togglePlay}>
+                    <video class="video" loop 
+                        onLoadedMetadata={this.onLoadedMetadata}
+                        onLoadedData={this.onLoadedData}
+                        ref={this.videoRef}></video>
                 </div>
                 <input type="file" id="video_selector" accept="video/*"/>
                 <div class="hide_until_load hidden">
-                    <div class="slider_wrapper">
-                        <div id="slider"></div>
-                        <div class="slider_time_pos" onMouseDown={this.onSliderTimeMouseDown}></div>
-                    </div>
-                    <div class="ffmpeg">
-                        ffmpeg -i in.mp4 -filter:v "crop=80:60:200:100" -c:a copy out.mp4
-                    </div>
-
+                    <Range 
+                        onChange={this.onRangeChange}>
+                        <div class="slider_time_pos" onMouseDown={this.onSliderTimeMouseDown} />
+                    </Range>
                     <input type="button" id="run_ffmpeg" value="Run FFmpeg in-browser!" onClick={this.runFFMPEG}/>
-
                     <div class="download_links">
 
                     </div>

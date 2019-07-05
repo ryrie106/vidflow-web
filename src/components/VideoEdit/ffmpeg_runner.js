@@ -68,7 +68,7 @@ class FFMPEG {
 	}
 
 	initWorker(run_command=false) {
-		this.worker = new Worker("./ffmpeg/worker-asm.js");
+		this.worker = new Worker("./worker-asm.js");
 		this.worker.onmessage = (event) => {
 			let message = event.data;
 			if (message.type === "ready") {
