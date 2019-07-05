@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon, InputItem, NavBar, TextareaItem, WingBlank, WhiteSpace, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import VideoUpload from '../components/Write/VideoUpload';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
 
@@ -58,11 +57,6 @@ class WriteForm extends Component {
                     })}
                     placeholder="동영상을 설명하세요"
                     rows={4}
-                />
-                <WhiteSpace size="lg" />
-                <VideoUpload 
-                    setVideosrc={this.setVideosrc}
-                    currentUser={this.props.currentUser}
                 />
                 <WhiteSpace size="lg" />
                 <div className="write-buttons" style={{display: "flex", }}>

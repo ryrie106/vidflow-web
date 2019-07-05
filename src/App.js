@@ -8,6 +8,7 @@ import { ACCESS_TOKEN } from './constants';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
 import Signup from './Pages/Signup';
+import VideoEdit from './Pages/VideoEdit';
 import Write from './Pages/Write';
 
 class App extends Component {
@@ -72,6 +73,8 @@ class App extends Component {
                                         onLogout={this.onLogout} 
                                         isAuthenticated={isAuthenticated}
                                         {...props} />}/>
+                <Route path="/videoedit"
+                    render={(props) => <VideoEdit />}/>
                 <Route path="/write"
                     render={(props) => <Write
                                         currentUser={this.state.currentUser}/>}/>
