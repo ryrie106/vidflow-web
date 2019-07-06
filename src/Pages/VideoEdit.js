@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Range from 'antd-mobile';
+import { Range } from 'antd-mobile';
 import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
+import './VideoEdit.css';
 
 class VideoEdit extends Component {
 
@@ -20,7 +21,8 @@ class VideoEdit extends Component {
     componentDidMount() {
         this.setState({
             ffmpeg: new FFMPEG(),
-            heap_limit: performance.memory.jsHeapSizeLimit
+            // heap_limit: performance.memory.jsHeapSizeLimit
+            heap_limit: 0
         });
     }
 
@@ -39,7 +41,7 @@ class VideoEdit extends Component {
             this.videoRef.current.currentTime = this.state.time_start;
         let complete_percent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
         // TODO: 현재 포지션 변경하기
-        requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
+        // requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
     }
 
     // 영상 시작/중지 토글
@@ -130,7 +132,7 @@ class VideoEdit extends Component {
 			last_pos = e.clientX;
 			let total_percent = (ele.offsetLeft+delta)/ele.parentElement.offsetWidth;
 			console.log(total_percent);
-			video.currentTime = video.duration * total_percent
+			this.videoRef.current.currentTime = this.videoRef.current.duration * total_percent
 		}
 		document.onmousemove = (e)=>{mmov(e, ele)};
 		document.onmouseup = (e)=>{mup(e, ele)};
@@ -140,20 +142,23 @@ class VideoEdit extends Component {
     render() {
         return (
             <div>
-                <div class="ui-widget-content" onClick={togglePlay}>
-                    <video class="video" loop 
-                        onLoadedMetadata={this.onLoadedMetadata}
-                        onLoadedData={this.onLoadedData}
-                        ref={this.videoRef}></video>
-                </div>
-                <input type="file" id="video_selector" accept="video/*"/>
-                <div class="hide_until_load hidden">
-                    <Range 
+                <video className="video-preview" 
+                    loop 
+                    onLoadedMetadata={this.onLoadedMetadata}
+                    onLoadedData={this.onLoadedData}
+                    onClick={this.togglePlay}
+                    ref={this.videoRef} />
+                <input type="file" id="video_selector" accept="video/*" onChange={this.onChangeVideoSelector}/>
+                <div className="hide_until_load hidden">
+                    <Range
+                        min={0}
+                        max={20}
+                        defaultValue={[3, 10]}
                         onChange={this.onRangeChange}>
-                        <div class="slider_time_pos" onMouseDown={this.onSliderTimeMouseDown} />
+                        <div className="slider_time_pos" onMouseDown={this.onSliderTimeMouseDown} />
                     </Range>
                     <input type="button" id="run_ffmpeg" value="Run FFmpeg in-browser!" onClick={this.runFFMPEG}/>
-                    <div class="download_links">
+                    <div className="download_links">
 
                     </div>
                 </div>

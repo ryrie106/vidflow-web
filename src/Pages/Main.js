@@ -2,8 +2,6 @@
  * Home, Search, Write, Notice, My 탭을 표시해 주는 Home 페이지
  * 
  */
-
-
 import React, { Component } from 'react';
 import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
 import { Button, Modal, TabBar, Toast, WhiteSpace } from 'antd-mobile';
@@ -64,7 +62,7 @@ class Main extends Component {
   
     render() {
       return (
-        <div style={{position: 'fixed', height: '100%', width: '100%', background: 'transparent'}} >
+        <div>
           <TabBar
             unselectedTintColor="#949494"
             tintColor="#33A3F4"
@@ -112,7 +110,7 @@ class Main extends Component {
                     requireLoginModal: true
                   });
                 } else {
-                  this.props.history.push("/write")
+                  this.props.history.push("/videoedit")
                 }
               }}
             >

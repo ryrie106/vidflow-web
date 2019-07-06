@@ -107,9 +107,9 @@ class FFMPEG {
 					});
 				}
 			}
-			if(location.hash.includes("debug")) {
-				console.debug(event.data);
-			}
+			// if(location.hash.includes("debug")) {
+			// 	console.debug(event.data);
+			// }
 		};
 	}
 
@@ -136,4 +136,4 @@ class FFMPEG {
 	}
 }
 
-export default FFMPEG;
+export default FFMPEG

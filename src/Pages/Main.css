@@ -1,3 +1,10 @@
+.am-tabs-tab-bar-wrap {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    
+}
+
 .require-login-modal {
     height: 60vh;
 }
