@@ -8,6 +8,8 @@ The source code used to build this file can be obtained at https://github.com/bg
 and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zip
 */
 
+import FfmpegWorker from './ffmpeg.worker.js';
+
 class FFMPEG {
 	constructor(fileDownloadEle) {
 		this.worker = null;
@@ -68,7 +70,8 @@ class FFMPEG {
 	}
 
 	initWorker(run_command=false) {
-		this.worker = new Worker("./worker-asm.js");
+		// this.worker = new Worker("./worker-asm.js");
+		this.worker = new FfmpegWorker();
 		this.worker.onmessage = (event) => {
 			let message = event.data;
 			if (message.type === "ready") {

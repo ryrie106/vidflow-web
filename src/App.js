@@ -15,6 +15,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            selectedFile: null,
             currentUser: null,
             isAuthenticated: false,
             isLoading: false,
@@ -62,6 +63,12 @@ class App extends Component {
         Toast.info('로그인 성공!', 1);
     }
 
+    onChangeVideoSelector = (file) => {
+        this.setState({
+            selectedFile: file
+        })
+    }
+
     render() {
 
         const { isAuthenticated } = this.state;
@@ -74,10 +81,15 @@ class App extends Component {
                                         isAuthenticated={isAuthenticated}
                                         {...props} />}/>
                 <Route path="/videoedit"
-                    render={(props) => <VideoEdit />}/>
+                    render={(props) => <VideoEdit 
+                                        onChangeVideoSelector={this.onChangeVideoSelector}
+                                        {...props} />}/>
                 <Route path="/write"
                     render={(props) => <Write
-                                        currentUser={this.state.currentUser}/>}/>
+                                        currentUser={this.state.currentUser}
+                                        selectedFile={this.state.selectedFile}
+                                        
+                                        {...props} />}/>
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />

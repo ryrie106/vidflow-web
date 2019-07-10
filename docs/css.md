@@ -1,0 +1,12 @@
+## position: absolute
+
+가장 가까운 positioned ancestor element에 relative하게 표시된다.
+
+여기서 positioned란 static 이외의 position 값을 가지고 있다는 뜻이다.
+
+
+## z-index값
+
+ant-tab-bar : 100
+
+comment-container : 150

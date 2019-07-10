@@ -1,4 +1,42 @@
-.write-wrapper {
+.write {
+    position: fixed;
+    width: 100%;
     max-width: 600px;
-    margin: auto;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.write-content-preview {
+    position: absolute;
+    top: 45px;
+    display: flex;
+    width: 100%;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
+}
+
+.write-content {
+    width: 70%;
+    background: transparent;
+    color: white;
+    padding: 10px;
+}
+
+.write-preview {
+    width: 30%;
+    background: gray;
+    padding: 10px;
+}
+
+.write-options {
+
+}
+
+.write-buttons {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
 }

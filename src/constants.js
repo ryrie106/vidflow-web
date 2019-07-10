@@ -1,5 +1,6 @@
-export const API_BASE_URL = 'https://vidflow.ryrie.xyz:8080';
-//export const API_BASE_URL = '';
+
+// export const API_BASE_URL = 'https://vidflow.ryrie.xyz:8080';
+export const API_BASE_URL = 'http://localhost:8080';
 export const ACCESS_TOKEN = 'accessToken';
 
 export const VIDEO_SRC = 'https://vidflow.ryrie.xyz/videos/';

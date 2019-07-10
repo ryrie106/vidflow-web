@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Range } from 'antd-mobile';
-import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
+import { Icon, ImagePicker, NavBar, Range, Button } from 'antd-mobile';
+// import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
 import './VideoEdit.css';
 
 class VideoEdit extends Component {
@@ -9,25 +11,35 @@ class VideoEdit extends Component {
         super(props);
         this.state = {
             ffmpeg: null,
-            heap_limit: null,
-            selected_file: null,
+            // heapLimit: null,
+            selectedFile: null,
             fileName: '',
-            time_start: 0,
-            time_end: 1
+            timeStart: 0,
+            timeEnd: 1
         }
         this.videoRef = React.createRef();
+        this.rangeRef = React.createRef();
+        this.rangePositionRef = React.createRef();
     }
 
     componentDidMount() {
         this.setState({
-            ffmpeg: new FFMPEG(),
-            // heap_limit: performance.memory.jsHeapSizeLimit
-            heap_limit: 0
+            // ffmpeg: new FFMPEG(),
+            // heapLimit: performance.memory.jsHeapSizeLimit
         });
+        this.update();
     }
 
     onLoadedMetadata = () => {
-        // TODO: Range의 범위를 지정한다.
+        noUiSlider.create(this.rangeRef.current, {
+            start: [0, this.videoRef.current.duration],
+            connect: true,
+            range : {
+                'min' : 0,
+                'max' : this.videoRef.current.duration
+            }
+        });
+        this.rangeRef.current.noUiSlider.on('update', this.onRangeChange); 
     }
 
     onLoadedData = (e) => {
@@ -37,11 +49,11 @@ class VideoEdit extends Component {
     // 
     update = () => {
         const currentTime = this.videoRef.current.currentTime;
-        if (currentTime < this.state.time_start || currentTime > this.state.time_end)
-            this.videoRef.current.currentTime = this.state.time_start;
-        let complete_percent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
-        // TODO: 현재 포지션 변경하기
-        // requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
+        if (currentTime < this.state.timeStart || currentTime > this.state.timeEnd)
+            this.videoRef.current.currentTime = this.state.timeStart;
+        let completePercent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
+        this.rangePositionRef.current.style.left = completePercent + "%";
+        requestAnimationFrame(this.update.bind(this));
     }
 
     // 영상 시작/중지 토글
@@ -54,46 +66,43 @@ class VideoEdit extends Component {
         }
     }
 
-    update_slider_fields = (range) => {
+    onRangeChange = (range) => {
+        console.log(range);
         if(!range || range.length < 2)
             return;
-        document.querySelectorAll('.slider_control').forEach(function(input) {
-            // noinspection JSUndefinedPropertyAssignment
-            input.value = range[input.dataset.pos];
-        });
         this.setState({
-            time_start: parseFloat(range[0]),
-            time_end: parseFloat(range[1])
+            timeStart: parseFloat(range[0]),
+            timeEnd: parseFloat(range[1])
         });
     }
 
     // 현재 설정을 바탕으로 FFMPEG 커멘드를 생성
-    build_ffmpeg_string = (for_browser_run=false) => {
-        let ts = (this.state.time_start?this.state.time_start.toFixed(2):0);
-        let te = (this.state.time_end?this.state.time_end.toFixed(2):0);
-        let mpeg = for_browser_run?'': 'ffmpeg ';
-        mpeg+= '-ss '+ts+' -i "'+this.state.filename+'"';
-        if(for_browser_run) {
+    buildFfmpegString = (forBrowserRun=false) => {
+        let ts = (this.state.timeStart?this.state.timeStart.toFixed(2):0);
+        let te = (this.state.timeEnd?this.state.timeEnd.toFixed(2):0);
+        let mpeg = forBrowserRun?'': 'ffmpeg ';
+        mpeg+= '-ss '+ts+' -i "'+this.state.fileName+'"';
+        if(forBrowserRun) {
             mpeg+=' -vf showinfo'
         }
         mpeg+=' -movflags faststart -t '+(te-ts).toFixed(4)+' ';
-        let fn = for_browser_run ? encodeURI(this.state.filename.replace(/\.[^/.]+$/, "")) : 'out';
+        let fn = forBrowserRun ? encodeURI(this.state.fileName.replace(/\.[^/.]+$/, "")) : 'out';
         mpeg+='-c:a copy '+fn+'.mp4';
         return mpeg;
     }
 
     // '다음' 버튼을 눌렀을 때. FFMPEG 커멘드를 실행한다.
     runFFMPEG = () => {
-        if(this.state.heap_limit && 
-            this.state.selected_file.size * 2.5 > (this.state.heap_limit - performance.memory.usedJSHeapSize)) {
-                console.log("over heap size limit");
-                return;
-        }
-        let cmd = this.build_ffmpeg_string(true);
-        let time_start = (this.state.time_start?this.state.time_start.toFixed(2):0);
-		let time_end = (this.state.time_end?this.state.time_end.toFixed(2):0);
-		let duration = time_end - time_start;
-		let progress_callback = (prog) => {
+        // if(this.state.heapLimit && 
+        //     this.state.selectedFile.size * 2.5 > (this.state.heapLimit - performance.memory.usedJSHeapSize)) {
+        //         console.log("over heap size limit");
+        //         return;
+        // }
+        let cmd = this.buildFfmpegString(true);
+        let timeStart = (this.state.timeStart?this.state.timeStart.toFixed(2):0);
+		let timeEnd = (this.state.timeEnd?this.state.timeEnd.toFixed(2):0);
+		let duration = timeEnd - timeStart;
+		let progressCallback = (prog) => {
 			if(prog.done){
 				console.log("Conversion complete.");
 			}else {
@@ -102,7 +111,7 @@ class VideoEdit extends Component {
 			}
 		};
 		console.log('Running FFMPEG:', cmd);
-		this.state.ffmpeg.start(this.state.selected_file, cmd, progress_callback);
+		this.state.ffmpeg.start(this.state.selectedFile, cmd, progressCallback);
     }
 
     // 비디오 파일을 탐색기에서 선택하면 호출
@@ -110,15 +119,19 @@ class VideoEdit extends Component {
         let fileInput = e.target;
 		let fileUrl = window.URL.createObjectURL(fileInput.files[0]);
 		this.setState({
-            filename: fileInput.files[0].name,
-            selected_file: fileInput.files[0]
+            fileName: fileInput.files[0].name,
+            // selectedFile: fileInput.files[0]
         });
+        this.props.onChangeVideoSelector(fileInput.files[0]);
         this.videoRef.current.src = fileUrl;
-		e.target.remove();
+        this.rangeRef.current.style.display = "block";
+        
+        
+		// e.target.remove();
     }
 
     //
-    onSliderTimeMouseDown = (e) => {
+    onRangePositionMouseDown = (e) => {
         let ele = e.target;
 		let last_pos = e.clientX;
 		function mup(e, ele){
@@ -138,27 +151,43 @@ class VideoEdit extends Component {
 		document.onmouseup = (e)=>{mup(e, ele)};
     }
 
+    onClickNext = () => {
+        if(this.state.fileName) {
+            this.props.history.push("/write");
+        }
+    }
+
 
     render() {
         return (
-            <div>
-                <video className="video-preview" 
+            <div className="video-edit">
+                <NavBar
+                    className="video-edit-navbar"
+                    icon={<Icon type="left" />}
+                    mode="light"
+                    onLeftClick={() => this.props.history.push("/")}
+                    rightContent={[
+                        <Button type="warning" onClick={this.onClickNext}>
+                            다음
+                        </Button>
+                    ]}
+                />
+                <video className="video-edit-preview"
                     loop 
                     onLoadedMetadata={this.onLoadedMetadata}
                     onLoadedData={this.onLoadedData}
                     onClick={this.togglePlay}
                     ref={this.videoRef} />
-                <input type="file" id="video_selector" accept="video/*" onChange={this.onChangeVideoSelector}/>
-                <div className="hide_until_load hidden">
-                    <Range
-                        min={0}
-                        max={20}
-                        defaultValue={[3, 10]}
-                        onChange={this.onRangeChange}>
-                        <div className="slider_time_pos" onMouseDown={this.onSliderTimeMouseDown} />
-                    </Range>
-                    <input type="button" id="run_ffmpeg" value="Run FFmpeg in-browser!" onClick={this.runFFMPEG}/>
-                    <div className="download_links">
+                
+                <div className="video-edit-selector">
+                    <input type="file" accept="video/*" 
+                    onChange={this.onChangeVideoSelector}/>
+                </div>
+
+                <div className="video-edit-preview-range" ref={this.rangeRef} >
+                    <div className="video-edit-preview-range-position" 
+                        onMouseDown={this.onRangePositionMouseDown}
+                        ref={this.rangePositionRef}>
 
                     </div>
                 </div>
