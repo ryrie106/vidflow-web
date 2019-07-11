@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
 import { Modal } from 'antd-mobile';
-
 import { getAllPosts } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
@@ -16,7 +15,6 @@ class Home extends Component {
             posts: [],
             currentPage: 0,
             isCommentIconClicked: false,
-
             currentPostId: 0
         };
     }
@@ -38,7 +36,6 @@ class Home extends Component {
     }
 
     render() {
-
         /*
             react-id-swiper의 Swiper Component에 전달할 parameter이다.
         */
@@ -50,7 +47,6 @@ class Home extends Component {
                     if(this.state.currentPage < this.state.posts.length - 1 ) {
                         this.setState({
                             currentPage: this.state.currentPage + 1,
-
                             currentPostId: this.state.posts[this.state.currentPage+1].id
                         });
                     }
@@ -59,7 +55,6 @@ class Home extends Component {
                     if(this.state.currentPage > 0) {
                         this.setState({
                             currentPage: this.state.currentPage - 1,
-
                             currentPostId: this.state.posts[this.state.currentPage-1].id
                         });
                     }
@@ -72,7 +67,7 @@ class Home extends Component {
         );
 
         return(
-            <div className="home-wrapper">
+            <div className="home">
                 <Swiper {...params}>
                     {postList}
                 </Swiper>
@@ -81,7 +76,6 @@ class Home extends Component {
                     visible={this.state.isCommentIconClicked}
                     onClose={this.toggleCommentModal}
                     animationType="slide-up"
-                    // transparent="true"
                     afterClose={() => {}}
                 >
                     <CommentList

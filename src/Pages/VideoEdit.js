@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, ImagePicker, NavBar, Range, Button } from 'antd-mobile';
+import { Icon, NavBar, Button } from 'antd-mobile';
 // import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
@@ -12,7 +12,6 @@ class VideoEdit extends Component {
         this.state = {
             ffmpeg: null,
             // heapLimit: null,
-            selectedFile: null,
             fileName: '',
             timeStart: 0,
             timeEnd: 1
@@ -27,10 +26,12 @@ class VideoEdit extends Component {
             // ffmpeg: new FFMPEG(),
             // heapLimit: performance.memory.jsHeapSizeLimit
         });
-        this.update();
+        
     }
 
     onLoadedMetadata = () => {
+        if(this.rangeRef.current.noUiSlider)
+            this.rangeRef.current.noUiSlider.destroy();
         noUiSlider.create(this.rangeRef.current, {
             start: [0, this.videoRef.current.duration],
             connect: true,
@@ -44,21 +45,23 @@ class VideoEdit extends Component {
 
     onLoadedData = (e) => {
         e.target.play();
+        this.update();
     }
 
     // 
     update = () => {
-        const currentTime = this.videoRef.current.currentTime;
-        if (currentTime < this.state.timeStart || currentTime > this.state.timeEnd)
-            this.videoRef.current.currentTime = this.state.timeStart;
-        let completePercent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
-        this.rangePositionRef.current.style.left = completePercent + "%";
-        requestAnimationFrame(this.update.bind(this));
+        if(this.videoRef.current) {
+            const currentTime = this.videoRef.current.currentTime;
+            if (currentTime < this.state.timeStart || currentTime > this.state.timeEnd)
+                this.videoRef.current.currentTime = this.state.timeStart;
+            let completePercent = 100 * (this.videoRef.current.currentTime / this.videoRef.current.duration);
+            this.rangePositionRef.current.style.left = completePercent + "%";
+            requestAnimationFrame(this.update.bind(this));
+        }
     }
 
     // 영상 시작/중지 토글
     togglePlay = () => {
-        console.log('toggle play');
         if(this.videoRef.current.paused){
             this.videoRef.current.play();
         }else{
@@ -67,7 +70,6 @@ class VideoEdit extends Component {
     }
 
     onRangeChange = (range) => {
-        console.log(range);
         if(!range || range.length < 2)
             return;
         this.setState({
@@ -167,7 +169,7 @@ class VideoEdit extends Component {
                     mode="light"
                     onLeftClick={() => this.props.history.push("/")}
                     rightContent={[
-                        <Button type="warning" onClick={this.onClickNext}>
+                        <Button size="small" type="warning" onClick={this.onClickNext}>
                             다음
                         </Button>
                     ]}

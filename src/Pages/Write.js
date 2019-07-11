@@ -3,12 +3,19 @@ import { Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
 
+const CHUNK_SIZE = 1024 * 1024;
+
 class Write extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            content: ''
+            content: '',
+            videoSrc: '',
+            uploadAvailable: true,
+            currentChunk: 0,
+            numChunks: 0,
+            progress: 0,
         }
     }
 
@@ -20,8 +27,90 @@ class Write extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+
+        if(!this.props.selectedFile) return;
+
+        this.setState({
+            uploadAvailable: false
+        });
+
+        const ws = new WebSocket("ws://localhost:8080/videoUpload")
+            this.setState({
+                currentChunk: 0
+            })
+            ws.binaryType = "arraybuffer";
+
+            ws.onopen = (e) => {
+                console.log('Connected: ' + e);
+                let sendmsg = {
+                    type: "VIDEOFILE_INFO",
+                    userid: this.props.currentUser.id,
+                    fileSize:  this.props.selectedFile.size,
+                    numChunks: this.state.numChunks,
+                    extension: this.props.selectedFile.name.split(".").pop().toLowerCase()
+                }
+                ws.send(JSON.stringify(sendmsg));
+            }
+
+            ws.onmessage = (e) => {
+
+                if(e.data instanceof ArrayBuffer) { 
+                    // TODO: Text 메시지가 온 다음 왜 ArrayBuffer 메시지가 오는거지?
+                    console.log("Array");}
+                else {
+                    console.log(e);
+                    const msg = JSON.parse(e.data);
+                    let sendmsg;
+                    let senddata;
+                    switch(msg.type) {
+                        case "TRANSFER_START":
+                            senddata = this.props.selectedFile.slice(this.state.currentChunk * CHUNK_SIZE,
+                                Math.min((this.state.currentChunk + 1) * CHUNK_SIZE, this.props.selectedFile.size));     
+                            console.log(this.state.currentChunk + "/" + this.state.numChunks + " transfered");
+                            this.setState({
+                                currentChunk: this.state.currentChunk + 1
+                            });                           
+                            ws.send(senddata);
+                            break;
+
+                        case "PROGRESS_INFO":
+                            // progress bar 갱신
+                            this.setState({
+                                progress: (this.state.currentChunk / this.state.numChunks) * 100
+                            });
+                            senddata = this.props.selectedFile.slice(this.state.currentChunk * CHUNK_SIZE,
+                                Math.min((this.state.currentChunk + 1) * CHUNK_SIZE, this.props.selectedFile.size));     
+                            Toast.loading(this.state.currentChunk / this.state.numChunks + "%");
+                            this.setState({
+                                currentChunk: this.state.currentChunk + 1
+                            });                                 
+                            ws.send(senddata); 
+                            break;
+
+                        case "TRANSFER_COMPLETE":
+                            sendmsg = {
+                                type: "TRANSFER_COMPLETE",
+                                userid: "this.props.userid"
+                            }
+                            ws.send(sendmsg);
+                            this.setState({
+                                numChunks: 0,
+                                currentChunk: 0,
+                                uploadAvailable: true,
+                                videoSrc: msg.fileName
+                            })
+                            this.submit();
+                            // Toast.info("파일 전송 완료");                            
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+    }
+    submit= () => {
         const postRequest = Object.assign({}, {
-            "video": this.props.selectedFile,
+            "videoSrc": this.state.videoSrc,
             "content": this.state.content
         });
         createPost(postRequest)
@@ -46,6 +135,7 @@ class Write extends Component {
                 
                 <div className="write-content-preview">
                     <TextareaItem
+                        className="write-content"
                         onChange={this.onChangeContent}
                         placeholder="동영상을 설명하세요"
                         rows={4}/>

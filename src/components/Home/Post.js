@@ -18,7 +18,7 @@ class Post extends Component {
         };
 
         return (
-            <div className="post-wrapper">
+            <div className="post">
                 <VideoPlayer {...videoJsOptions}/>
                 <Description 
                     writer={this.props.post.writername}

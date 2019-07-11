@@ -6,24 +6,20 @@ class VideoPlayer extends Component {
 
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.videoRef = React.createRef();
     }
 
     componentDidMount() {
-        this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
+        this.player = videojs(this.videoRef.current, this.props, function onPlayerReady() {
         });
     }
 
-    handleClick() {
-        try {
-            if(this.player.paused()) {
-                this.player.play();
-            }
-            else {
-                this.player.pause();
-            }
-        } catch(e) {}
-
+    handleClick = () => {
+        if(this.videoRef.current.paused) {
+            this.videoRef.current.play();
+        } else {
+            this.videoRef.current.pause();
+        }
     };
 
     render() {
@@ -32,7 +28,7 @@ class VideoPlayer extends Component {
                 style={{width : "100%", height : "100%"}} 
                 onClick={this.handleClick} 
                 onTouchStart={this.handleClick}>
-                <video ref={ node => this.videoNode = node} className="video-js"></video>
+                <video ref={this.videoRef} className="video-js"></video>
             </div>
         );
     }
