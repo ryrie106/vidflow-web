@@ -6,7 +6,9 @@ class Comment extends Component {
         return (
             <div className="comment">
                 <div className="comment-thumbnail">
-                    <img src="http://ec2-13-125-253-101.ap-northeast-2.compute.amazonaws.com/images/default.png" alt="default" style={{width:"50px", height:"50px"}}></img>
+                    <div className="comment-thumbnail-name">
+                        {this.props.comment.writername.charAt(0)}
+                    </div>
                 </div>
                 <div className="comment-info">
                     <div className="comment-writername">
