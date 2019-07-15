@@ -9,13 +9,3 @@
     width: 100%;
     
 }
-
-.require-login-modal {
-    height: 60vh;
-}
-
-.redirect-to-login {
-    width: 100%;
-    position: fixed;
-    bottom: 0px;
-}

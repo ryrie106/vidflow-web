@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Route, withRouter } from 'react-router-dom';
-import { Toast } from 'antd-mobile';
+import { Button, Modal, Toast, WhiteSpace } from 'antd-mobile';
 import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
 
@@ -19,7 +19,7 @@ class App extends Component {
             currentUser: null,
             isAuthenticated: false,
             isLoading: false,
-            isLoginRequired: false
+            isVisibleLoginModal: false,
         }
     }
 
@@ -52,9 +52,7 @@ class App extends Component {
             currentUser: null,
             isAuthenticated: false
         });
-
-        this.props.history.push("/");
-        Toast.info('로그아웃 성공!', 1);
+        window.location.reload();
     }
 
     onLogin = () => {
@@ -69,16 +67,26 @@ class App extends Component {
         })
     }
 
+    slideupLoginModal = () => {
+        this.setState({
+            isVisibleLoginModal: true
+        });
+    }
+
+    closeLoginModal = () => {
+        this.setState({
+            isVisibleLoginModal: false
+        });
+    }
+
     render() {
-
-        const { isAuthenticated } = this.state;
-
         return (
             <div className="app">
                 <Route exact path="/"
                     render={(props) => <Main 
                                         onLogout={this.onLogout} 
-                                        isAuthenticated={isAuthenticated}
+                                        isAuthenticated={this.state.isAuthenticated}
+                                        slideupLoginModal={this.slideupLoginModal}
                                         {...props} />}/>
                 <Route path="/videoedit"
                     render={(props) => <VideoEdit 
@@ -93,9 +101,42 @@ class App extends Component {
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
+            
+                <Modal
+                    popup
+                    visible={this.state.isVisibleLoginModal}
+                    onClose={() => {this.setState({isVisibleLoginModal:false})}}
+                    animationType="slide-up"
+                    afterClose={()=>{}}
+                >
+                    <div className="login-modal"> 
+                    계속하려면 Vidflow 계정이 필요합니다.<WhiteSpace />
+                    <Button type="warning" onClick={() => {
+                        this.setState({isVisibleLoginModal:false});
+                        this.props.history.push("/signup");
+                        }}>회원가입</Button>
+                    <Foo/>
+                    <Button className="redirect-to-login" onClick={() => {
+                        this.setState({isVisibleLoginModal:false});                        
+                        this.props.history.push("/login")
+                        }}>이미 계정이 있으신가요? 로그인</Button>
+                    </div>
+                </Modal>
             </div>
         );
     }
 }
+
+
+class Foo extends Component {
+    componentDidMount() {
+      // console.log("Foo Mounted!");
+    }
+    render() {
+      return (
+        <div/>
+      )
+    }
+  }
 
 export default withRouter(App);
