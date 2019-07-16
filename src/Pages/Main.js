@@ -51,7 +51,8 @@ class Main extends Component {
                 }}
                 data-seed="logId"
             >
-              <Home />
+              <Home 
+                currentUser={this.props.currentUser}/>
             </TabBar.Item>
             <TabBar.Item
               icon={<FaGlobe style={{width:"35px", height:"35px"}}/>}

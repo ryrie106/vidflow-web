@@ -11,9 +11,18 @@ const request = (options) => {
 
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
-
+    
     return fetch(options.url, options)
-    .then(response => 
+    .then(response => {
+        console.log(response);
+        if(response) 
+            return response.json();
+        else
+            return {};
+    })
+    /*
+    return fetch(options.url, options)
+    .then(response =>
         response.json().then(json => {
             if(!response.ok) {
                 return Promise.reject(json);
@@ -21,6 +30,8 @@ const request = (options) => {
             return json;
         })
     );
+    */
+    
 };
 
 export function login(loginRequest) {
@@ -52,6 +63,13 @@ export function createPost(postData) {
         method: 'POST',
         body: JSON.stringify(postData)
     });
+}
+
+export function deletePost(postId) {
+    return request({
+        url: API_BASE_URL + "/posts/" + postId,
+        method: 'DELETE'
+    })
 }
 
 export function getCommentsByPostId(postId) {

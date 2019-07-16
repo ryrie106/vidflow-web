@@ -24,7 +24,16 @@ class Post extends Component {
                     writer={this.props.post.writername}
                     content={this.props.post.content}
                 />
-                <Icons toggleCommentModal={this.props.toggleCommentModal}/>
+                <Icons 
+                    showModal={this.props.showModal}
+                    numComment={this.props.post.num_comment}
+                    numLike={this.props.post.num_like}
+                    /* 
+                    로그인이 되어 있지 않으면 currentUser가 null이기 때문에 예외가 발생한다.
+                    따라서 currentUser가 먼저 있는지 검사부터 해야 함.
+                    */
+                    isMyPost={this.props.currentUser && 
+                    this.props.post.writerid === this.props.currentUser.id}/>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, NavBar, Button } from 'antd-mobile';
+import { Icon, NavBar, Button, Toast } from 'antd-mobile';
 // import FFMPEG from '../components/VideoEdit/ffmpeg_runner';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
@@ -26,6 +26,7 @@ class VideoEdit extends Component {
             // ffmpeg: new FFMPEG(),
             // heapLimit: performance.memory.jsHeapSizeLimit
         });
+        Toast.info("업로드할 영상을 선택하고 다음 버튼을 누르세요 아직 편집은 지원하지 않습니다.", 3);
         
     }
 

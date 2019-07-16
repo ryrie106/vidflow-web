@@ -102,7 +102,6 @@ class Write extends Component {
                             videoSrc: msg.fileName
                         })
                         this.submit();
-                        // Toast.info("파일 전송 완료");                            
                         break;
                     default:
                         break;

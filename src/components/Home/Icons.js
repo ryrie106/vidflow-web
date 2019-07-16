@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import './Icons.css';
-import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots } from 'react-icons/fa';
+import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots, FaEllipsisH } from 'react-icons/fa';
 
 class Icons extends Component {
     render() {
-        /**
-         * this.props.toggleCommentPanel은 Home -> PostList -> Post -> Icons 컴포넌트로 내려옴
-         */
         return (
             <div className="icon-wrapper">
                 <div className="follow-button">
@@ -14,13 +11,21 @@ class Icons extends Component {
                 </div>
                 <div className="like-button">
                     <FaHeart style={{width:"35px", height:"35px"}}/>
+                    {this.props.numLike}
                 </div>
-                <div className="comment-button" onClick={this.props.toggleCommentModal}>
+                <div className="comment-button" onClick={this.props.showModal('commentModal')}>
                     <FaCommentDots style={{width:"35px", height:"35px"}}/>
+                    {this.props.numComment}
                 </div>
-                <div className="share-button">
-                    <FaShareAlt style={{width:"35px", height:"35px"}}/>
-                </div>
+                {this.props.isMyPost?
+                    <div className="my-share-button" onClick={this.props.showModal('shareModal')}>
+                        <FaEllipsisH style={{width:"35px", height:"35px"}}/>
+                    </div>
+                    :
+                    <div className="share-button" onClick={this.props.showModal('shareModal')}>
+                        <FaShareAlt style={{width:"35px", height:"35px"}}/>
+                    </div>
+                }
             </div>
         );
     }

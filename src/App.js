@@ -83,7 +83,8 @@ class App extends Component {
         return (
             <div className="app">
                 <Route exact path="/"
-                    render={(props) => <Main 
+                    render={(props) => <Main
+                                        currentUser={this.state.currentUser}
                                         onLogout={this.onLogout} 
                                         isAuthenticated={this.state.isAuthenticated}
                                         slideupLoginModal={this.slideupLoginModal}

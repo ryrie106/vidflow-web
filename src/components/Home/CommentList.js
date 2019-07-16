@@ -59,7 +59,7 @@ class CommentListForm extends Component {
                     <div className="comment-counter">
                         댓글 {this.state.comments.length}개
                     </div>
-                    <div className="close-comment-container-button" onClick={this.props.toggleCommentModal}>
+                    <div className="close-comment-container-button" onClick={this.props.closeModal('commentModal')}>
                         X
                     </div>
                 </div>
