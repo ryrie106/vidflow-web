@@ -79,15 +79,20 @@ export function getCommentsByPostId(postId) {
     });
 }
 
-export function createComment(commentId, commentData) {
+export function createComment(postId, commentData) {
     return request({
-        url: API_BASE_URL + "/comments/" + commentId,
+        url: API_BASE_URL + "/comments/" + postId,
         method: 'POST',
         body: JSON.stringify(commentData)
     });
 }
 
-
+export function deleteComment(commentId) {
+    return request({
+        url: API_BASE_URL + "/comments/" + commentId,
+        method: 'DELETE'
+    });
+}
 
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {

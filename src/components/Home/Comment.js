@@ -19,6 +19,13 @@ class Comment extends Component {
                     </div>
                     <div className="comment-regdate">
                         {this.props.comment.regdate}
+                        {(this.props.currentUser && this.props.currentUser.id === this.props.comment.writerid)? 
+                            <div className="comment-remove" onClick={this.props.deleteComment(this.props.comment.id)}>
+                                삭제
+                            </div>
+                            : 
+                            '' 
+                        }
                     </div>
                 </div>
             </div>

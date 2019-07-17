@@ -17,7 +17,8 @@ class Home extends Component {
             commentModal: false,
             shareModal: false,
             deleteConfirmModal: false,
-            currentPostId: 0
+            currentPostId: 0,
+            currentPostWriterId: 0
         };
     }
 
@@ -25,7 +26,8 @@ class Home extends Component {
         getAllPosts().then(response => {
             this.setState({
                 posts: response,
-                currentPostId: response[0].id
+                currentPostId: response[0].id,
+                currentPostWriterId: response[0].writerid
             });
         })
     }
@@ -67,7 +69,9 @@ class Home extends Component {
                     if(this.state.currentPage < this.state.posts.length - 1 ) {
                         this.setState({
                             currentPage: this.state.currentPage + 1,
-                            currentPostId: this.state.posts[this.state.currentPage+1].id
+                            currentPostId: this.state.posts[this.state.currentPage+1].id,
+                            currentPostWriterId: this.state.posts[this.state.currentPage+1].writerid
+
                         });
                     }
                 },
@@ -75,7 +79,8 @@ class Home extends Component {
                     if(this.state.currentPage > 0) {
                         this.setState({
                             currentPage: this.state.currentPage - 1,
-                            currentPostId: this.state.posts[this.state.currentPage-1].id
+                            currentPostId: this.state.posts[this.state.currentPage-1].id,
+                            currentPostWriterId: this.state.posts[this.state.currentPage-1].writerid
                         });
                     }
                 }
@@ -105,6 +110,7 @@ class Home extends Component {
                     <CommentList
                         closeModal={this.closeModal}
                         currentPostId={this.state.currentPostId}
+                        currentUser={this.props.currentUser}
                     />
                 </Modal>
                 <Modal
@@ -115,7 +121,13 @@ class Home extends Component {
                     afterClose={() => {}}
                 >
                     <div>
-                        <Button onClick={this.showAlert}>삭제</Button>
+                        {(this.props.currentUser && this.props.currentUser.id === this.state.currentPostWriterId)?
+                            <Button onClick={this.showAlert}>삭제</Button>
+                            :
+                            <div>
+                                공유 모달
+                            </div>
+                        }
                     </div>
                 </Modal>
             </div>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { List, InputItem, Toast } from 'antd-mobile';
+import { InputItem, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
 import { FaAt, FaLaugh, FaPaperPlane } from 'react-icons/fa';
 import Comment from './Comment';
 import './CommentList.css';
-import { getCommentsByPostId, createComment } from '../../utils/APIUtils';
+import { getCommentsByPostId, createComment, deleteComment } from '../../utils/APIUtils';
 
 class CommentListForm extends Component {
 
@@ -28,6 +28,10 @@ class CommentListForm extends Component {
         });
     }
 
+    deleteComment = commentid => () => {
+        deleteComment(commentid).then(() => this.refreshComment());
+    }
+
     onSubmit = () => { 
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -48,7 +52,12 @@ class CommentListForm extends Component {
 
     render() {
         const commentList = this.state.comments.map(comment =>
-            <div key={comment.id}><Comment comment={comment} /></div>
+            <div key={comment.id}>
+                <Comment 
+                    comment={comment}
+                    currentUser={this.props.currentUser}
+                    deleteComment={this.deleteComment}
+             /></div>
         )
 
         const { getFieldProps } = this.props.form;
