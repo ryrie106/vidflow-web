@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
+import { WEBSOCKET_VIDEOUPLOAD_URL, WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE } from '../constants';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
-
-const CHUNK_SIZE = 1024 * 1024;
 
 class Write extends Component {
 
@@ -34,10 +33,10 @@ class Write extends Component {
             uploadAvailable: false
         });
 
-        const ws = new WebSocket("wss://vidflow.ryrie.xyz:8080/videoUpload")
+        const ws = new WebSocket(WEBSOCKET_VIDEOUPLOAD_URL)
         this.setState({
             currentChunk: 0,
-            numChunks: Math.ceil(this.props.selectedFile.size / CHUNK_SIZE)
+            numChunks: Math.ceil(this.props.selectedFile.size / WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE)
         })
         ws.binaryType = "arraybuffer";
 
@@ -66,8 +65,8 @@ class Write extends Component {
                 let senddata;
                 switch(msg.type) {
                     case "TRANSFER_START":
-                        senddata = this.props.selectedFile.slice(this.state.currentChunk * CHUNK_SIZE,
-                            Math.min((this.state.currentChunk + 1) * CHUNK_SIZE, this.props.selectedFile.size));     
+                        senddata = this.props.selectedFile.slice(this.state.currentChunk * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE,
+                            Math.min((this.state.currentChunk + 1) * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE, this.props.selectedFile.size));     
                         console.log(this.state.currentChunk + "/" + this.state.numChunks + " transfered");
                         this.setState({
                             currentChunk: this.state.currentChunk + 1
@@ -80,8 +79,8 @@ class Write extends Component {
                         this.setState({
                             progress: (this.state.currentChunk / this.state.numChunks) * 100
                         });
-                        senddata = this.props.selectedFile.slice(this.state.currentChunk * CHUNK_SIZE,
-                            Math.min((this.state.currentChunk + 1) * CHUNK_SIZE, this.props.selectedFile.size));     
+                        senddata = this.props.selectedFile.slice(this.state.currentChunk * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE,
+                            Math.min((this.state.currentChunk + 1) * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE, this.props.selectedFile.size));     
                         Toast.loading(this.state.currentChunk / this.state.numChunks + "%");
                         this.setState({
                             currentChunk: this.state.currentChunk + 1

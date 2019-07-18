@@ -13,6 +13,51 @@ import { createForm } from 'rc-form';
 
 class SignupForm extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            name: '',
+            password: '',
+            height: 0
+        }
+        this.signupRef = React.createRef();
+        this.signupButtonRef = React.createRef();
+    }
+
+
+    scrollDown = (height) => {
+        if(this.state.height < height) {
+            let offset = height - this.state.height;
+            this.signupRef.current.style.height = "calc(100vh + " + offset + "px)";
+            window.scrollTo(0, offset);
+        }
+    }
+
+    scrollUp = () => {
+        window.scrollTo(0, 0);
+        this.signupRef.current.style.height = "100vh";
+    }
+
+    onFocus = (height) => () => {
+        setTimeout(() => {
+            this.setState({
+            height: document.getElementById("signup-button").offsetTop
+            })
+            this.scrollDown(height);
+        }, 400);
+    }
+
+    onBlur = () => {
+        // setTimeout(() => {
+        //     this.setState({
+        //     height: document.getElementById("signup-button").offsetTop
+        //     })
+        //     this.scrollUp();
+        // }, 200);
+        this.scrollUp();
+    }
+
     onSubmit = (e) => {    
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -41,30 +86,37 @@ class SignupForm extends Component {
     }
 
     render() {
-        const { getFieldProps } = this.props.form;
+        const { getFieldProps, getFieldError } = this.props.form;
+
         return (
-            <div className="signup-page">
-            <div className="signup-container">
-                <WingBlank size="lg">
+            <div className="signup" ref={this.signupRef}>
                 <NavBar
+                    className="signup-navbar"
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.push("/")}
                 />
+                <div className="signup-logo" >
+                    <div className="signup-logo-name">V</div>
+                </div>
+                <div className="signup-title">Create an account</div>
+                <div className="signup-input">
                 <InputItem
+                    className="signup-input-item"
                     {...getFieldProps('email', {
                         rules: [
                             {required: true},
                             {validator: this.validateEmail}
                         ]
                     })}
-                    placeholder="이메일 주소가 로그인 아이디 입니다"
+                    placeholder="로그인 아이디로 사용됩니다"
+                    onFocus={this.onFocus(220+90)}
+                    onBlur={this.onBlur}
                 >
                 이메일
                 </InputItem>
                 
-                <WhiteSpace size="lg" />
-
                 <InputItem
+                    className="signup-input-item"
                     {...getFieldProps('password', {
                         rules: [
                             {required: true},
@@ -72,32 +124,35 @@ class SignupForm extends Component {
                         ]
                     })}
                     type="password"
-                    placeholder="비밀번호를 입력하세요(6~20자)"
+                    placeholder="6-20자"
+                    onFocus={this.onFocus(220+135)}
+                    onBlur={this.onBlur}
                 >
                 비밀번호
                 </InputItem>
 
-                <WhiteSpace size="lg" />
-
                 <InputItem
+                    className="signup-input-item"
                     {...getFieldProps('name', {
                         rules: [
                             {required: true},
                             {validator: this.validateName}
                         ]
                     })}
-                    placeholder="표시될 이름을 입력하세요(3~10자)"
+                    placeholder="3-10자"
+                    onFocus={this.onFocus(220+180)}
+                    onBlur={this.onBlur}
                 >
                 이름
                 </InputItem>
-
-                <WhiteSpace size="lg" />
-
-                <Button type="primary" onClick={this.onSubmit}>회원가입</Button>
-                <Link to="/login">로그인</Link>
-                </WingBlank>
+                <div id="signup-login-instead">
+                    <Link to="/login">로그인하기</Link>
+                </div>
+                </div>
+                
+                <Button id="signup-button" type="primary" onClick={this.onSubmit}>회원가입</Button>
             </div>    
-            </div>
+            
         );
     }
 

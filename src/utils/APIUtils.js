@@ -105,6 +105,20 @@ export function getCurrentUser() {
     });
 }
 
+export function likePost(postId) {
+    return request({
+        url: API_BASE_URL +"/posts/like/" + postId,
+        method: 'POST'
+    })
+}
+
+export function unlikePost(postId) {
+    return request({
+        url: API_BASE_URL + "/posts/like/" + postId,
+        method: 'DELETE'
+    })
+}
+
 export function checkNameAvailability(name) {
     return request({
         url: API_BASE_URL + "/user/checkNameAvailability?name=" + name,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './Icons.css';
 import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots, FaEllipsisH } from 'react-icons/fa';
+import './Icons.css';
 
 class Icons extends Component {
     render() {
@@ -10,7 +10,9 @@ class Icons extends Component {
                     <FaPlusCircle style={{width:"35px", height:"35px"}}/>
                 </div>
                 <div className="like-button">
-                    <FaHeart style={{width:"35px", height:"35px"}}/>
+                    {this.props.isLiked ?
+                    <FaHeart style={{width:"35px", height:"35px", color:"red"}} onClick={this.props.unlikePost}/> :
+                    <FaHeart style={{width:"35px", height:"35px"}} onClick={this.props.likePost}/>}
                     {this.props.numLike}
                 </div>
                 <div className="comment-button" onClick={this.props.showModal('commentModal')}>
