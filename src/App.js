@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
-import { Button, Modal, Toast, WhiteSpace } from 'antd-mobile';
+import { Button, Modal, Toast } from 'antd-mobile';
 import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
 
@@ -22,8 +22,7 @@ class App extends Component {
         this.state = {
             selectedFile: null,
             currentUser: null,
-            isAuthenticated: false,
-            isLoading: false,
+            loading: false,
             loginModal: false,
         }
     }
@@ -34,28 +33,25 @@ class App extends Component {
 
     loadCurrentUser = () => {
         this.setState({
-            isLoading: true
+            loading: true
         });
         getCurrentUser()
         .then(response => {
             this.setState({
                 currentUser: response,
-                isAuthenticated: true,
-                isLoading: false
+                loading: false
             });
         }).catch(error => {
             this.setState({
-                isLoading: false
+                loading: false
             });  
         });
     }
 
     onLogout = () => {
         localStorage.removeItem(ACCESS_TOKEN);
-
         this.setState({
             currentUser: null,
-            isAuthenticated: false
         });
         window.location.reload();
     }
@@ -91,7 +87,6 @@ class App extends Component {
                     render={(props) => <Main
                                         currentUser={this.state.currentUser}
                                         onLogout={this.onLogout} 
-                                        isAuthenticated={this.state.isAuthenticated}
                                         showLoginModal={this.showLoginModal}
                                         {...props} />}/>
                 <Route path="/videoedit"
@@ -115,7 +110,7 @@ class App extends Component {
                     afterClose={()=>{}}
                 >
                     <div className="login-modal"> 
-                    계속하려면 Vidflow 계정이 필요합니다.<WhiteSpace />
+                    계속하려면 Vidflow 계정이 필요합니다.
                     <Button type="warning" onClick={() => {
                         this.setState({isVisibleLoginModal:false});
                         this.props.history.push("/signup");
@@ -132,17 +127,16 @@ class App extends Component {
     }
 }
 
-
+// Modal 안에서 컴포넌트 불러오기 테스트
 class Foo extends Component {
-    // Modal 안에서 컴포넌트 불러오기 테스트
     componentDidMount() {
-      // console.log("Foo Mounted!");
+        // console.log("Foo Mounted!");
     }
     render() {
-      return (
-        <div/>
-      )
+        return (
+            <div/>
+        )
     }
-  }
+}
 
 export default withRouter(App);

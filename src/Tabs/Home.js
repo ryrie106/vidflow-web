@@ -14,6 +14,10 @@ import './Home.css';
  * 2. 
  */
 class Home extends Component {
+    /**
+     * props
+     * currentUser :
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -29,13 +33,30 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        getAllPosts().then(response => {
-            this.setState({
-                posts: response,
-                currentPostId: response[0].id,
-                currentPostWriterId: response[0].writerid
-            });
-        })
+        if(this.props.currentUser) {
+            // 로그인이 되어 있으면
+            getAllPosts().then(response => {
+                if(response) {
+                    this.setState({
+                        posts: response,
+                        currentPostId: response[0].id,
+                        currentPostWriterId: response[0].writerid
+                    });
+                }
+            })
+        } else {
+            // 로그인이 되어 있지 않으면
+            getAllPosts().then(response => {
+                if(response) {
+                    this.setState({
+                        posts: response,
+                        currentPostId: response[0].id,
+                        currentPostWriterId: response[0].writerid
+                    });
+                }
+            })
+        }
+        
     }
 
     showModal = key => (e) => {
@@ -94,7 +115,8 @@ class Home extends Component {
 
         const postList = this.state.posts.map(post =>
             <div key={post.id}>
-                <Post post={post} 
+                <Post 
+                    post={post}
                     showModal={this.showModal}
                     currentUser={this.props.currentUser} />
             </div>

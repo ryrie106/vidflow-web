@@ -8,13 +8,18 @@ import Notice from '../Tabs/Notice';
 import My from '../Tabs/My';
 import './Main.css';
 
-
 /**
  * Component Main
  * 1. root 페이지 표시
  * 2. Tabbar를 표시해 원하는 탭으로 전환
  */
 class Main extends Component {
+    /**
+     * Props
+     * currentUser : 
+     * onLogout : () => void 
+     * showLoginModal 
+     */
     constructor(props) {
       super(props);
       this.state = {
@@ -23,22 +28,19 @@ class Main extends Component {
     }
 
     componentDidMount() {
-      if(!this.props.isAuthenticated) {
         Toast.info("위 아래로 움직여보세요", 2);
-      }
     }
-  
   
     render() {
       return (
         <div className="main">
-          <TabBar
-            id="tabbar-main"
-            unselectedTintColor="#949494"
-            tintColor="#33A3F4"
-            barTintColor="transparent"
-            hidden={this.state.hidden}
-          >
+            <TabBar
+                id="tabbar-main"
+                unselectedTintColor="#949494"
+                tintColor="#33A3F4"
+                barTintColor="transparent"
+                hidden={this.state.hidden}
+            >
             <TabBar.Item
                 key="Home"
                 icon={<FaHome style={{width:"35px", height:"35px"}} />}
@@ -51,70 +53,69 @@ class Main extends Component {
                 }}
                 data-seed="logId"
             >
-              <Home 
-                currentUser={this.props.currentUser}/>
+                <Home 
+                    currentUser={this.props.currentUser}/>
             </TabBar.Item>
             <TabBar.Item
-              icon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
-              selectedIcon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
-              key="Search"
-              selected={this.state.selectedTab === 'searchTab'}
-              onPress={() => {
-                this.setState({
-                  selectedTab: 'searchTab',
-                });
-              }}
-              data-seed="logId1"
+                icon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
+                selectedIcon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
+                key="Search"
+                selected={this.state.selectedTab === 'searchTab'}
+                onPress={() => {
+                        this.setState({
+                        selectedTab: 'searchTab',
+                    });
+                }}
+                data-seed="logId1"
             >
-              <Search />
-            </TabBar.Item>
-            
-            <TabBar.Item
-              icon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
-              selectedIcon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
-              key="write"
-              selected={this.state.selectedTab === 'writeTab'}
-              onPress={() => {
-                if(!this.props.isAuthenticated) {
-                  this.props.showLoginModal();
-                } else {
-                  this.props.history.push("/videoedit")
-                }
-              }}
-            >
+                <Search />
             </TabBar.Item>
             
             <TabBar.Item
-              icon={<FaComment style={{width:"35px", height:"35px"}} />}
-              selectedIcon={<FaComment style={{width:"35px", height:"35px"}} />}
-              key="Notice"
-              selected={this.state.selectedTab === 'noticeTab'}
-              onPress={() => {
-                this.setState({
-                  selectedTab: 'noticeTab',
-                });
-              }}
+                icon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
+                selectedIcon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
+                key="write"
+                selected={this.state.selectedTab === 'writeTab'}
+                onPress={() => {
+                    if(!this.props.currentUser) {
+                        this.props.showLoginModal();
+                    } else {
+                        this.props.history.push("/videoedit")
+                    }
+                }}
             >
-              <Notice />
             </TabBar.Item>
             
             <TabBar.Item
-              icon={<FaUser style={{width:"35px", height:"35px"}} />}
-              selectedIcon={<FaUser style={{width:"35px", height:"35px"}} />}
-              key="my"
-              selected={this.state.selectedTab === 'myTab'}
-              onPress={() => {
-                if(!this.props.isAuthenticated) {
-                  this.props.showLoginModal();
-                } else {
-                  this.setState({
-                    selectedTab: 'myTab',
-                  });
-                }
-                
-              }}
+                icon={<FaComment style={{width:"35px", height:"35px"}} />}
+                selectedIcon={<FaComment style={{width:"35px", height:"35px"}} />}
+                key="Notice"
+                selected={this.state.selectedTab === 'noticeTab'}
+                onPress={() => {
+                    this.setState({
+                        selectedTab: 'noticeTab',
+                    });
+                }}
             >
-              <My onLogout={this.props.onLogout} />
+                <Notice />
+            </TabBar.Item>
+            
+            <TabBar.Item
+                icon={<FaUser style={{width:"35px", height:"35px"}} />}
+                selectedIcon={<FaUser style={{width:"35px", height:"35px"}} />}
+                key="my"
+                selected={this.state.selectedTab === 'myTab'}
+                onPress={() => {
+                    if(!this.props.currentUser) {
+                        this.props.showLoginModal();
+                    } else {
+                        this.setState({
+                            selectedTab: 'myTab',
+                        });
+                    }                 
+                }}
+            >
+                <My onLogout={this.props.onLogout} />
             </TabBar.Item>
           </TabBar>
         </div>

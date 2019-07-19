@@ -1,4 +1,4 @@
-.icon-wrapper {
+.icons {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -8,6 +8,11 @@
     bottom: 50px;
     right : 4%;
     color: #e6e6e6;
+}
+
+.icons-pic {
+    width: 35px;
+    height: 35px;
 }
 
 .follow-button {

@@ -3,50 +3,37 @@ import React, { Component } from 'react';
 import Icons from './Icons';
 import Description from './Description';
 import VideoPlayer from './VideoPlayer';
-import { likePost, unlikePost } from '../../utils/APIUtils';
-import { VIDEO_SRC } from '../../constants';
 import './Post.css';
 
+/**
+ * Component Post (App -> Main -> Home -> Post)
+ * 1. 각 게시물의 정보 표시
+ * 
+ * Prop list
+ * post
+ * showModal
+ * currentUser
+ */
 class Post extends Component {
-
-    likePost = () => {
-        likePost(this.props.post.id);
-    }
-
-    unlikePost = () => {
-        unlikePost(this.props.post.id);
-    }
-
+    
     render() {
-        const videoJsOptions = {
-            loop: true,
-            preload: "auto",
-            sources: [{
-                src: VIDEO_SRC + this.props.post.videosrc,
-                type: 'video/mp4'
-            }]
-        };
-
         return (
             <div className="post">
-                <VideoPlayer {...videoJsOptions}/>
+                <VideoPlayer videoSrc={this.props.post.videosrc}/>
                 <Description 
                     writer={this.props.post.writername}
                     content={this.props.post.content}
                 />
-                <Icons 
+                <Icons
+                    currentUser={this.props.currentUser}
+                    postId={this.post.id}
                     showModal={this.props.showModal}
                     numComment={this.props.post.num_comment}
                     numLike={this.props.post.num_like}
+
                     isLiked={this.props.post.isliked}
-                    likePost={this.likePost}
-                    unlikePost={this.unlikePost}
-                    /* 
-                    로그인이 되어 있지 않으면 currentUser가 null이기 때문에 예외가 발생한다.
-                    따라서 currentUser가 먼저 있는지 검사부터 해야 함.
-                    */
-                    isMyPost={this.props.currentUser && 
-                    this.props.post.writerid === this.props.currentUser.id}/>
+                    myPost={this.props.currentUser && 
+                        this.props.post.writerid === this.props.currentUser.id}/>
             </div>
         )
     }
