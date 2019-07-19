@@ -115,7 +115,6 @@ class App extends Component {
                         this.setState({isVisibleLoginModal:false});
                         this.props.history.push("/signup");
                         }}>회원가입</Button>
-                    <Foo/>
                     <Button className="redirect-to-login" onClick={() => {
                         this.setState({isVisibleLoginModal:false});                        
                         this.props.history.push("/login")
@@ -124,18 +123,6 @@ class App extends Component {
                 </Modal>
             </div>
         );
-    }
-}
-
-// Modal 안에서 컴포넌트 불러오기 테스트
-class Foo extends Component {
-    componentDidMount() {
-        // console.log("Foo Mounted!");
-    }
-    render() {
-        return (
-            <div/>
-        )
     }
 }
 

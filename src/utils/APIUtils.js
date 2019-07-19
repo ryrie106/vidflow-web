@@ -57,6 +57,27 @@ export function getAllPosts() {
     });
 }
 
+export function getPostByPostId(postId) {
+    return request({
+        url: API_BASE_URL + "/posts",
+        method: 'GET'
+    });
+}
+
+export function getNumCommentByPostId(postId) {
+    return request({
+        url: API_BASE_URL + "/posts",
+        method: 'GET'
+    });
+}
+
+export function getNumLikeByPostId(postId) {
+    return request({
+        url: API_BASE_URL + "/posts",
+        method: 'GET'
+    });
+}
+
 export function createPost(postData) {
     return request({
         url: API_BASE_URL + "/posts",

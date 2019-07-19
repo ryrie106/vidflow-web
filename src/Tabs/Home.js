@@ -9,15 +9,14 @@ import 'react-id-swiper/src/styles/css/swiper.css';
 import './Home.css';
 
 /**
- * Component Home
- * 1. 포스트 불러오기
- * 2. 
+ * Component Home (App -> Main -> Home)
+ * 1. 게시물 불러오기
+ * 2. 댓글, 공유 Modal 관리
+ * 
+ * Prop list
+ * currentUser :
  */
 class Home extends Component {
-    /**
-     * props
-     * currentUser :
-     */
     constructor(props) {
         super(props);
         this.state = {
@@ -135,6 +134,7 @@ class Home extends Component {
                     afterClose={() => {}}
                 >
                     <CommentList
+                        showModal={this.showModal}
                         closeModal={this.closeModal}
                         currentPostId={this.state.currentPostId}
                         currentUser={this.props.currentUser}

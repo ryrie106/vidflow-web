@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import videojs from 'video.js';
+
 import { VIDEO_SRC } from '../../constants';
 import 'video.js/dist/video-js.css';
 

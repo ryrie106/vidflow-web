@@ -4,15 +4,27 @@ import { createForm } from 'rc-form';
 
 import { FaAt, FaLaugh, FaPaperPlane } from 'react-icons/fa';
 import Comment from './Comment';
-import './CommentList.css';
 import { getCommentsByPostId, createComment, deleteComment } from '../../utils/APIUtils';
+import './CommentList.css';
 
-class CommentListForm extends Component {
+/**
+ * Component CommentList (App -> Main -> Home -> CommentList)
+ * 1. 게시물의 댓글 불러오기
+ * 2. 댓글 작성하기
+ * 
+ * Prop list
+ * showModal : (key) => () => void
+ * closeModal : (key) => () => void
+ * currentUser :
+ * currentPostId : number
+ */
+class CommentList extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            comments: [],
+            content: '',
+            comments: []
         }
     }
 
@@ -33,22 +45,25 @@ class CommentListForm extends Component {
     }
 
     onSubmit = () => { 
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                const commentRequest = Object.assign({}, values);
-                createComment(this.props.currentPostId, commentRequest)
-                .then(response => {
-                    this.refreshComment(); // TODO: 업데이트 된 댓글만 달도록 개선
-                }).catch(error => {
-                    if(error.status === 401) {
-                        Toast.fail("댓글달기 실패. 401", 1);                  
-                    } else {
-                        Toast.fail("댓글달기 실패!", 1);                                
-                    }
-                });
-            }
-        })
+        const request = {
+            "content": this.state.content
+        }
+        createComment(this.props.currentPostId, request)
+        .then(response => {
+            this.setState({
+                content: ''
+            });
+            this.refreshComment(); // TODO: 업데이트 된 댓글만 달도록 개선
+        }).catch(error => {
+            Toast.fail("댓글달기 실패!" + error.status, 1);                                
+        });
     };
+
+    onChange = (e) => {
+        this.setState({
+            content: e
+        });
+    }
 
     render() {
         const commentList = this.state.comments.map(comment =>
@@ -60,28 +75,26 @@ class CommentListForm extends Component {
              /></div>
         )
 
-        const { getFieldProps } = this.props.form;
-
         return (
-            <div className="comment-container">
-                <div className="comment-header">
-                    <div className="comment-counter">
+            <div className="commentlist">
+                <div className="commentlist-header">
+                    <div className="commentlist-counter">
                         댓글 {this.state.comments.length}개
                     </div>
-                    <div className="close-comment-container-button" onClick={this.props.closeModal('commentModal')}>
+                    <div className="commentlist-close" onClick={this.props.closeModal('commentModal')}>
                         X
                     </div>
                 </div>
-                <div className="comment-list">
+                <div className="commentlist-list">
                     {commentList}
                 </div>
-                <div className="comment-writer">
+                <div className="commentlist-writer">
                     <InputItem
-                        className="comment-writer-input"
-                        {...getFieldProps('content', {})}
+                        className="commentlist-writer-content"
+                        onChange={this.onChange}
                         placeholder="댓글 추가"
                     />
-                    <div className="comment-writer-button">
+                    <div className="commentlist-writer-button">
                         <FaAt style={{width:"30px", height:"30px", margin:"auto"}}/>
                         <FaLaugh style={{width:"30px", height:"30px", margin:"auto"}}/>
                         <FaPaperPlane 
@@ -94,7 +107,5 @@ class CommentListForm extends Component {
         );
     }
 }
-
-const CommentList = createForm()(CommentListForm);
 
 export default CommentList;

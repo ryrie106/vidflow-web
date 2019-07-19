@@ -1,4 +1,4 @@
-.comment-container {
+.commentlist {
     /* position: fixed; */
     /* background: white; */
     width: 100%;
@@ -8,17 +8,17 @@
     /* z-index: 150; */
 }
 
-.comment-header {
+.commentlist-header {
     display: flex;
     flex-direction: row;
 }
 
-.comment-counter {
+.commentlist-counter {
     margin-left: auto;
     margin-right: auto;
 }
 
-.close-comment-container-button {
+.commentlist-close {
     position: absolute;
     right: 15px;
 }
