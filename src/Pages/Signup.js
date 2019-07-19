@@ -39,6 +39,7 @@ class SignupForm extends Component {
         this.signupRef.current.style.height = "100vh";
     }
 
+    // 가입 정보 작성시 키보드로 인해 입력창이 가려지는 것을 방지
     onFocus = (height) => () => {
         setTimeout(() => {
             this.setState({

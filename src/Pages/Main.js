@@ -1,7 +1,3 @@
-/**
- * Home, Search, Write, Notice, My 탭을 표시해 주는 Home 페이지
- * 
- */
 import React, { Component } from 'react';
 import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
 import { TabBar, Toast } from 'antd-mobile';
@@ -13,12 +9,16 @@ import My from '../Tabs/My';
 import './Main.css';
 
 
+/**
+ * Component Main
+ * 1. root 페이지 표시
+ * 2. Tabbar를 표시해 원하는 탭으로 전환
+ */
 class Main extends Component {
     constructor(props) {
       super(props);
       this.state = {
         selectedTab: 'homeTab',
-        requireLoginModal: false,
       };
     }
 
@@ -76,7 +76,7 @@ class Main extends Component {
               selected={this.state.selectedTab === 'writeTab'}
               onPress={() => {
                 if(!this.props.isAuthenticated) {
-                  this.props.slideupLoginModal();
+                  this.props.showLoginModal();
                 } else {
                   this.props.history.push("/videoedit")
                 }
@@ -105,7 +105,7 @@ class Main extends Component {
               selected={this.state.selectedTab === 'myTab'}
               onPress={() => {
                 if(!this.props.isAuthenticated) {
-                  this.props.slideupLoginModal();
+                  this.props.showLoginModal();
                 } else {
                   this.setState({
                     selectedTab: 'myTab',

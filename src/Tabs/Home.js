@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
 import { Button, Modal } from 'antd-mobile';
+
 import { getAllPosts, deletePost } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import './Home.css';
 
+/**
+ * Component Home
+ * 1. 포스트 불러오기
+ * 2. 
+ */
 class Home extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             posts: [],
             currentPage: 0,
+            currentPostId: 0,
+            currentPostWriterId: 0,
+
             commentModal: false,
             shareModal: false,
             deleteConfirmModal: false,
-            currentPostId: 0,
-            currentPostWriterId: 0
         };
     }
 
@@ -37,7 +43,8 @@ class Home extends Component {
         this.setState({
             [key]: true,
         });
-      }
+    }
+
     closeModal = key => () => {
         this.setState({
             [key]: false,
@@ -58,9 +65,7 @@ class Home extends Component {
     }
 
     render() {
-        /*
-            react-id-swiper의 Swiper Component에 전달할 parameter이다.
-        */
+        // const params: react-id-swiper의 Swiper Component에 전달할 parameter이다.
         const params = {
             direction: 'vertical',
             shouldSwiperUpdate: true,

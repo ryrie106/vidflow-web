@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+
 import Icons from './Icons';
 import Description from './Description';
 import VideoPlayer from './VideoPlayer';
-
 import { likePost, unlikePost } from '../../utils/APIUtils';
 import { VIDEO_SRC } from '../../constants';
 import './Post.css';
