@@ -30,6 +30,12 @@ class Main extends Component {
     componentDidMount() {
         Toast.info("위 아래로 움직여보세요", 2);
     }
+
+    onPress = (tab) => () => {
+        this.setState({
+            selectedTab: tab
+        })
+    }
   
     render() {
       return (
@@ -43,37 +49,29 @@ class Main extends Component {
             >
             <TabBar.Item
                 key="Home"
-                icon={<FaHome style={{width:"35px", height:"35px"}} />}
-                selectedIcon={<FaHome style={{width:"35px", height:"35px"}} />}
+                icon={<FaHome className="tabbar-main-pic" />}
+                selectedIcon={<FaHome className="tabbar-main-pic" />}
                 selected={this.state.selectedTab === 'homeTab'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'homeTab',
-                    });
-                }}
+                onPress={this.onPress('homeTab')}
                 data-seed="logId"
             >
                 <Home 
                     currentUser={this.props.currentUser}/>
             </TabBar.Item>
             <TabBar.Item
-                icon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
-                selectedIcon={<FaGlobe style={{width:"35px", height:"35px"}}/>}
+                icon={<FaGlobe className="tabbar-main-pic"/>}
+                selectedIcon={<FaGlobe className="tabbar-main-pic"/>}
                 key="Search"
                 selected={this.state.selectedTab === 'searchTab'}
-                onPress={() => {
-                        this.setState({
-                        selectedTab: 'searchTab',
-                    });
-                }}
+                onPress={this.onPress('searchTab')}
                 data-seed="logId1"
             >
                 <Search />
             </TabBar.Item>
             
             <TabBar.Item
-                icon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
-                selectedIcon={<FaFolderPlus style={{width:"35px", height:"35px"}}/>}
+                icon={<FaFolderPlus className="tabbar-main-pic"/>}
+                selectedIcon={<FaFolderPlus className="tabbar-main-pic"/>}
                 key="write"
                 selected={this.state.selectedTab === 'writeTab'}
                 onPress={() => {
@@ -87,22 +85,18 @@ class Main extends Component {
             </TabBar.Item>
             
             <TabBar.Item
-                icon={<FaComment style={{width:"35px", height:"35px"}} />}
-                selectedIcon={<FaComment style={{width:"35px", height:"35px"}} />}
+                icon={<FaComment className="tabbar-main-pic" />}
+                selectedIcon={<FaComment className="tabbar-main-pic" />}
                 key="Notice"
                 selected={this.state.selectedTab === 'noticeTab'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'noticeTab',
-                    });
-                }}
+                onPress={this.onPress('noticeTab')}
             >
                 <Notice />
             </TabBar.Item>
             
             <TabBar.Item
-                icon={<FaUser style={{width:"35px", height:"35px"}} />}
-                selectedIcon={<FaUser style={{width:"35px", height:"35px"}} />}
+                icon={<FaUser className="tabbar-main-pic" />}
+                selectedIcon={<FaUser className="tabbar-main-pic" />}
                 key="my"
                 selected={this.state.selectedTab === 'myTab'}
                 onPress={() => {
