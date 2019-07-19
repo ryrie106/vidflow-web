@@ -112,11 +112,11 @@ class App extends Component {
                     <div className="login-modal"> 
                     계속하려면 Vidflow 계정이 필요합니다.
                     <Button type="warning" onClick={() => {
-                        this.setState({isVisibleLoginModal:false});
+                        this.setState({loginModal:false});
                         this.props.history.push("/signup");
                         }}>회원가입</Button>
                     <Button className="redirect-to-login" onClick={() => {
-                        this.setState({isVisibleLoginModal:false});                        
+                        this.setState({loginModal:false});                        
                         this.props.history.push("/login")
                         }}>이미 계정이 있으신가요? 로그인</Button>
                     </div>

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { signup, checkNameAvailability, checkEmailAvailability } from '../utils/APIUtils';
-import './Signup.css';
 import { Link } from 'react-router-dom';
+import { createForm } from 'rc-form';
+import { Button, Icon, InputItem, NavBar, Toast } from 'antd-mobile';
+
+import { signup, checkNameAvailability, checkEmailAvailability } from '../utils/APIUtils';
 import { 
     NAME_MIN_LENGTH, NAME_MAX_LENGTH, 
     EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../constants';
+import './Signup.css';
 
-import { Button, Icon, InputItem, List, NavBar, Toast, WhiteSpace, WingBlank } from 'antd-mobile';
-import { createForm } from 'rc-form';
+const bcrypt = require('bcryptjs');
 
 class SignupForm extends Component {
 
@@ -24,7 +26,6 @@ class SignupForm extends Component {
         this.signupRef = React.createRef();
         this.signupButtonRef = React.createRef();
     }
-
 
     scrollDown = (height) => {
         if(this.state.height < height) {
@@ -50,12 +51,6 @@ class SignupForm extends Component {
     }
 
     onBlur = () => {
-        // setTimeout(() => {
-        //     this.setState({
-        //     height: document.getElementById("signup-button").offsetTop
-        //     })
-        //     this.scrollUp();
-        // }, 200);
         this.scrollUp();
     }
 
@@ -63,17 +58,16 @@ class SignupForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(values.password, salt);
+                values.password = hash;
                 const signupRequest = Object.assign({}, values);
                 signup(signupRequest)
                 .then(response => {
                     this.props.history.push("/login");
                     Toast.success("회원가입 성공!, 로그인 해주세요", 2);
                 }).catch(error => {
-                    if(error.status === 401) {
-                        Toast.error("회원가입에 실패하였습니다. 401", 1);                 
-                    } else {
-                        Toast.error("회원가입에 실패하였습니다.", 1);
-                    }
+                    Toast.error("회원가입에 실패하였습니다." + error.status, 1);
                 });
             }
         });

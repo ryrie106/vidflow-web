@@ -6,12 +6,20 @@
     margin-right: auto;
 }
 
+/* modal 중앙에 맞추기*/
+.am-modal-wrap {
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .login-modal {
     height: 60vh;
 }
 
 .redirect-to-login {
     width: 100%;
-    position: fixed;
+    position: absolute;
     bottom: 0px;
 }

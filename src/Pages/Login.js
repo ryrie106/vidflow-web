@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, InputItem, NavBar, Toast, WingBlank, WhiteSpace } from 'antd-mobile';
+import { Button, Icon, InputItem, NavBar, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
 import { login } from '../utils/APIUtils';
@@ -8,6 +8,7 @@ import { ACCESS_TOKEN } from '../constants';
 import { EMAIL_MAX_LENGTH } from '../constants';
 import './Login.css';
 
+const bcrypt = require('bcryptjs');
 
 class LoginForm extends Component {
 
@@ -30,12 +31,6 @@ class LoginForm extends Component {
     }
 
     onBlur = () => {
-        // setTimeout(() => {
-        //     this.setState({
-        //     height: document.getElementById("login-button").offsetTop
-        //     })
-        //     this.scrollUp();
-        // }, 200);
         this.scrollUp();
     }
 
@@ -55,17 +50,16 @@ class LoginForm extends Component {
     onSubmit = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(values.password, salt);
+                values.password = hash
                 const loginRequest = Object.assign({}, values);
                 login(loginRequest)
                 .then(response => {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
-                    if(error.status === 401) {
-                        Toast.fail("이메일이나 비밀번호가 틀립니다.", 1);                  
-                    } else {
-                        Toast.fail("로그인 에러!", 1);                                
-                    }
+                    Toast.fail("로그인 에러!" + error.status, 1);                                
                 });
             }
         });
