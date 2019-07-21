@@ -5,7 +5,6 @@
   "dependencies": {
     "@videojs/http-streaming": "^1.10.2",
     "antd-mobile": "^2.2.13",
-    "bcryptjs": "^2.4.3",
     "cross-env": "^5.2.0",
     "nouislider": "^14.0.2",
     "rc-form": "^2.4.5",

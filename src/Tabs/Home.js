@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
-import { Button, Modal } from 'antd-mobile';
+import { Button, Modal, Toast } from 'antd-mobile';
 
 import { getAllPosts, deletePost } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
@@ -75,9 +75,11 @@ class Home extends Component {
         Modal.alert('삭제', '정말로 삭제하시겠습니까', [
             {text: 'Cancel', onPress: () => {}, style: 'default'},
             {text: 'OK', onPress: () => {
-                deletePost(this.state.currentPostId).then(() => {
-                    // TODO: 메시지에 따른 처리
-                    window.location.reload();
+                deletePost(this.state.currentPostId).then((response) => {
+                    if(response.success)
+                        window.location.reload();
+                    else
+                        Toast.fail(response.message, 1);
                 });
 
             }}
@@ -136,6 +138,7 @@ class Home extends Component {
                     <CommentList
                         showModal={this.showModal}
                         closeModal={this.closeModal}
+                        showLoginModal={this.props.showLoginModal}
                         currentPostId={this.state.currentPostId}
                         currentUser={this.props.currentUser}
                     />

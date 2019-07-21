@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { InputItem, Toast } from 'antd-mobile';
-import { createForm } from 'rc-form';
 
 import { FaAt, FaLaugh, FaPaperPlane } from 'react-icons/fa';
 import Comment from './Comment';
@@ -45,17 +44,25 @@ class CommentList extends Component{
     }
 
     onSubmit = () => { 
+        if(this.props.currentUser == null) {
+            this.props.showLoginModal();
+            return;
+        }
         const request = {
             "content": this.state.content
         }
         createComment(this.props.currentPostId, request)
         .then(response => {
-            this.setState({
-                content: ''
-            });
-            this.refreshComment(); // TODO: 업데이트 된 댓글만 달도록 개선
+            if(response.success) {
+                this.setState({
+                    content: ''
+                });
+                this.refreshComment(); // TODO: 업데이트 된 댓글만 달도록 개선
+            } else {
+                Toast.fail("댓글달기 실패 " + response.status, 1);
+            }
         }).catch(error => {
-            Toast.fail("댓글달기 실패!" + error.status, 1);                                
+            Toast.fail("댓글달기 실패 " + error.status, 1);                                
         });
     };
 
@@ -95,10 +102,10 @@ class CommentList extends Component{
                         placeholder="댓글 추가"
                     />
                     <div className="commentlist-writer-button">
-                        <FaAt style={{width:"30px", height:"30px", margin:"auto"}}/>
-                        <FaLaugh style={{width:"30px", height:"30px", margin:"auto"}}/>
+                        {/* <FaAt className="commentlist-writer-pic" />
+                        <FaLaugh className="commentlist-writer-pic" /> */}
                         <FaPaperPlane 
-                            style={{width:"30px", height:"30px", margin:"auto"}}
+                            className="commentlist-writer-pic" 
                             onClick={this.onSubmit}
                         />
                     </div>

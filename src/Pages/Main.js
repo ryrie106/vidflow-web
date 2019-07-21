@@ -56,7 +56,8 @@ class Main extends Component {
                 data-seed="logId"
             >
                 <Home 
-                    currentUser={this.props.currentUser}/>
+                    currentUser={this.props.currentUser}
+                    showLoginModal={this.props.showLoginModal}/>
             </TabBar.Item>
             <TabBar.Item
                 icon={<FaGlobe className="tabbar-main-pic"/>}

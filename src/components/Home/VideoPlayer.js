@@ -22,6 +22,7 @@ class VideoPlayer extends Component {
             loop: true,
             preload: "auto",
             sources: [{
+                // src: "https://d2zihajmogu5jn.cloudfront.net/advanced-fmp4/master.m3u8",
                 src: VIDEO_SRC + this.props.videoSrc,
                 type: 'video/mp4'
             }]
@@ -31,12 +32,18 @@ class VideoPlayer extends Component {
         });
     }
 
+    componentWillMount() {
+        if(this.vide)
+    }
+
     handleClick = () => {
+
         if(this.videoRef.current.paused) {
             this.videoRef.current.play();
         } else {
             this.videoRef.current.pause();
         }
+        // this.player.start
     };
 
     render() {

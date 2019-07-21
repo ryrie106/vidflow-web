@@ -8,8 +8,6 @@ import { ACCESS_TOKEN } from '../constants';
 import { EMAIL_MAX_LENGTH } from '../constants';
 import './Login.css';
 
-const bcrypt = require('bcryptjs');
-
 class LoginForm extends Component {
 
     constructor(props) {
@@ -50,16 +48,16 @@ class LoginForm extends Component {
     onSubmit = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const salt = bcrypt.genSaltSync(10);
-                const hash = bcrypt.hashSync(values.password, salt);
-                values.password = hash
                 const loginRequest = Object.assign({}, values);
-                login(loginRequest)
-                .then(response => {
-                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                    this.props.onLogin();
+                login(loginRequest).then(response => {
+                    if(response.success) {
+                        localStorage.setItem(ACCESS_TOKEN, response.message);
+                        this.props.onLogin();
+                    } else {
+                        Toast.fail(response.message, 1);
+                    }
                 }).catch(error => {
-                    Toast.fail("로그인 에러!" + error.status, 1);                                
+                    Toast.fail(error.status, 2);
                 });
             }
         });

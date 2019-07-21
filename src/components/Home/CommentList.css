@@ -23,7 +23,7 @@
     right: 15px;
 }
 
-.comment-writer {
+.commentlist-writer {
     display: flex;
     position: fixed;
     bottom: 0px;
@@ -36,14 +36,20 @@
     z-index: 151;
 }
 
-.comment-writer-input {
+.commentlist-writer-content {
     width: 85%;
 }
 
-.comment-writer-button {
+.commentlist-writer-button {
     position: absolute;
     display: flex;
     right: 0px;
     width: 110px;
     height: 100%;
+}
+
+.commentlist-writer-pic {
+    width: 30px;
+    height: 30px;
+    margin: auto;
 }

@@ -26,7 +26,7 @@ class Post extends Component {
                 />
                 <Icons
                     currentUser={this.props.currentUser}
-                    postId={this.post.id}
+                    postId={this.props.post.id}
                     showModal={this.props.showModal}
                     numComment={this.props.post.num_comment}
                     numLike={this.props.post.num_like}

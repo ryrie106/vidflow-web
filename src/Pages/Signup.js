@@ -11,8 +11,6 @@ import {
 } from '../constants';
 import './Signup.css';
 
-const bcrypt = require('bcryptjs');
-
 class SignupForm extends Component {
 
     constructor(props) {
@@ -58,16 +56,17 @@ class SignupForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const salt = bcrypt.genSaltSync(10);
-                const hash = bcrypt.hashSync(values.password, salt);
-                values.password = hash;
                 const signupRequest = Object.assign({}, values);
-                signup(signupRequest)
-                .then(response => {
-                    this.props.history.push("/login");
-                    Toast.success("회원가입 성공!, 로그인 해주세요", 2);
+                signup(signupRequest).then(response => {
+                    if(response.success) {
+                        this.props.history.push("/login");
+                        window.location.reload();
+                        Toast.info("회원가입 성공!, 로그인 해주세요", 1);
+                    } else {
+                        Toast.fail(response.message, 1);           
+                    }
                 }).catch(error => {
-                    Toast.error("회원가입에 실패하였습니다." + error.status, 1);
+                    Toast.fail(error, 1);
                 });
             }
         });
@@ -296,9 +295,6 @@ class SignupForm extends Component {
             });
         });
     }
-
-    
-
 }
 
 const Signup = createForm()(SignupForm);
