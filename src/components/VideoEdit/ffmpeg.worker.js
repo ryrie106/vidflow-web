@@ -9,6 +9,8 @@ and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zi
 */
 importScripts('./ffmpeg-all-codecs.js');
 
+// import { ffmpeg_run } from './ffmpeg-all-codecs.js';
+
 var now = Date.now;
 
 function print(text) {

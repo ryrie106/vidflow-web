@@ -20,10 +20,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedFile: null,
             currentUser: null,
             loading: false,
+            
+            // Main Page
             loginModal: false,
+
+            // VideoEdit, Write
+            selectedFile: null
         }
     }
 

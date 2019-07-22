@@ -32,9 +32,9 @@ class VideoPlayer extends Component {
         });
     }
 
-    componentWillMount() {
-        if(this.vide)
-    }
+    // componentWillMount() {
+    //     if(this.vide)
+    // }
 
     handleClick = () => {
 

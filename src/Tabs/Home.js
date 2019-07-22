@@ -21,6 +21,7 @@ class Home extends Component {
         super(props);
         this.state = {
             posts: [],
+            videorefs: [],
             currentPage: 0,
             currentPostId: 0,
             currentPostWriterId: 0,
@@ -55,7 +56,10 @@ class Home extends Component {
                 }
             })
         }
-        
+    }
+
+    addVideoRef = (ref) => () => {
+        this.state.videorefs.push(ref);
     }
 
     showModal = key => (e) => {
@@ -98,7 +102,6 @@ class Home extends Component {
                             currentPage: this.state.currentPage + 1,
                             currentPostId: this.state.posts[this.state.currentPage+1].id,
                             currentPostWriterId: this.state.posts[this.state.currentPage+1].writerid
-
                         });
                     }
                 },

@@ -9,6 +9,7 @@ and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zi
 */
 
 import FfmpegWorker from './ffmpeg.worker.js';
+import myWorker from 'worker-loader!./worker.js';
 
 class FFMPEG {
 	constructor(fileDownloadEle) {
@@ -70,8 +71,8 @@ class FFMPEG {
 	}
 
 	initWorker(run_command=false) {
-		// this.worker = new Worker("./worker-asm.js");
-		this.worker = new FfmpegWorker();
+		this.worker = new myWorker("ffmpeg.worker.js");
+		// this.worker = new FfmpegWorker();
 		this.worker.onmessage = (event) => {
 			let message = event.data;
 			if (message.type === "ready") {

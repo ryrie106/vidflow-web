@@ -5,6 +5,13 @@ import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import './VideoEdit.css';
 
+
+/**
+ * Component VideoEdit ( App -> VideoEdit )
+ * 
+ * Prop list
+ * onChangeVideoSelector
+ */
 class VideoEdit extends Component {
 
     constructor(props) {
@@ -123,7 +130,6 @@ class VideoEdit extends Component {
 		let fileUrl = window.URL.createObjectURL(fileInput.files[0]);
 		this.setState({
             fileName: fileInput.files[0].name,
-            // selectedFile: fileInput.files[0]
         });
         this.props.onChangeVideoSelector(fileInput.files[0]);
         this.videoRef.current.src = fileUrl;
@@ -156,7 +162,11 @@ class VideoEdit extends Component {
 
     onClickNext = () => {
         if(this.state.fileName) {
+            // this.runFFMPEG();
             this.props.history.push("/write");
+            
+        } else {
+            Toast.info("영상을 선택해주세요.", 1);
         }
     }
 
@@ -165,12 +175,12 @@ class VideoEdit extends Component {
         return (
             <div className="video-edit">
                 <NavBar
-                    className="video-edit-navbar"
+                    id="video-edit-navbar"
                     icon={<Icon type="left" />}
                     mode="light"
                     onLeftClick={() => this.props.history.push("/")}
                     rightContent={[
-                        <Button size="small" type="warning" onClick={this.onClickNext}>
+                        <Button key="video-edit-next" size="small" type="warning" onClick={this.onClickNext}>
                             다음
                         </Button>
                     ]}
