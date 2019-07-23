@@ -33,7 +33,8 @@ class Post extends Component {
 
                     isLiked={this.props.post.isliked}
                     myPost={this.props.currentUser && 
-                        this.props.post.writerid === this.props.currentUser.id}/>
+                        this.props.post.writerid === this.props.currentUser.id}
+                    sendMessage={this.props.sendMessage}/>
             </div>
         )
     }

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { Button, Modal, Toast } from 'antd-mobile';
+
 import { getCurrentUser } from './utils/APIUtils';
+// import stompClient from 'utils/websocket-listener';
 import { ACCESS_TOKEN } from './constants';
 
 import Login from './Pages/Login';
@@ -10,6 +12,7 @@ import Signup from './Pages/Signup';
 import VideoEdit from './Pages/VideoEdit';
 import Write from './Pages/Write';
 import './App.css';
+
 
 /**
  * Component App
@@ -20,6 +23,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            socket: null,
+
             currentUser: null,
             loading: false,
             
@@ -32,7 +37,13 @@ class App extends Component {
     }
 
     componentDidMount() {
+        
+
         this.loadCurrentUser();    
+    }
+
+    componentWillUnmount() {
+        if(this.state.socket) this.state.socket.disconnect();
     }
 
     loadCurrentUser = () => {

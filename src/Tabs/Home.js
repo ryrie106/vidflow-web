@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
 import { Button, Modal, Toast } from 'antd-mobile';
+import SockJS from 'sockjs-client';
 
 import { getAllPosts, deletePost } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
+import { WEBSOCKET_ENDPOINT } from '../constants';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import './Home.css';
+
+const Stomp = require('stompjs');
 
 /**
  * Component Home (App -> Main -> Home)
@@ -20,6 +24,9 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            socket: null,
+            stompClient: null,
+
             posts: [],
             videorefs: [],
             currentPage: 0,
@@ -30,9 +37,11 @@ class Home extends Component {
             shareModal: false,
             deleteConfirmModal: false,
         };
+        this.socket = 
     }
 
     componentDidMount() {
+        this.connect();
         if(this.props.currentUser) {
             // 로그인이 되어 있으면
             getAllPosts().then(response => {
@@ -56,6 +65,22 @@ class Home extends Component {
                 }
             })
         }
+    }
+
+    connect = async () => {
+        await this.setState({socket: new SockJS(WEBSOCKET_ENDPOINT)});
+        await this.setState({stompClient: Stomp.over(this.state.socket)});
+        await this.setState({stompClient: this.state.stompClient.subscribe(
+            '/topic/greetings', this.greeting)});
+    }
+
+    greeting = (message) => {
+        console.log(message);
+        Toast.info(JSON.parse(message.body).msg, 1);
+    }
+
+    sendMessage = (msg) => () => {
+        this.state.stompClient.send("/app/hello", {}, JSON.stringify({'msg': msg}));
     }
 
     addVideoRef = (ref) => () => {
@@ -122,7 +147,8 @@ class Home extends Component {
                 <Post 
                     post={post}
                     showModal={this.showModal}
-                    currentUser={this.props.currentUser} />
+                    currentUser={this.props.currentUser}
+                    sendMessage={this.sendMessage} />
             </div>
         );
 
