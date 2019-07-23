@@ -33,7 +33,7 @@ class Icons extends Component {
         return (
             <div className="icons">
                 <div className="follow-button">
-                    <FaPlusCircle className="icons-pic" onClick={this.props.sendMessage("tsubasa kawaii")}/>
+                    <FaPlusCircle className="icons-pic" onClick={this.props.sendMessage("제발좀되라좀")}/>
                 </div>
                 <div className="like-button">
                     {this.props.isLiked ?
