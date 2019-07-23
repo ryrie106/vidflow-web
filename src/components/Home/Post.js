@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Icons from './Icons';
-import Description from './Description';
+import PostContent from './PostContent';
 import VideoPlayer from './VideoPlayer';
 import './Post.css';
 
@@ -20,7 +20,7 @@ class Post extends Component {
         return (
             <div className="post">
                 <VideoPlayer videoSrc={this.props.post.videosrc}/>
-                <Description 
+                <PostContent
                     writer={this.props.post.writername}
                     content={this.props.post.content}
                 />

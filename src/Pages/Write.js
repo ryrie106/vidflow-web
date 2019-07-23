@@ -138,7 +138,8 @@ class Write extends Component {
                         className="write-content"
                         onChange={this.onChangeContent}
                         placeholder="동영상을 설명하세요"
-                        rows={4}/>
+                        rows={4}
+                        count={50}/>
                     <div className="write-preview" />
                 </div>
                 
@@ -147,8 +148,8 @@ class Write extends Component {
                 </div>
 
                 <div className="write-buttons">
-                    <Button style={{flexGrow:"1"}}>임시 저장</Button>
-                    <Button style={{flexGrow:"1"}}type="warning" onClick={this.onSubmit}>게시</Button>
+                    <Button className="write-button">임시 저장</Button>
+                    <Button className="write-button" type="warning" onClick={this.onSubmit}>게시</Button>
                 </div>                
                 
             </div>
