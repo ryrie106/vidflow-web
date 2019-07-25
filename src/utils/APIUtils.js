@@ -50,9 +50,16 @@ export function signup(signupRequest) {
     });
 }
 
-export function getAllPosts() {
+export function getPostId() {
     return request({
-        url: API_BASE_URL + "/posts",
+        url: API_BASE_URL + "/posts/postId",
+        method: 'GET'
+    })
+}
+
+export function getPosts(postId, page) {
+    return request({
+        url: API_BASE_URL + "/posts?id=" + postId + "&page=" + page,
         method: 'GET'
     });
 }
@@ -136,6 +143,20 @@ export function likePost(postId) {
 export function unlikePost(postId) {
     return request({
         url: API_BASE_URL + "/posts/like/" + postId,
+        method: 'DELETE'
+    })
+}
+
+export function followUser(userId) {
+    return request({
+        url: API_BASE_URL + "/user/follow/" + userId,
+        method: 'POST'
+    })
+}
+
+export function unfollowUser(userId) {
+    return request({
+        url: API_BASE_URL + "/user/follow/" + userId,
         method: 'DELETE'
     })
 }

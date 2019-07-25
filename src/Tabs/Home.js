@@ -3,10 +3,10 @@ import Swiper from "react-id-swiper";
 import { Button, Modal, Toast } from 'antd-mobile';
 import SockJsClient from 'react-stomp';
 
-import { getAllPosts, deletePost } from '../utils/APIUtils';
+import { getPosts, getPostId, deletePost } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
-import { WEBSOCKET_ENDPOINT } from '../constants';
+import { PAGE_SIZE, WEBSOCKET_ENDPOINT } from '../constants';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import './Home.css';
 
@@ -22,46 +22,47 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // socket: null,
-            // stompClient: null,
-
             posts: [],
             videorefs: [],
-            currentPage: 0,
+
+            startPostId: 0,
+
+            postIndex: 0,
+            loadedPage: 0,
             currentPostId: 0,
             currentPostWriterId: 0,
 
             commentModal: false,
             shareModal: false,
-            deleteConfirmModal: false,
         };
     }
 
-    componentDidMount() {
-        // this.connect();
-        if(this.props.currentUser) {
-            // 로그인이 되어 있으면
-            getAllPosts().then(response => {
-                if(response) {
-                    this.setState({
-                        posts: response,
-                        currentPostId: response[0].id,
-                        currentPostWriterId: response[0].writerid
-                    });
-                }
+    async componentDidMount() {
+        await getPostId().then(response => {
+            this.setState({startPostId: response.message});
+        })
+        if(this.state.startPostId !== 0) {
+            await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
+                this.setState( prevState => ({
+                    posts: [...prevState.posts, ...response],
+                    currentPostId: response[0].id,
+                    currentPostWriterId: response[0].writerid
+                }));
             })
-        } else {
-            // 로그인이 되어 있지 않으면
-            getAllPosts().then(response => {
-                if(response) {
-                    this.setState({
-                        posts: response,
-                        currentPostId: response[0].id,
-                        currentPostWriterId: response[0].writerid
-                    });
-                }
-            })
+            await this.getNextPage(); 
         }
+    }
+
+    // TODO: 이렇게 하면 마지막 페이지에 도달했을 때 계속 요청을 하게 된다.
+    getNextPage = () => {
+        getPosts(this.state.startPostId, this.state.loadedPage+1).then(response => {
+            if(response.length > 0) {
+                this.setState( prevState => ({
+                    posts: [...prevState.posts, ...response],
+                    loadedPage: prevState.loadedPage+1
+                }));
+            }
+        })
     }
 
     greeting = (message) => {
@@ -112,20 +113,30 @@ class Home extends Component {
             shouldSwiperUpdate: true,
             on: {
                 slideNextTransitionEnd: () => {
-                    if(this.state.currentPage < this.state.posts.length - 1 ) {
+                    if(this.state.postIndex < this.state.posts.length - 1 ) {
                         this.setState({
-                            currentPage: this.state.currentPage + 1,
-                            currentPostId: this.state.posts[this.state.currentPage+1].id,
-                            currentPostWriterId: this.state.posts[this.state.currentPage+1].writerid
+                            postIndex: this.state.postIndex + 1,
+                            currentPostId: this.state.posts[this.state.postIndex+1].id,
+                            currentPostWriterId: this.state.posts[this.state.postIndex+1].writerid
                         });
+                    }
+                    /*
+                        게시물은 페이지 단위로 불러온다.
+                        0페이지부터 시작하며 최대로 탐색한 페이지의 다음 페이지까지 불러온다.
+                        초기에는 0, 1페이지를 불러오며 0-9번째 게시물까지 불러오게된다.
+                        게시물을 탐색하다가 1페이지의 첫 번째인 5번 게시물을 탐색하게 되면
+                        다음 2페이지인 10-14 게시물을 불러들인다.
+                    */
+                    if(this.state.postIndex + 1 > this.state.loadedPage * PAGE_SIZE) {
+                        this.getNextPage();         
                     }
                 },
                 slidePrevTransitionEnd: () => {
-                    if(this.state.currentPage > 0) {
+                    if(this.state.postIndex > 0) {
                         this.setState({
-                            currentPage: this.state.currentPage - 1,
-                            currentPostId: this.state.posts[this.state.currentPage-1].id,
-                            currentPostWriterId: this.state.posts[this.state.currentPage-1].writerid
+                            postIndex: this.state.postIndex - 1,
+                            currentPostId: this.state.posts[this.state.postIndex-1].id,
+                            currentPostWriterId: this.state.posts[this.state.postIndex-1].writerid
                         });
                     }
                 }

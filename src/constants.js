@@ -17,6 +17,8 @@ export const WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE = 1024 * 1024; // 1MB
 export const VIDEO_SRC = 'https://vidflow.ryrie.xyz/videos/';
 // export const VIDEO_SRC = '';
 
+export const PAGE_SIZE = 5;
+
 export const NAME_MIN_LENGTH = 3;
 export const NAME_MAX_LENGTH = 10;
 

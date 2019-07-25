@@ -27,10 +27,12 @@ class Post extends Component {
                 <Icons
                     currentUser={this.props.currentUser}
                     postId={this.props.post.id}
+                    postWriterId={this.props.post.writerid}
                     showModal={this.props.showModal}
                     numComment={this.props.post.num_comment}
                     numLike={this.props.post.num_like}
 
+                    isFollowed={this.props.post.isfollowed}
                     isLiked={this.props.post.isliked}
                     myPost={this.props.currentUser && 
                         this.props.post.writerid === this.props.currentUser.id}

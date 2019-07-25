@@ -125,7 +125,7 @@ class Write extends Component {
 
     render() {
         return (
-            <div classNayme="write">
+            <div className="write">
                 <NavBar
                     className="write-navbar"
                     icon={<Icon type="left" />}

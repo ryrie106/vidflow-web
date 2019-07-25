@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots, FaEllipsisH } from 'react-icons/fa';
-import { likePost, unlikePost } from '../../utils/APIUtils';
+import { likePost, unlikePost, followUser, unfollowUser } from '../../utils/APIUtils';
 
 import './Icons.css';
 
@@ -29,12 +29,24 @@ class Icons extends Component {
         unlikePost(this.props.postId);
     }
 
+    followUser = () => {
+        followUser(this.props.postWriterId);
+    }
+
+    unfollowUser = () => {
+        unfollowUser(this.props.postWriterId);
+    }
+
+    
+
     render() {
         return (
             <div className="icons">
                 <div className="follow-button">
-                    <FaPlusCircle className="icons-pic" onClick={this.props.sendMessage("제발좀되라좀")}/>
-                </div>
+                    {this.props.isFollowed ?
+                    <FaPlusCircle className="icons-pic" style={{color:"red"}} onClick={this.props.unfollowUser} /> :
+                    <FaPlusCircle className="icons-pic" onClick={this.props.followUser} />}
+                    </div>
                 <div className="like-button">
                     {this.props.isLiked ?
                     <FaHeart className="icons-pic" style={{color:"red"}} onClick={this.unlikePost}/> :
