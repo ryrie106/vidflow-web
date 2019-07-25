@@ -41,7 +41,7 @@ class Main extends Component {
       return (
         <div className="main">
             <TabBar
-                id="tabbar-main"
+                class="tabbar-main"
                 unselectedTintColor="#949494"
                 tintColor="#33A3F4"
                 barTintColor="transparent"
@@ -110,7 +110,9 @@ class Main extends Component {
                     }                 
                 }}
             >
-                <My onLogout={this.props.onLogout} />
+                <My 
+                    onLogout={this.props.onLogout}
+                    currentUser={this.props.currentUser} />
             </TabBar.Item>
           </TabBar>
         </div>

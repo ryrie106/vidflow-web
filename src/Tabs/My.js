@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
 import { Button, Tabs } from 'antd-mobile';
+
+import { getUserInfo } from '../utils/APIUtils';
 import './My.css';
 
+/**
+ * Component My (App -> Main -> My)
+ * 1.
+ *
+ * Prop list
+ * currentUser: {id: number, email: string, name: string}
+ * onLogout: () => void
+ */
 class My extends Component {
     
     constructor(props) {
         super(props);
         this.state = {
             name: '',
-            introduce: '',
-            numlike: 0,
-            numfollowing: 0,
-            numfollower: 0
+            introduction: '',
+            numLikes: 0,
+            numFollowing: 0,
+            numFollower: 0
         }
     }
 
     componentDidMount() {
-        this.setState({
-            name: '이름임',
-            introduce: '탭하여 프로필에 자기소개 추가.아아아아아아아아아아아아아아아아아아ㅏ아아아아아아아아아아아아아아아아아아..',
-        });
+        getUserInfo(this.props.currentUser.id).then(response => {
+            this.setState({
+                name: response.name,
+                introduction: response.introduction,
+                numLikes: response.numLikes,
+                numFollowing: response.numFollowing,
+                numFollower: response.numFollower
+            })
+        })
     }
 
     render() {
@@ -53,11 +68,11 @@ class My extends Component {
                     </div>
 
                     <div className="my-introduce">
-                        {this.state.introduce}
+                        {this.state.introduction === "" ? "자기 소개를 입력해보세요" : this.state.introduction}
                     </div>
                     
                     <div className="my-stat">
-                        {this.state.numlike}좋아요 {this.state.numfollowing}팔로잉 {this.state.numfollower}팔로워
+                        {this.state.numLikes}좋아요 {this.state.numFollowing}팔로잉 {this.state.numFollower}팔로워
                     </div>
                 </div>
                 <div className="my-content">

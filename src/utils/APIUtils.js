@@ -64,6 +64,13 @@ export function getPosts(postId, page) {
     });
 }
 
+export function getUserInfo(userId) {
+    return request({
+        url: API_BASE_URL + "/user/info/" + userId,
+        method: 'GET'
+    })
+}
+
 export function getPostByPostId(postId) {
     return request({
         url: API_BASE_URL + "/posts",
