@@ -22,7 +22,7 @@ class Write extends Component {
         this.setState({
             content: e
         })
-    }
+    };
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -37,7 +37,7 @@ class Write extends Component {
         this.setState({
             currentChunk: 0,
             numChunks: Math.ceil(this.props.selectedFile.size / WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE)
-        })
+        });
         ws.binaryType = "arraybuffer";
 
         ws.onopen = (e) => {
@@ -48,9 +48,9 @@ class Write extends Component {
                 fileSize:  this.props.selectedFile.size,
                 numChunks: this.state.numChunks,
                 extension: this.props.selectedFile.name.split(".").pop().toLowerCase()
-            }
+            };
             ws.send(JSON.stringify(sendmsg));
-        }
+        };
 
         ws.onmessage = (e) => {
 
@@ -92,14 +92,14 @@ class Write extends Component {
                         sendmsg = {
                             type: "TRANSFER_COMPLETE",
                             userid: "this.props.userid"
-                        }
+                        };
                         ws.send(sendmsg);
                         this.setState({
                             numChunks: 0,
                             currentChunk: 0,
                             uploadAvailable: true,
                             videoSrc: msg.fileName
-                        })
+                        });
                         this.submit();
                         break;
                     default:
@@ -107,7 +107,7 @@ class Write extends Component {
                 }
             }
         }
-    }
+    };
     submit= () => {
         const postRequest = Object.assign({}, {
             "videoSrc": this.state.videoSrc,
@@ -121,13 +121,13 @@ class Write extends Component {
         }).catch(error => {
             Toast.error("작성 실패!", 1);
         })
-    }
+    };
 
     render() {
         return (
             <div className="write">
                 <NavBar
-                    className="write-navbar"
+                    id="write-navbar"
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.push("/videoedit")}
 

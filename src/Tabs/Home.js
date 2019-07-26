@@ -40,7 +40,7 @@ class Home extends Component {
     async componentDidMount() {
         await getPostId().then(response => {
             this.setState({startPostId: response.message});
-        })
+        });
         if(this.state.startPostId !== 0) {
             await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
                 this.setState( prevState => ({
@@ -48,7 +48,7 @@ class Home extends Component {
                     currentPostId: response[0].id,
                     currentPostWriterId: response[0].writerid
                 }));
-            })
+            });
             await this.getNextPage(); 
         }
     }
@@ -63,48 +63,46 @@ class Home extends Component {
                 }));
             }
         })
-    }
+    };
 
     greeting = (message) => {
         console.log(message);
         Toast.info(JSON.parse(message.body).msg, 1);
-    }
+    };
 
     sendMessage = (msg) => () => {
         this.stompClient.sendMessage("/app/hello", JSON.stringify({'msg': msg}));
-    }
+    };
 
     addVideoRef = (ref) => () => {
         this.state.videorefs.push(ref);
-    }
+    };
 
     showModal = key => (e) => {
         e.preventDefault();
         this.setState({
             [key]: true,
         });
-    }
+    };
 
     closeModal = key => () => {
         this.setState({
             [key]: false,
         });
-    }
+    };
 
     showAlert = () => {
         Modal.alert('삭제', '정말로 삭제하시겠습니까', [
             {text: 'Cancel', onPress: () => {}, style: 'default'},
             {text: 'OK', onPress: () => {
-                deletePost(this.state.currentPostId).then((response) => {
-                    if(response.success)
-                        window.location.reload();
-                    else
-                        Toast.fail(response.message, 1);
-                });
-
-            }}
+                        deletePost(this.state.currentPostId).then((response) => {
+                            if (response.success) window.location.reload();
+                            else Toast.fail(response.message, 1);
+                        });
+                    }
+            }
         ])
-    }
+    };
 
     render() {
         // const params: react-id-swiper의 Swiper Component에 전달할 parameter이다.

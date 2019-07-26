@@ -12,7 +12,7 @@
     align-content: stretch; */
 }
 
-.write-navbar {
+#write-navbar {
     position: absolute;
     width: 100%;
     background: transparent;

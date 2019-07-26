@@ -1,0 +1,16 @@
+.notice {
+    margin-bottom: 50px;
+}
+
+#notice-navbar {
+    width: 100%;
+    top: 0;
+    background: #161824;
+    position: fixed;
+    z-index: 100;
+}
+
+#notice-list {
+    margin-top: 45px;
+    z-index: 10;
+}

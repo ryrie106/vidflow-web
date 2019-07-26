@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { Button, Tabs } from 'antd-mobile';
 
 import { getUserInfo } from '../utils/APIUtils';
-import './My.css';
+import UserInfoVideo from '../components/UserInfo/UserInfoVideo';
+import './UserInfo.css';
 
 /**
- * Component My (App -> Main -> My)
+ * Component UserInfo (App -> Main -> UserInfo)
  * 1.
  *
  * Prop list
  * currentUser: {id: number, email: string, name: string}
  * onLogout: () => void
  */
-class My extends Component {
+class UserInfo extends Component {
     
     constructor(props) {
         super(props);
@@ -26,6 +27,7 @@ class My extends Component {
     }
 
     componentDidMount() {
+        if(this.props.currentUser) {
         getUserInfo(this.props.currentUser.id).then(response => {
             this.setState({
                 name: response.name,
@@ -36,6 +38,7 @@ class My extends Component {
             })
         })
     }
+    }
 
     render() {
 
@@ -45,48 +48,51 @@ class My extends Component {
         ];
         
         return (
-            <div className="my">
-                <div className="my-head-icons">
-                    <div className="my-thumbnail">
-                        <div className="my-thumbnail-name">
-                            {this.state.name.charAt(0)}
+            <div className="userinfo">
+                <div className="userinfo-head-icons">
+                    <div className="userinfo-thumbnail">
+                        <div className="userinfo-thumbnail-name">
+                            {(this.state.name) ? this.state.name.charAt(0) : ''}
                         </div>
                     </div>
-                    <div className="my-head-buttons">
+                    <div className="userinfo-head-buttons">
                         <Button
-                            id="my-edit-profile"
+                            id="userinfo-edit-profile"
                             size='small'>프로필수정</Button>
                         <Button
-                            id="my-logout" 
+                            id="userinfo-logout" 
                             size='small'
                             onClick={this.props.onLogout}>로그아웃</Button>
                     </div>    
                 </div>
-                <div className="my-head-info">
-                    <div className="my-name">
+                <div className="userinfo-head-info">
+                    <div className="userinfo-name">
                         {this.state.name}
                     </div>
 
-                    <div className="my-introduce">
+                    <div className="userinfo-introduce">
                         {this.state.introduction === "" ? "자기 소개를 입력해보세요" : this.state.introduction}
                     </div>
                     
-                    <div className="my-stat">
-                        {this.state.numLikes}좋아요 {this.state.numFollowing}팔로잉 {this.state.numFollower}팔로워
+                    <div className="userinfo-stat">
+                        {this.state.numLikes} 좋아요 {this.state.numFollowing} 팔로잉 {this.state.numFollower} 팔로워
                     </div>
                 </div>
-                <div className="my-content">
-                <Tabs tabs={tabs}
-                    
+                <div className="userinfo-content">
+                <Tabs
+                    tabs={tabs}
                     initialPage={1}
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                    tabBarBackgroundColor="transparent"
+                    tabBarActiveTextColor="white"
+                    tabBarInactiveTextColor="gray"
                 >
                 <div >
-                    Content of first tab
+                    <UserInfoVideo />
                 </div>
                 <div >
-                    Content of second tab
+                    <UserInfoVideo />                
                 </div>
                 </Tabs>
                 </div>
@@ -95,4 +101,4 @@ class My extends Component {
     }
 }
 
-export default My;
+export default UserInfo;

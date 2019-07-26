@@ -5,7 +5,7 @@ import { TabBar, Toast } from 'antd-mobile';
 import Home from '../Tabs/Home';
 import Search from '../Tabs/Search';
 import Notice from '../Tabs/Notice';
-import My from '../Tabs/My';
+import UserInfo from '../Tabs/UserInfo';
 import './Main.css';
 
 /**
@@ -31,11 +31,15 @@ class Main extends Component {
         Toast.info("위 아래로 움직여보세요", 2);
     }
 
-    onPress = (tab) => () => {
-        this.setState({
-            selectedTab: tab
-        })
-    }
+    onPress = (login, tab) => () => {
+        if(login && !this.props.currentUser) {
+            this.props.showLoginModal();
+        } else {
+            this.setState({
+                selectedTab: tab
+            })
+        }
+    };
   
     render() {
       return (
@@ -52,7 +56,7 @@ class Main extends Component {
                 icon={<FaHome className="tabbar-main-pic" />}
                 selectedIcon={<FaHome className="tabbar-main-pic" />}
                 selected={this.state.selectedTab === 'homeTab'}
-                onPress={this.onPress('homeTab')}
+                onPress={this.onPress(false, 'homeTab')}
                 data-seed="logId"
             >
                 <Home 
@@ -64,7 +68,7 @@ class Main extends Component {
                 selectedIcon={<FaGlobe className="tabbar-main-pic"/>}
                 key="Search"
                 selected={this.state.selectedTab === 'searchTab'}
-                onPress={this.onPress('searchTab')}
+                onPress={this.onPress(false, 'searchTab')}
                 data-seed="logId1"
             >
                 <Search />
@@ -90,7 +94,7 @@ class Main extends Component {
                 selectedIcon={<FaComment className="tabbar-main-pic" />}
                 key="Notice"
                 selected={this.state.selectedTab === 'noticeTab'}
-                onPress={this.onPress('noticeTab')}
+                onPress={this.onPress(true, 'noticeTab')}
             >
                 <Notice />
             </TabBar.Item>
@@ -98,19 +102,11 @@ class Main extends Component {
             <TabBar.Item
                 icon={<FaUser className="tabbar-main-pic" />}
                 selectedIcon={<FaUser className="tabbar-main-pic" />}
-                key="my"
-                selected={this.state.selectedTab === 'myTab'}
-                onPress={() => {
-                    if(!this.props.currentUser) {
-                        this.props.showLoginModal();
-                    } else {
-                        this.setState({
-                            selectedTab: 'myTab',
-                        });
-                    }                 
-                }}
+                key="userinfo"
+                selected={this.state.selectedTab === 'userinfoTab'}
+                onPress={this.onPress(true, 'userinfoTab')}
             >
-                <My 
+                <UserInfo 
                     onLogout={this.props.onLogout}
                     currentUser={this.props.currentUser} />
             </TabBar.Item>

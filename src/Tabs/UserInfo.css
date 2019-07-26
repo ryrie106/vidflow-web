@@ -1,24 +1,25 @@
-.my {
+.userinfo {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    margin-bottom: 50px;
 }
 
-.my-head-icons {
+.userinfo-head-icons {
     display: flex;
-    position: absolute;
+    /* position: absolute; */
     top: 50px;
 
     padding-left: 15px;
 }
 
-.my-thumbnail {
+.userinfo-thumbnail {
     height: 100px;
     width: 100px;
     border-radius: 100px;
     background: #333;
 }
 
-.my-thumbnail-name {
+.userinfo-thumbnail-name {
     width: 100%;
     text-align: center;
     color: white;
@@ -26,35 +27,35 @@
     line-height: 100px;
 }
 
-.my-head-buttons {
+.userinfo-head-buttons {
     display: flex;
     margin: auto;
 }
 
-.my-head-info {
-    position: absolute;
+.userinfo-head-info {
+    /* position: absolute; */
     top: 170px;
     width: 100%;
     padding-left: 15px;
 }
 
-.my-name {
+.userinfo-name {
     color: white;
     font-size: 25px;
 }
 
-.my-introduce {
+.userinfo-introduce {
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-.my-stat {
+.userinfo-stat {
     color: white;
 }
 
-.my-content {
-    position: absolute;
+.userinfo-content {
+    /* position: absolute; */
     top: 320px;
     width: 100%;
 }

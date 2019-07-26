@@ -3,7 +3,6 @@ import { Route, withRouter } from 'react-router-dom';
 import { Button, Modal, Toast } from 'antd-mobile';
 
 import { getCurrentUser } from './utils/APIUtils';
-// import stompClient from 'utils/websocket-listener';
 import { ACCESS_TOKEN } from './constants';
 
 import Login from './Pages/Login';
@@ -59,7 +58,7 @@ class App extends Component {
                 loading: false
             });  
         });
-    }
+    };
 
     onLogout = () => {
         localStorage.removeItem(ACCESS_TOKEN);
@@ -67,31 +66,31 @@ class App extends Component {
             currentUser: null,
         });
         window.location.reload();
-    }
+    };
 
     onLogin = () => {
         this.loadCurrentUser();
         this.props.history.push("/");
         Toast.info('로그인 성공!', 1);
-    }
+    };
 
     onChangeVideoSelector = (file) => {
         this.setState({
             selectedFile: file
         })
-    }
+    };
 
     showLoginModal = () => {
         this.setState({
             loginModal: true
         });
-    }
+    };
 
     closeLoginModal = () => {
         this.setState({
             loginModal: false
         });
-    }
+    };
 
     render() {
         return (
