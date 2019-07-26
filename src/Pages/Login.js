@@ -14,7 +14,7 @@ class LoginForm extends Component {
         super(props);
         this.state = {
             height: 0
-        }
+        };
         this.loginRef = React.createRef();
     }
 
@@ -22,15 +22,15 @@ class LoginForm extends Component {
     onFocus = (height) => () => {
         setTimeout(() => {
             this.setState({
-            height: document.getElementById("login-button").offsetTop
-            })
+                height: document.getElementById("login-button").offsetTop
+            });
             this.scrollDown(height);
         }, 400);
-    }
+    };
 
     onBlur = () => {
         this.scrollUp();
-    }
+    };
 
     scrollDown = (height) => {
         if(this.state.height < height) {
@@ -38,12 +38,12 @@ class LoginForm extends Component {
             this.loginRef.current.style.height = "calc(100vh + " + offset + "px)";
             window.scrollTo(0, offset);
         }
-    }
+    };
 
     scrollUp = () => {
         window.scrollTo(0, 0);
         this.loginRef.current.style.height = "100vh";
-    }
+    };
 
     onSubmit = () => {
         this.props.form.validateFields((err, values) => {

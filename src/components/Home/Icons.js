@@ -23,19 +23,19 @@ class Icons extends Component {
 
     likePost = () => {
         likePost(this.props.postId);
-    }
+    };
 
     unlikePost = () => {
         unlikePost(this.props.postId);
-    }
+    };
 
     followUser = () => {
         followUser(this.props.postWriterId);
-    }
+    };
 
     unfollowUser = () => {
         unfollowUser(this.props.postWriterId);
-    }
+    };
 
     
 

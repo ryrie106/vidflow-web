@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Tabs } from 'antd-mobile';
 
-import { getUserInfo } from '../utils/APIUtils';
-import UserInfoVideo from '../components/UserInfo/UserInfoVideo';
+import { getUserInfo, getUserPosts, getUserLikes } from '../utils/APIUtils';
+import UserPosts from '../components/UserInfo/UserPosts';
 import './UserInfo.css';
 
 /**
- * Component UserInfo (App -> Main -> UserInfo)
+ * Component UserInfo ( App -> Main -> UserInfo )
  * 1.
  *
- * Prop list
- * currentUser: {id: number, email: string, name: string}
- * onLogout: () => void
+ * props
+ * 1. currentUser: {id: number, email: string, name: string}
+ * 2. onLogout: () => void
  */
 class UserInfo extends Component {
     
@@ -22,22 +22,34 @@ class UserInfo extends Component {
             introduction: '',
             numLikes: 0,
             numFollowing: 0,
-            numFollower: 0
+            numFollower: 0,
+            userPosts: [],
+            userLikes: []
         }
     }
 
     componentDidMount() {
         if(this.props.currentUser) {
-        getUserInfo(this.props.currentUser.id).then(response => {
-            this.setState({
-                name: response.name,
-                introduction: response.introduction,
-                numLikes: response.numLikes,
-                numFollowing: response.numFollowing,
-                numFollower: response.numFollower
-            })
-        })
-    }
+            getUserInfo(this.props.currentUser.id).then(response => {
+                this.setState({
+                    name: response.name,
+                    introduction: response.introduction,
+                    numLikes: response.numLikes,
+                    numFollowing: response.numFollowing,
+                    numFollower: response.numFollower
+                })
+            });
+            getUserPosts(this.props.currentUser.id).then(response => {
+                this.setState({
+                    userPosts: response
+                })
+            });
+            getUserLikes(this.props.currentUser.id).then(response => {
+                this.setState({
+                    userLikes: response
+                })
+            });
+        }
     }
 
     render() {
@@ -81,7 +93,7 @@ class UserInfo extends Component {
                 <div className="userinfo-content">
                 <Tabs
                     tabs={tabs}
-                    initialPage={1}
+                    initialPage={0}
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     tabBarBackgroundColor="transparent"
@@ -89,10 +101,10 @@ class UserInfo extends Component {
                     tabBarInactiveTextColor="gray"
                 >
                 <div >
-                    <UserInfoVideo />
+                    <UserPosts posts={this.state.userPosts}/>
                 </div>
                 <div >
-                    <UserInfoVideo />                
+                    <UserPosts posts={this.state.userLikes}/>
                 </div>
                 </Tabs>
                 </div>

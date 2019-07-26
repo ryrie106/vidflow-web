@@ -21,10 +21,11 @@ class Main extends Component {
      * showLoginModal 
      */
     constructor(props) {
-      super(props);
-      this.state = {
-        selectedTab: 'homeTab',
-      };
+        super(props);
+        this.state = {
+            selectedTab: 'homeTab',
+            tabbarColor: 'transparent'
+        };
     }
 
     componentDidMount() {
@@ -32,6 +33,16 @@ class Main extends Component {
     }
 
     onPress = (login, tab) => () => {
+        if(tab === 'homeTab') {
+            this.setState({
+                tabbarColor: 'transparent'
+            });
+        } else {
+            this.setState({
+                tabbarColor: 'black'
+            });
+        }
+
         if(login && !this.props.currentUser) {
             this.props.showLoginModal();
         } else {
@@ -46,9 +57,9 @@ class Main extends Component {
         <div className="main">
             <TabBar
                 class="tabbar-main"
-                unselectedTintColor="#949494"
-                tintColor="#33A3F4"
-                barTintColor="transparent"
+                unselectedTintColor="gray"
+                tintColor="white"
+                barTintColor={this.state.tabbarColor}
                 hidden={this.state.hidden}
             >
             <TabBar.Item

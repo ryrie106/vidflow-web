@@ -113,7 +113,11 @@ class App extends Component {
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
-            
+
+                <Route path="/user/{}"
+                    />
+
+                <Route path="/post/{}" />
                 <Modal
                     popup
                     visible={this.state.loginModal}

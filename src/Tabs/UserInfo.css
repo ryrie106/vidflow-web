@@ -7,8 +7,9 @@
 .userinfo-head-icons {
     display: flex;
     /* position: absolute; */
-    top: 50px;
-
+    /*top: 50px;*/
+    margin-top: 50px;
+    margin-bottom: 20px;
     padding-left: 15px;
 }
 
@@ -34,9 +35,10 @@
 
 .userinfo-head-info {
     /* position: absolute; */
-    top: 170px;
+    /*top: 170px;*/
     width: 100%;
     padding-left: 15px;
+    margin-bottom: 20px;
 }
 
 .userinfo-name {
@@ -56,6 +58,6 @@
 
 .userinfo-content {
     /* position: absolute; */
-    top: 320px;
+    /*top: 320px;*/
     width: 100%;
 }

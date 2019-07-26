@@ -71,6 +71,20 @@ export function getUserInfo(userId) {
     })
 }
 
+export function getUserPosts(userId) {
+    return request({
+        url: API_BASE_URL + "/posts/user/" + userId,
+        method: 'GET'
+    })
+}
+
+export function getUserLikes(userId) {
+    return request({
+        url: API_BASE_URL + "/posts/likes/" + userId,
+        method: 'GET'
+    })
+}
+
 export function getPostByPostId(postId) {
     return request({
         url: API_BASE_URL + "/posts",
