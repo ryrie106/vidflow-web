@@ -177,7 +177,7 @@ export function queryPostContent(content) {
 
 export function queryUserName(name) {
     return request({
-        url: API_BASE_URL + "/users/query?name=" + name,
+        url: API_BASE_URL + "/user/query?name=" + name,
         method: 'GET'
     })
 }

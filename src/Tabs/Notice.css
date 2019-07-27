@@ -14,3 +14,11 @@
     margin-top: 45px;
     z-index: 10;
 }
+
+.am-list-item {
+    background: transparent;
+}
+
+.am-list-body {
+    background: transparent;
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, SearchBar, Tabs } from 'antd-mobile';
 
 import UserPosts from '../components/UserInfo/UserPosts';
+import UserList from '../components/Search/UserList';
 import { queryPostContent, queryUserName } from '../utils/APIUtils';
 import './Search.css';
 
@@ -24,6 +25,11 @@ class Search extends Component {
         queryPostContent(this.state.value).then(response => {
             this.setState({
                 videoResults: response
+            });
+        });
+        queryUserName(this.state.value).then(response => {
+            this.setState({
+                userResults: response
             });
         });
     };
@@ -57,12 +63,12 @@ class Search extends Component {
                       tabBarInactiveTextColor="gray"
                 >
                     <div>
-                        사용자 검색
+                        <UserList users={this.state.userResults}/>
                     </div>
                     <div>
                         <UserPosts columnNum={2} posts={this.state.videoResults} />
                     </div>
-                    <div>
+                    <div >
                         해시테그 검색
                     </div>
                 </Tabs>
