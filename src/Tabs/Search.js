@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { SearchBar, Tabs } from 'antd-mobile';
+import { Button, SearchBar, Tabs } from 'antd-mobile';
 
+import UserPosts from '../components/UserInfo/UserPosts';
+import { queryPostContent, queryUserName } from '../utils/APIUtils';
 import './Search.css';
 
 class Search extends Component {
@@ -8,16 +10,25 @@ class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            userResults: [],
+            videoResults: [],
         }
     }
     
-    onChange= (value) => {
-        this.setState({ value });
+    onChange = (value) => {
+        this.setState({ value: value });
+    };
+
+    onClick = () => {
+        queryPostContent(this.state.value).then(response => {
+            this.setState({
+                videoResults: response
+            });
+        });
     };
 
     render() {
-        
         const tabs = [
             {title: '사용자', sub: '1'},
             {title: '동영상', sub: '2'},
@@ -25,10 +36,20 @@ class Search extends Component {
         ];
         
         return (
-            <div className="search">
-                <SearchBar />
+            <div id="search">
+                <div id="search-top">
+                <SearchBar
+                    className="search-bar"
+                    onChange={this.onChange}
+                    cancelText="지워"/>
+                <Button
+                    id="search-submit"
+                    onClick={this.onClick}>
+                    검색
+                </Button>
+                </div>
                 <Tabs tabs={tabs}
-                      initialPage={1}
+                      initialPage={0}
                       onChange={(tab, index) => { console.log('onChange', index, tab); }}
                       onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                       tabBarBackgroundColor="transparent"
@@ -39,7 +60,7 @@ class Search extends Component {
                         사용자 검색
                     </div>
                     <div>
-                        동영상 검색
+                        <UserPosts columnNum={2} posts={this.state.videoResults} />
                     </div>
                     <div>
                         해시테그 검색

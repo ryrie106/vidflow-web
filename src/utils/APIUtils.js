@@ -85,9 +85,9 @@ export function getUserLikes(userId) {
     })
 }
 
-export function getPostByPostId(postId) {
+export function getPostById(postId) {
     return request({
-        url: API_BASE_URL + "/posts",
+        url: API_BASE_URL + "/posts/" + postId,
         method: 'GET'
     });
 }
@@ -165,6 +165,20 @@ export function unlikePost(postId) {
     return request({
         url: API_BASE_URL + "/posts/like/" + postId,
         method: 'DELETE'
+    })
+}
+
+export function queryPostContent(content) {
+    return request({
+        url: API_BASE_URL + "/posts/query?content=" + content,
+        method: 'GET'
+    })
+}
+
+export function queryUserName(name) {
+    return request({
+        url: API_BASE_URL + "/users/query?name=" + name,
+        method: 'GET'
     })
 }
 

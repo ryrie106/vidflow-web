@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { FaPlusCircle, FaHeart, FaShareAlt, FaCommentDots, FaEllipsisH } from 'react-icons/fa';
-import { likePost, unlikePost, followUser, unfollowUser } from '../../utils/APIUtils';
+import { NavLink } from 'react-router-dom';
 
+import { likePost, unlikePost } from '../../utils/APIUtils';
 import './Icons.css';
 
 /**
@@ -13,6 +14,7 @@ import './Icons.css';
  * Prop list
  * currentUser : 
  * postId: number
+ * postWriterId: number
  * showModal : (key) => () => void
  * numComment : number
  * numLike : number
@@ -29,24 +31,14 @@ class Icons extends Component {
         unlikePost(this.props.postId);
     };
 
-    followUser = () => {
-        followUser(this.props.postWriterId);
-    };
-
-    unfollowUser = () => {
-        unfollowUser(this.props.postWriterId);
-    };
-
-    
-
     render() {
         return (
             <div className="icons">
                 <div className="follow-button">
-                    {this.props.isFollowed ?
-                    <FaPlusCircle className="icons-pic" style={{color:"red"}} onClick={this.props.unfollowUser} /> :
-                    <FaPlusCircle className="icons-pic" onClick={this.props.followUser} />}
-                    </div>
+                    <NavLink className="icons-pic" to={`/user/${this.props.postWriterId}`}>
+                        <FaPlusCircle className="icons-pic" />
+                    </NavLink>
+                </div>
                 <div className="like-button">
                     {this.props.isLiked ?
                     <FaHeart className="icons-pic" style={{color:"red"}} onClick={this.unlikePost}/> :

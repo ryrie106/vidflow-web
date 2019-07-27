@@ -1,3 +1,20 @@
-.search {
+#search {
     
+}
+
+#search-top {
+    display: flex;
+}
+
+.search-bar {
+    width: calc(100% - 75px);
+    background: transparent;
+}
+
+#search-submit {
+    width: 75px;
+    height: 44px;
+    color: red;
+    background: transparent;
+    border-style: hidden;
 }

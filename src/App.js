@@ -12,6 +12,8 @@ import VideoEdit from './Pages/VideoEdit';
 import Write from './Pages/Write';
 import './App.css';
 
+import UserInfo from './Tabs/UserInfo';
+import PostInfo from './Pages/PostInfo';
 
 /**
  * Component App
@@ -22,9 +24,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            socket: null,
-
-            currentUser: null,
+            currentUser: {
+                id: 0,
+                email: 'guest',
+                name: 'guest'
+            },
             loading: false,
             
             // Main Page
@@ -114,10 +118,16 @@ class App extends Component {
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
                 <Route path="/signup" component={Signup} />
 
-                <Route path="/user/{}"
-                    />
+                <Route path="/user/:userId"
+                    render={(props) => <UserInfo
+                                            currentUser={this.state.currentUser}
+                                            onLogout={this.onLogout}
+                                            {...props} />}/>
 
-                <Route path="/post/{}" />
+                <Route path="/post/:postId"
+                    render={(props) => <PostInfo
+                                            currentUser={this.state.currentUser}
+                                            {...props} />}/>
                 <Modal
                     popup
                     visible={this.state.loginModal}

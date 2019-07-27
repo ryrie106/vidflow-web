@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Tabs } from 'antd-mobile';
+import { Button, Icon, NavBar, Tabs } from 'antd-mobile';
 
 import { getUserInfo, getUserPosts, getUserLikes } from '../utils/APIUtils';
 import UserPosts from '../components/UserInfo/UserPosts';
@@ -14,7 +14,6 @@ import './UserInfo.css';
  * 2. onLogout: () => void
  */
 class UserInfo extends Component {
-    
     constructor(props) {
         super(props);
         this.state = {
@@ -24,13 +23,30 @@ class UserInfo extends Component {
             numFollowing: 0,
             numFollower: 0,
             userPosts: [],
-            userLikes: []
+            userLikes: [],
+            myInfo: false
         }
     }
 
     componentDidMount() {
-        if(this.props.currentUser) {
-            getUserInfo(this.props.currentUser.id).then(response => {
+        let id;
+        // url에 parameter를 가지고 routing되면 this.props.match를 가진다.
+        if(this.props.match) {
+            id = this.props.match.params.userId;
+            if(id === this.props.currentUser.id) {
+                this.setState({
+                    myInfo: true
+                })
+            }
+        } else {
+            id = this.props.currentUser.id;
+            this.setState({
+                myInfo: true
+            });
+        }
+
+        if(id !== 0) {
+            getUserInfo(id).then(response => {
                 this.setState({
                     name: response.name,
                     introduction: response.introduction,
@@ -39,12 +55,12 @@ class UserInfo extends Component {
                     numFollower: response.numFollower
                 })
             });
-            getUserPosts(this.props.currentUser.id).then(response => {
+            getUserPosts(id).then(response => {
                 this.setState({
                     userPosts: response
                 })
             });
-            getUserLikes(this.props.currentUser.id).then(response => {
+            getUserLikes(id).then(response => {
                 this.setState({
                     userLikes: response
                 })
@@ -53,14 +69,17 @@ class UserInfo extends Component {
     }
 
     render() {
-
         const tabs = [
             { title: '동영상', sub: '1' },
             { title: '좋아요', sub: '2' },
         ];
-        
         return (
             <div className="userinfo">
+                {this.props.match ?
+                <NavBar
+                    id="userinfo-navbar"
+                    icon={<Icon type="left"/>}
+                    onLeftClick={() => {this.props.history.goBack()}}/>:null}
                 <div className="userinfo-head-icons">
                     <div className="userinfo-thumbnail">
                         <div className="userinfo-thumbnail-name">
@@ -68,13 +87,28 @@ class UserInfo extends Component {
                         </div>
                     </div>
                     <div className="userinfo-head-buttons">
-                        <Button
-                            id="userinfo-edit-profile"
-                            size='small'>프로필수정</Button>
-                        <Button
-                            id="userinfo-logout" 
-                            size='small'
-                            onClick={this.props.onLogout}>로그아웃</Button>
+                        {this.state.myInfo ?
+                            <div>
+                            <Button
+                                id="userinfo-edit-profile"
+                                size='small'
+                                onClick={()=>{}}>
+                                프로필수정
+                            </Button>
+                            <Button
+                                id = "userinfo-logout"
+                                size='small'
+                                onClick={this.props.onLogout}>
+                                로그아웃
+                            </Button>
+                            </div>
+                            :
+                            <Button
+                                id="userinfo-follow"
+                                onClick={()=>{}}>
+                                팔로우하기
+                            </Button>
+                        }
                     </div>    
                 </div>
                 <div className="userinfo-head-info">
@@ -101,10 +135,10 @@ class UserInfo extends Component {
                     tabBarInactiveTextColor="gray"
                 >
                 <div >
-                    <UserPosts posts={this.state.userPosts}/>
+                    <UserPosts columnNum={3} posts={this.state.userPosts}/>
                 </div>
                 <div >
-                    <UserPosts posts={this.state.userLikes}/>
+                    <UserPosts columnNum={3} posts={this.state.userLikes}/>
                 </div>
                 </Tabs>
                 </div>

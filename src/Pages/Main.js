@@ -43,7 +43,7 @@ class Main extends Component {
             });
         }
 
-        if(login && !this.props.currentUser) {
+        if(login && !this.props.currentUser.id) {
             this.props.showLoginModal();
         } else {
             this.setState({
@@ -91,7 +91,7 @@ class Main extends Component {
                 key="write"
                 selected={this.state.selectedTab === 'writeTab'}
                 onPress={() => {
-                    if(!this.props.currentUser) {
+                    if(!this.props.currentUser.id) {
                         this.props.showLoginModal();
                     } else {
                         this.props.history.push("/videoedit")

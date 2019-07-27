@@ -7,8 +7,9 @@ import { Grid } from 'antd-mobile';
  *
  * props
  * 1. posts :
+ * 2. columnNum : number
  */
-class UserPosts extends Component {
+ class UserPosts extends Component {
 
     render() {
         const data1 = Array.from(this.props.posts).map((post) => ({
@@ -17,7 +18,7 @@ class UserPosts extends Component {
         }));
 
         return (
-            <Grid data={data1} columnNum={3} itemStyle={{ height: '150px', background: 'rgba(0,0,0,.05)' }} />
+            <Grid data={data1} columnNum={this.props.columnNum} itemStyle={{ height: '150px', background: 'rgba(0,0,0,.05)' }} />
         );
     }
 }

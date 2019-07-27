@@ -4,6 +4,13 @@
     margin-bottom: 50px;
 }
 
+#userinfo-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: transparent;
+}
+
 .userinfo-head-icons {
     display: flex;
     /* position: absolute; */
