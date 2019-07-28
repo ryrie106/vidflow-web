@@ -196,6 +196,13 @@ export function unfollowUser(userId) {
     })
 }
 
+export function getNotifications(userId) {
+    return request({
+        url: API_BASE_URL + "/user/notification/" + userId,
+        method: 'GET'
+    });
+}
+
 export function checkNameAvailability(name) {
     return request({
         url: API_BASE_URL + "/user/checkNameAvailability?name=" + name,

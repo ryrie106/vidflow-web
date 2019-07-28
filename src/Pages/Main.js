@@ -4,7 +4,7 @@ import { TabBar, Toast } from 'antd-mobile';
 
 import Home from '../Tabs/Home';
 import Search from '../Tabs/Search';
-import Notice from '../Tabs/Notice';
+import Notification from '../Tabs/Notification';
 import UserInfo from '../Tabs/UserInfo';
 import './Main.css';
 
@@ -82,7 +82,7 @@ class Main extends Component {
                 onPress={this.onPress(false, 'searchTab')}
                 data-seed="logId1"
             >
-                <Search />
+                <Search/>
             </TabBar.Item>
             
             <TabBar.Item
@@ -103,11 +103,13 @@ class Main extends Component {
             <TabBar.Item
                 icon={<FaComment className="tabbar-main-pic" />}
                 selectedIcon={<FaComment className="tabbar-main-pic" />}
-                key="Notice"
-                selected={this.state.selectedTab === 'noticeTab'}
-                onPress={this.onPress(true, 'noticeTab')}
+                key="Notification"
+                selected={this.state.selectedTab === 'notificationTab'}
+                onPress={this.onPress(true, 'notificationTab')}
             >
-                <Notice />
+                <Notification
+                    currentUser={this.props.currentUser}
+                />
             </TabBar.Item>
             
             <TabBar.Item
