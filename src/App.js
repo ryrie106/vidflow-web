@@ -13,7 +13,7 @@ import Write from './Pages/Write';
 import './App.css';
 
 import UserInfo from './Tabs/UserInfo';
-import PostInfo from './Pages/PostInfo';
+import Home from './Tabs/Home';
 
 /**
  * Component App
@@ -124,8 +124,8 @@ class App extends Component {
                                             onLogout={this.onLogout}
                                             {...props} />}/>
 
-                <Route path="/post/:postId"
-                    render={(props) => <PostInfo
+                <Route path="/posts/:postId"
+                    render={(props) => <Home
                                             currentUser={this.state.currentUser}
                                             {...props} />}/>
                 <Modal

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { NavLink} from "react-router-dom";
+
 import { Grid } from 'antd-mobile';
 
 /**
@@ -14,11 +16,21 @@ import { Grid } from 'antd-mobile';
     render() {
         const data1 = Array.from(this.props.posts).map((post) => ({
             icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-            text: post.postId
+            text: post.postId,
+            id: post.postId
         }));
 
         return (
-            <Grid data={data1} columnNum={this.props.columnNum} itemStyle={{ height: '150px', background: 'rgba(0,0,0,.05)' }} />
+            <Grid data={data1}
+                  columnNum={this.props.columnNum}
+                  renderItem={ (item) => (
+                      <NavLink key={item.id} className="userposts-item" to={"/posts/" + item.id}>
+                          <div>
+                              <img src={item.icon} style={{height: "150px"}} alt="" />
+                          </div>
+                      </NavLink>
+                  )}
+            />
         );
     }
 }

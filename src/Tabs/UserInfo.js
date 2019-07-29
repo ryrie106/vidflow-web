@@ -19,15 +19,19 @@ class UserInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: 0,
+            myInfo: false,
+
+            following: false,
+
             name: '',
             introduction: '',
             numLikes: 0,
             numFollowing: 0,
             numFollower: 0,
+
             userPosts: [],
-            userLikes: [],
-            myInfo: false,
-            following: false
+            userLikes: []
         }
     }
 
@@ -36,7 +40,7 @@ class UserInfo extends Component {
         // url에 parameter를 가지고 routing되면 this.props.match를 가진다.
         // 자기 자신의 포스트인지, 아니라면 팔로우 되어 있는 유저인지 확인
         if(this.props.match) {
-            id = this.props.match.params.userId; 
+            id = parseInt(this.props.match.params.userId);
             if(id === this.props.currentUser.id) {
                 this.setState({
                     myInfo: true
@@ -54,6 +58,10 @@ class UserInfo extends Component {
                 myInfo: true
             });
         }
+
+        this.setState({
+            id: id
+        });
 
         if(id !== 0) {
             getUserInfo(id).then(response => {
@@ -100,7 +108,9 @@ class UserInfo extends Component {
                         {this.state.myInfo ?
                             <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
                             :
-                            <UserInfoHeadButtons following={this.state.following}/>
+                            <UserInfoHeadButtons
+                                userId={this.state.id}
+                                following={this.state.following}/>
                         }
                     </div>    
                 </div>

@@ -53,8 +53,8 @@ class Main extends Component {
     };
   
     render() {
-      return (
-        <div className="main">
+        return (
+            <div className="main">
             <TabBar
                 class="tabbar-main"
                 unselectedTintColor="gray"
@@ -75,9 +75,9 @@ class Main extends Component {
                     showLoginModal={this.props.showLoginModal}/>
             </TabBar.Item>
             <TabBar.Item
+                key="Search"
                 icon={<FaGlobe className="tabbar-main-pic"/>}
                 selectedIcon={<FaGlobe className="tabbar-main-pic"/>}
-                key="Search"
                 selected={this.state.selectedTab === 'searchTab'}
                 onPress={this.onPress(false, 'searchTab')}
                 data-seed="logId1"
@@ -86,9 +86,9 @@ class Main extends Component {
             </TabBar.Item>
             
             <TabBar.Item
+                key="write"
                 icon={<FaFolderPlus className="tabbar-main-pic"/>}
                 selectedIcon={<FaFolderPlus className="tabbar-main-pic"/>}
-                key="write"
                 selected={this.state.selectedTab === 'writeTab'}
                 onPress={() => {
                     if(!this.props.currentUser.id) {
@@ -101,11 +101,12 @@ class Main extends Component {
             </TabBar.Item>
             
             <TabBar.Item
+                key="notification"
                 icon={<FaComment className="tabbar-main-pic" />}
                 selectedIcon={<FaComment className="tabbar-main-pic" />}
-                key="Notification"
                 selected={this.state.selectedTab === 'notificationTab'}
                 onPress={this.onPress(true, 'notificationTab')}
+                data-seed="logId2"
             >
                 <Notification
                     currentUser={this.props.currentUser}
@@ -113,11 +114,12 @@ class Main extends Component {
             </TabBar.Item>
             
             <TabBar.Item
+                key="userinfo"
                 icon={<FaUser className="tabbar-main-pic" />}
                 selectedIcon={<FaUser className="tabbar-main-pic" />}
-                key="userinfo"
                 selected={this.state.selectedTab === 'userinfoTab'}
                 onPress={this.onPress(true, 'userinfoTab')}
+                data-seed="logId3"
             >
                 <UserInfo 
                     onLogout={this.props.onLogout}

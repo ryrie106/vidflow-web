@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
-import { Button, Modal, Toast } from 'antd-mobile';
+import {Button, Icon, Modal, NavBar, Toast} from 'antd-mobile';
 import SockJsClient from 'react-stomp';
 
-import { getPosts, getPostId, deletePost } from '../utils/APIUtils';
+import { getPostById, getPosts, getPostId, deletePost  } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
 import { PAGE_SIZE, WEBSOCKET_ENDPOINT } from '../constants';
@@ -38,6 +38,18 @@ class Home extends Component {
     }
 
     async componentDidMount() {
+
+        if(this.props.match) {
+            await getPostById(this.props.match.params.postId).then(response => {
+                this.setState( prevState => ({
+                    posts: [response],
+                    currentPostId: response.id,
+                    currentPostWriterId: response.writerid
+                }));
+            });
+            return;
+        }
+
         await getPostId().then(response => {
             this.setState({startPostId: response.message});
         });
@@ -153,6 +165,11 @@ class Home extends Component {
 
         return(
             <div className="home">
+                {this.props.match ?
+                    <NavBar
+                        id="home-navbar"
+                        icon={<Icon type="left"/>}
+                        onLeftClick={() => {this.props.history.goBack()}}/>:null}
                 <SockJsClient url={WEBSOCKET_ENDPOINT} topics={['/topic/greetings']}
                     onMessage={(msg) => { Toast.info(msg, 1); }}
                     ref={ (client) => { this.stompClient = client }} />

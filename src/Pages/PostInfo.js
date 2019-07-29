@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import Post from '../components/Home/Post';
 import { getPostById } from '../utils/APIUtils';
 
-
 /**
  * Component PostInfo ( App -> PostInfo )
  */
@@ -16,7 +15,6 @@ class PostInfo extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.postId);
         getPostById(this.props.match.params.postId).then(response => {
             this.setState({
                 post: response

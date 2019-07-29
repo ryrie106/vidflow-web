@@ -10,9 +10,8 @@ const Brief = Item.Brief;
 class UserList extends Component {
     render() {
         const userList = this.props.users.map(user =>
-            <NavLink className="userlist-item" to={`/user/${user.id}`}>
-                <Item key={user.id} align="top"
-                      thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" multipleLine>
+            <NavLink key={user.id} className="userlist-item" to={`/user/${user.id}`}>
+                <Item align="top" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" multipleLine>
                     {user.name} <Brief>{user.introduction}</Brief>
                 </Item>
             </NavLink>
