@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import { List } from 'antd-mobile';
 
+import './UserList.css';
+
 const Item = List.Item;
 const Brief = Item.Brief;
 

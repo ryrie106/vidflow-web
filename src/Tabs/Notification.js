@@ -5,7 +5,6 @@ import NotificationList from "../components/Notice/NotificationList";
 import { getNotifications } from "../utils/APIUtils";
 import './Notification.css';
 
-
 /**
  * Component Notification ( App -> Main -> Notification )
  * 1. 팔로우한 사용자의 글 작성 알림

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Icon, NavBar, Tabs } from 'antd-mobile';
+import { Icon, NavBar, Tabs } from 'antd-mobile';
 
-import { getUserInfo, getUserPosts, getUserLikes } from '../utils/APIUtils';
+import UserInfoHeadButtons from "../components/UserInfo/UserInfoHeadButtons";
+import MyUserInfoHeadButtons from "../components/UserInfo/MyUserInfoHeadButtons";
+import { getUserInfo, getUserPosts, getUserLikes, isFollowing } from '../utils/APIUtils';
 import UserPosts from '../components/UserInfo/UserPosts';
 import './UserInfo.css';
 
@@ -24,18 +26,26 @@ class UserInfo extends Component {
             numFollower: 0,
             userPosts: [],
             userLikes: [],
-            myInfo: false
+            myInfo: false,
+            following: false
         }
     }
 
     componentDidMount() {
         let id;
         // url에 parameter를 가지고 routing되면 this.props.match를 가진다.
+        // 자기 자신의 포스트인지, 아니라면 팔로우 되어 있는 유저인지 확인
         if(this.props.match) {
-            id = this.props.match.params.userId;
+            id = this.props.match.params.userId; 
             if(id === this.props.currentUser.id) {
                 this.setState({
                     myInfo: true
+                })
+            } else {
+                isFollowing(this.props.currentUser.id, id).then(response => {
+                    this.setState({
+                        following: response
+                    })
                 })
             }
         } else {
@@ -88,26 +98,9 @@ class UserInfo extends Component {
                     </div>
                     <div className="userinfo-head-buttons">
                         {this.state.myInfo ?
-                            <div>
-                            <Button
-                                id="userinfo-edit-profile"
-                                size='small'
-                                onClick={()=>{}}>
-                                프로필수정
-                            </Button>
-                            <Button
-                                id = "userinfo-logout"
-                                size='small'
-                                onClick={this.props.onLogout}>
-                                로그아웃
-                            </Button>
-                            </div>
+                            <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
                             :
-                            <Button
-                                id="userinfo-follow"
-                                onClick={()=>{}}>
-                                팔로우하기
-                            </Button>
+                            <UserInfoHeadButtons following={this.state.following}/>
                         }
                     </div>    
                 </div>

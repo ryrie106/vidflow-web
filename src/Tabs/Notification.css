@@ -11,11 +11,6 @@
     z-index: 100;
 }
 
-#notification-list {
-    margin-top: 45px;
-    z-index: 10;
-}
-
 .am-list-item {
     background: transparent;
 }

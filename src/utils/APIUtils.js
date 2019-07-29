@@ -3,7 +3,7 @@ import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
-    })
+    });
     
     if(localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
@@ -193,6 +193,13 @@ export function unfollowUser(userId) {
     return request({
         url: API_BASE_URL + "/user/follow/" + userId,
         method: 'DELETE'
+    })
+}
+
+export function isFollowing(from, to) {
+    return request({
+        url: API_BASE_URL + "/user/following/?from=" + from + "&to=" + to,
+        method: 'GET'
     })
 }
 
