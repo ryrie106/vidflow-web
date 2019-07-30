@@ -24,16 +24,14 @@ import './Icons.css';
 class Icons extends Component {
 
     likePost = () => {
-        likePost(this.props.postId);
-        // Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-        this.props.refreshPost();
+        // likePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+        likePost(this.props.postId).then(this.props.refreshPost);
 
     };
 
     unlikePost = () => {
-        unlikePost(this.props.postId);
-        // Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-        this.props.refreshPost();
+        // unlikePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+        unlikePost(this.props.postId).then(this.props.refreshPost);
     };
 
     render() {

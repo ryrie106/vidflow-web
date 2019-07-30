@@ -96,6 +96,7 @@ class Home extends Component {
         });
     };
 
+    // 보고 있는 페이지 새로고침.
     refreshPost = () => {
         let stateCopy = Object.assign({}, this.state);
         stateCopy.posts = stateCopy.posts.slice();
@@ -145,9 +146,9 @@ class Home extends Component {
                     /*
                         게시물은 페이지 단위로 불러온다.
                         0페이지부터 시작하며 최대로 탐색한 페이지의 다음 페이지까지 불러온다.
-                        초기에는 0, 1페이지를 불러오며 0-9번째 게시물까지 불러오게된다.
-                        게시물을 탐색하다가 1페이지의 첫 번째인 5번 게시물을 탐색하게 되면
-                        다음 2페이지인 10-14 게시물을 불러들인다.
+                        초기에는 0, 1페이지를 불러오며 0-5번째 게시물까지 불러오게된다.
+                        게시물을 탐색하다가 1페이지의 첫 번째인 3번 게시물을 탐색하게 되면
+                        다음 2페이지인 6-8 게시물을 불러들인다.
                     */
                     if(this.state.postIndex + 1 > this.state.loadedPage * PAGE_SIZE) {
                         this.getNextPage();         
@@ -183,7 +184,11 @@ class Home extends Component {
                 {this.props.match ?
                     <NavBar
                         id="home-navbar"
-                        icon={<Icon type="left"/>}
+                        icon={
+                            <NavBar to="/">
+                                <Icon type="left"/>
+                            </NavBar>
+                        }
                         onLeftClick={() => {this.props.history.goBack()}}/>:null}
                 <Swiper {...params}>
                     {postList}
