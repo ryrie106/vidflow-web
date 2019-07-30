@@ -81,7 +81,7 @@ class LoginForm extends Component {
     }
 
     render() {
-        const { getFieldProps, getFieldError } = this.props.form;
+        const { getFieldProps/*, getFieldError*/ } = this.props.form;
         return (
             <div className="login" ref={this.loginRef}>
                 <NavBar

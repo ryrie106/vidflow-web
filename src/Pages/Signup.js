@@ -70,17 +70,17 @@ class SignupForm extends Component {
                 });
             }
         });
-    }
+    };
 
     isFormInvalid = () => {
         return !(this.state.name.validateStatus === 'success' &&
             this.state.email.validateStatus === 'success' &&
             this.state.password.validateStatus === 'success'
         );
-    }
+    };
 
     render() {
-        const { getFieldProps, getFieldError } = this.props.form;
+        const { getFieldProps/*, getFieldError*/ } = this.props.form;
 
         return (
             <div className="signup" ref={this.signupRef}>

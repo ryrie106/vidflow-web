@@ -37,11 +37,11 @@ class CommentList extends Component{
                 comments: response
             });
         });
-    }
+    };
 
     deleteComment = commentid => () => {
         deleteComment(commentid).then(() => this.refreshComment());
-    }
+    };
 
     onSubmit = () => { 
         if(this.props.currentUser == null) {
@@ -50,7 +50,7 @@ class CommentList extends Component{
         }
         const request = {
             "content": this.state.content
-        }
+        };
         createComment(this.props.currentPostId, request)
         .then(response => {
             if(response.success) {
@@ -70,7 +70,7 @@ class CommentList extends Component{
         this.setState({
             content: e
         });
-    }
+    };
 
     render() {
         const commentList = this.state.comments.map(comment =>
@@ -80,7 +80,7 @@ class CommentList extends Component{
                     currentUser={this.props.currentUser}
                     deleteComment={this.deleteComment}
              /></div>
-        )
+        );
 
         return (
             <div className="commentlist">
@@ -102,9 +102,7 @@ class CommentList extends Component{
                         placeholder="댓글 추가"
                     />
                     <div className="commentlist-writer-button">
-                        {/* <FaAt className="commentlist-writer-pic" />
-                        <FaLaugh className="commentlist-writer-pic" /> */}
-                        <FaPaperPlane 
+                        <FaPaperPlane
                             className="commentlist-writer-pic" 
                             onClick={this.onSubmit}
                         />

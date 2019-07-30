@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import Swiper from "react-id-swiper";
 import {Button, Icon, Modal, NavBar, Toast} from 'antd-mobile';
-import SockJsClient from 'react-stomp';
 
 import { getPostById, getPosts, getPostId, deletePost  } from '../utils/APIUtils';
 import Post from '../components/Home/Post';
 import CommentList from '../components/Home/CommentList';
-import { PAGE_SIZE, WEBSOCKET_ENDPOINT } from '../constants';
+import { PAGE_SIZE } from '../constants';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import './Home.css';
 
@@ -42,11 +41,11 @@ class Home extends Component {
             await getPostById(this.props.match.params.postId).then(response => {
                 // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
                 response.videoRef = React.createRef();
-                this.setState( prevState => ({
+                this.setState( {
                     posts: [response],
                     currentPostId: response.id,
                     currentPostWriterId: response.writerid
-                }));
+                });
             });
             await this.state.posts[0].videoRef.current.play();
             return;
@@ -84,15 +83,6 @@ class Home extends Component {
         })
     };
 
-    greeting = (message) => {
-        console.log(message);
-        Toast.info(JSON.parse(message.body).msg, 1);
-    };
-
-    sendMessage = (msg) => () => {
-        this.stompClient.sendMessage("/app/hello", JSON.stringify({'msg': msg}));
-    };
-
     showModal = key => (e) => {
         e.preventDefault();
         this.setState({
@@ -104,6 +94,21 @@ class Home extends Component {
         this.setState({
             [key]: false,
         });
+    };
+
+    refreshPost = () => {
+        let stateCopy = Object.assign({}, this.state);
+        stateCopy.posts = stateCopy.posts.slice();
+        stateCopy.posts[this.state.postIndex] = Object.assign({}, stateCopy.posts[this.state.postIndex]);
+
+        getPostById(this.state.currentPostId).then(response => {
+            stateCopy.posts[this.state.postIndex].num_like = response.num_like;
+            stateCopy.posts[this.state.postIndex].num_comment = response.num_comment;
+            stateCopy.posts[this.state.postIndex].isliked = response.isliked;
+        }).then(() => {
+            this.setState(stateCopy);
+        });
+
     };
 
     showAlert = () => {
@@ -120,7 +125,7 @@ class Home extends Component {
     };
 
     render() {
-        // const params: react-id-swiper의 Swiper Component에 전달할 parameter이다.
+        // react-id-swiper의 Swiper Component에 전달할 parameter이다.
         const params = {
             direction: 'vertical',
             shouldSwiperUpdate: true,
@@ -168,7 +173,8 @@ class Home extends Component {
                     post={post}
                     showModal={this.showModal}
                     currentUser={this.props.currentUser}
-                    sendMessage={this.sendMessage} />
+                    refreshPost={this.refreshPost}
+                />
             </div>
         );
 
@@ -179,9 +185,6 @@ class Home extends Component {
                         id="home-navbar"
                         icon={<Icon type="left"/>}
                         onLeftClick={() => {this.props.history.goBack()}}/>:null}
-                {/*<SockJsClient url={WEBSOCKET_ENDPOINT} topics={['/topic/greetings']}*/}
-                {/*    onMessage={(msg) => { Toast.info(msg, 1); }}*/}
-                {/*    ref={ (client) => { this.stompClient = client }} />*/}
                 <Swiper {...params}>
                     {postList}
                 </Swiper>
@@ -190,7 +193,7 @@ class Home extends Component {
                     visible={this.state.commentModal}
                     onClose={this.closeModal('commentModal')}
                     animationType="slide-up"
-                    afterClose={() => {}}
+                    afterClose={this.refreshPost}
                 >
                     <CommentList
                         showModal={this.showModal}
@@ -212,7 +215,7 @@ class Home extends Component {
                             <Button onClick={this.showAlert}>삭제</Button>
                             :
                             <div>
-                                공유 모달
+                                공
                             </div>
                         }
                     </div>

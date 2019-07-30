@@ -34,11 +34,11 @@ class Post extends Component {
                     numComment={this.props.post.num_comment}
                     numLike={this.props.post.num_like}
 
-                    isFollowed={this.props.post.isfollowed}
                     isLiked={this.props.post.isliked}
-                    myPost={this.props.currentUser && 
+                    myPost={this.props.currentUser &&
                         this.props.post.writerid === this.props.currentUser.id}
-                    sendMessage={this.props.sendMessage}/>
+                    refreshPost={this.props.refreshPost}
+                />
             </div>
         )
     }

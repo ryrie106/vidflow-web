@@ -25,10 +25,15 @@ class Icons extends Component {
 
     likePost = () => {
         likePost(this.props.postId);
+        // Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+        this.props.refreshPost();
+
     };
 
     unlikePost = () => {
         unlikePost(this.props.postId);
+        // Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+        this.props.refreshPost();
     };
 
     render() {
