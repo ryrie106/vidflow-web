@@ -1,7 +1,7 @@
 
 // export const API_BASE_URL = 'https://vidflow.ryrie.xyz:8080';
-// export const API_BASE_URL = 'http://localhost:8080';
-export const API_BASE_URL = 'http://192.168.0.9:8080';
+export const API_BASE_URL = 'http://localhost:8080';
+// export const API_BASE_URL = 'http://192.168.0.9:8080';
 
 export const ACCESS_TOKEN = 'accessToken';
 
@@ -19,7 +19,7 @@ export const WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE = 1024 * 1024; // 1MB
 export const VIDEO_SRC = 'https://vidflow.ryrie.xyz/videos/';
 // export const VIDEO_SRC = '';
 
-export const PAGE_SIZE = 5;
+export const PAGE_SIZE = 3;
 
 export const NAME_MIN_LENGTH = 3;
 export const NAME_MAX_LENGTH = 10;

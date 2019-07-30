@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { InputItem, Toast } from 'antd-mobile';
 
-import { FaAt, FaLaugh, FaPaperPlane } from 'react-icons/fa';
+import { FaPaperPlane } from 'react-icons/fa';
 import Comment from './Comment';
 import { getCommentsByPostId, createComment, deleteComment } from '../../utils/APIUtils';
 import './CommentList.css';

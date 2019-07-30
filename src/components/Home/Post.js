@@ -19,7 +19,9 @@ class Post extends Component {
     render() {
         return (
             <div className="post">
-                <VideoPlayer videoSrc={this.props.post.videosrc}/>
+                <VideoPlayer
+                    videoSrc={this.props.post.videosrc}
+                    videoRef={this.props.post.videoRef} />
                 <PostContent
                     writer={this.props.post.writername}
                     content={this.props.post.content}

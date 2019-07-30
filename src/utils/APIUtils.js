@@ -14,7 +14,7 @@ const request = (options) => {
     
     return fetch(options.url, options)
     .then(response => {
-        console.log(response);
+        // console.log(response);
         if(response) 
             return response.json();
         else

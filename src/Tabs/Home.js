@@ -23,7 +23,6 @@ class Home extends Component {
         super(props);
         this.state = {
             posts: [],
-            videorefs: [],
 
             startPostId: 0,
 
@@ -38,15 +37,18 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-
+        // /posts/:postId 에서 하나의 Post만 불러올 때.
         if(this.props.match) {
             await getPostById(this.props.match.params.postId).then(response => {
+                // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                response.videoRef = React.createRef();
                 this.setState( prevState => ({
                     posts: [response],
                     currentPostId: response.id,
                     currentPostWriterId: response.writerid
                 }));
             });
+            await this.state.posts[0].videoRef.current.play();
             return;
         }
 
@@ -55,13 +57,16 @@ class Home extends Component {
         });
         if(this.state.startPostId !== 0) {
             await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
+                // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                response.map(r => r.videoRef = React.createRef());
                 this.setState( prevState => ({
                     posts: [...prevState.posts, ...response],
                     currentPostId: response[0].id,
                     currentPostWriterId: response[0].writerid
                 }));
             });
-            await this.getNextPage(); 
+            await this.state.posts[0].videoRef.current.play();
+            await this.getNextPage();
         }
     }
 
@@ -69,6 +74,8 @@ class Home extends Component {
     getNextPage = () => {
         getPosts(this.state.startPostId, this.state.loadedPage+1).then(response => {
             if(response.length > 0) {
+                // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                response.map(r => r.videoRef = React.createRef());
                 this.setState( prevState => ({
                     posts: [...prevState.posts, ...response],
                     loadedPage: prevState.loadedPage+1
@@ -84,10 +91,6 @@ class Home extends Component {
 
     sendMessage = (msg) => () => {
         this.stompClient.sendMessage("/app/hello", JSON.stringify({'msg': msg}));
-    };
-
-    addVideoRef = (ref) => () => {
-        this.state.videorefs.push(ref);
     };
 
     showModal = key => (e) => {
@@ -124,11 +127,15 @@ class Home extends Component {
             on: {
                 slideNextTransitionEnd: () => {
                     if(this.state.postIndex < this.state.posts.length - 1 ) {
+                        this.state.posts[this.state.postIndex].videoRef.current.pause();
+                        this.state.posts[this.state.postIndex+1].videoRef.current.play();
+
                         this.setState({
                             postIndex: this.state.postIndex + 1,
                             currentPostId: this.state.posts[this.state.postIndex+1].id,
                             currentPostWriterId: this.state.posts[this.state.postIndex+1].writerid
                         });
+
                     }
                     /*
                         게시물은 페이지 단위로 불러온다.
@@ -143,6 +150,8 @@ class Home extends Component {
                 },
                 slidePrevTransitionEnd: () => {
                     if(this.state.postIndex > 0) {
+                        this.state.posts[this.state.postIndex].videoRef.current.pause();
+                        this.state.posts[this.state.postIndex-1].videoRef.current.play();
                         this.setState({
                             postIndex: this.state.postIndex - 1,
                             currentPostId: this.state.posts[this.state.postIndex-1].id,
@@ -170,9 +179,9 @@ class Home extends Component {
                         id="home-navbar"
                         icon={<Icon type="left"/>}
                         onLeftClick={() => {this.props.history.goBack()}}/>:null}
-                <SockJsClient url={WEBSOCKET_ENDPOINT} topics={['/topic/greetings']}
-                    onMessage={(msg) => { Toast.info(msg, 1); }}
-                    ref={ (client) => { this.stompClient = client }} />
+                {/*<SockJsClient url={WEBSOCKET_ENDPOINT} topics={['/topic/greetings']}*/}
+                {/*    onMessage={(msg) => { Toast.info(msg, 1); }}*/}
+                {/*    ref={ (client) => { this.stompClient = client }} />*/}
                 <Swiper {...params}>
                     {postList}
                 </Swiper>

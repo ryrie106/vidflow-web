@@ -12,36 +12,27 @@ import 'video.js/dist/video-js.css';
  * videoSrc: string
  */
 class VideoPlayer extends Component {
-    constructor(props) {
-        super(props);
-        this.videoRef = React.createRef();
-    }
 
     componentDidMount() {
         const options = {
             loop: true,
             preload: "auto",
             sources: [{
-                // src: "https://d2zihajmogu5jn.cloudfront.net/advanced-fmp4/master.m3u8",
                 src: VIDEO_SRC + this.props.videoSrc,
                 type: 'video/mp4'
             }]
         };
 
-        this.player = videojs(this.videoRef.current, options, function onPlayerReady() {
+        this.player = videojs(this.props.videoRef.current, options, function onPlayerReady() {
         });
     }
 
-    // componentWillMount() {
-    //     if(this.vide)
-    // }
-
     handleClick = () => {
 
-        if(this.videoRef.current.paused) {
-            this.videoRef.current.play();
+        if(this.props.videoRef.current.paused) {
+            this.props.videoRef.current.play();
         } else {
-            this.videoRef.current.pause();
+            this.props.videoRef.current.pause();
         }
         // this.player.start
     };
@@ -52,7 +43,7 @@ class VideoPlayer extends Component {
                 style={{width : "100%", height : "100%"}} 
                 onClick={this.handleClick} 
                 onTouchStart={this.handleClick}>
-                <video ref={this.videoRef} className="video-js"></video>
+                <video ref={this.props.videoRef} className="video-js" />
             </div>
         );
     }
