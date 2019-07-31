@@ -32,10 +32,13 @@ class App extends Component {
             loading: false,
             
             // Main Page
+            selectedTab: 'homeTab',
             loginModal: false,
 
             // VideoEdit, Write
-            selectedFile: null
+            selectedFile: null,
+            preview: null, // write에서 보여지는 그림
+            thumbnail: null // 실제로 보낼 파일
         }
     }
 
@@ -84,6 +87,19 @@ class App extends Component {
         })
     };
 
+    setThumbnail = (file) => {
+        this.setState({
+            thumbnail: file
+        })
+    };
+
+
+    setPreview = (base64) => {
+        this.setState({
+            preview: base64
+        })
+    };
+
     showLoginModal = () => {
         this.setState({
             loginModal: true
@@ -99,20 +115,19 @@ class App extends Component {
     render() {
         return (
             <div className="app">
-                <Route exact path="/"
-                    render={(props) => <Main
-                                        currentUser={this.state.currentUser}
-                                        onLogout={this.onLogout} 
-                                        showLoginModal={this.showLoginModal}
-                                        {...props} />}/>
+
                 <Route path="/videoedit"
                     render={(props) => <VideoEdit 
                                         onChangeVideoSelector={this.onChangeVideoSelector}
+                                        setThumbnail={this.setThumbnail}
+                                        setPreview={this.setPreview}
                                         {...props} />}/>
                 <Route path="/write"
                     render={(props) => <Write
                                         currentUser={this.state.currentUser}
-                                        selectedFile={this.state.selectedFile}                                   
+                                        selectedFile={this.state.selectedFile}
+                                        thumbnail={this.state.thumbnail}
+                                        preview={this.state.preview}
                                         {...props} />}/>
                 <Route path="/login" 
                     render={(props) => <Login onLogin={this.onLogin} {...props} />} />
@@ -128,7 +143,14 @@ class App extends Component {
                     render={(props) => <Home
                                             currentUser={this.state.currentUser}
                                             {...props} />}/>
-                <Modal
+                <Route exact path="/"
+                       render={(props) => <Main
+                           currentUser={this.state.currentUser}
+                           selectedTab={this.state.selectedTab}
+                           onLogout={this.onLogout}
+                           showLoginModal={this.showLoginModal}
+                           {...props} />}/>
+               <Modal
                     popup
                     visible={this.state.loginModal}
                     onClose={this.closeLoginModal}

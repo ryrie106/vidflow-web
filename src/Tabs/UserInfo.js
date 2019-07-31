@@ -3,7 +3,7 @@ import { Icon, NavBar, Tabs } from 'antd-mobile';
 
 import UserInfoHeadButtons from "../components/UserInfo/UserInfoHeadButtons";
 import MyUserInfoHeadButtons from "../components/UserInfo/MyUserInfoHeadButtons";
-import { getUserInfo, getUserPosts, getUserLikes, isFollowing } from '../utils/APIUtils';
+import {getUserInfo, getUserPosts, getUserLikes, isFollowing, followUser, unfollowUser} from '../utils/APIUtils';
 import UserPosts from '../components/UserInfo/UserPosts';
 import './UserInfo.css';
 
@@ -86,6 +86,25 @@ class UserInfo extends Component {
         }
     }
 
+    follow = () => {
+        followUser(this.state.id).then(this.refreshUserInfo(true));
+    };
+
+    unfollow = () => {
+        unfollowUser(this.state.id).then(this.refreshUserInfo(false));
+    };
+
+    // follow/unfollow 후 정보 갱신
+    refreshUserInfo = following => () => {
+        let stateCopy = Object.assign({}, this.state);
+        stateCopy.following = following;
+        getUserInfo(this.state.id).then(response => {
+            stateCopy.numLikes = response.numLikes;
+            stateCopy.numFollowing = response.numFollowing;
+            stateCopy.numFollower = response.numFollower;
+        }).then(() => this.setState(stateCopy))
+    };
+
     render() {
         const tabs = [
             { title: '동영상', sub: '1' },
@@ -109,7 +128,8 @@ class UserInfo extends Component {
                             <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
                             :
                             <UserInfoHeadButtons
-                                userId={this.state.id}
+                                follow={this.follow}
+                                unfollow={this.unfollow}
                                 following={this.state.following}/>
                         }
                     </div>    

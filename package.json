@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@videojs/http-streaming": "^1.10.2",
     "antd-mobile": "^2.2.13",
     "cross-env": "^5.2.0",
     "nouislider": "^14.0.2",
@@ -15,7 +14,6 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "react-stomp": "^4.1.1",
     "video.js": "^7.5.4"
   },
   "scripts": {

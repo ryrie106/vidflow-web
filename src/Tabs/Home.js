@@ -36,36 +36,40 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-        // /posts/:postId 에서 하나의 Post만 불러올 때.
-        if(this.props.match) {
-            await getPostById(this.props.match.params.postId).then(response => {
-                // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
-                response.videoRef = React.createRef();
-                this.setState( {
-                    posts: [response],
-                    currentPostId: response.id,
-                    currentPostWriterId: response.writerid
-                });
-            });
-            await this.state.posts[0].videoRef.current.play();
-            return;
-        }
+        try {
+            // /posts/:postId 에서 하나의 Post만 불러올 때.
+            if (this.props.match) {
+                await getPostById(this.props.match.params.postId).then(response => {
+                    // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                    response.videoRef = React.createRef();
+                    this.setState({
+                        posts: [response],
+                        currentPostId: response.id,
+                        currentPostWriterId: response.writerid
+                    });
+                }).catch(null);
+                await this.state.posts[0].videoRef.current.play();
+                return;
+            }
 
-        await getPostId().then(response => {
-            this.setState({startPostId: response.message});
-        });
-        if(this.state.startPostId !== 0) {
-            await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
-                // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
-                response.map(r => r.videoRef = React.createRef());
-                this.setState( prevState => ({
-                    posts: [...prevState.posts, ...response],
-                    currentPostId: response[0].id,
-                    currentPostWriterId: response[0].writerid
-                }));
-            });
-            await this.state.posts[0].videoRef.current.play();
-            await this.getNextPage();
+            await getPostId().then(response => {
+                this.setState({startPostId: response.message});
+            }).catch(null);
+            if (this.state.startPostId !== 0) {
+                await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
+                    // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                    response.map(r => r.videoRef = React.createRef());
+                    this.setState(prevState => ({
+                        posts: [...prevState.posts, ...response],
+                        currentPostId: response[0].id,
+                        currentPostWriterId: response[0].writerid
+                    }));
+                });
+                await this.state.posts[0].videoRef.current.play();
+                await this.getNextPage();
+            }
+        } catch(err) {
+            console.log(err);
         }
     }
 

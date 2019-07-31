@@ -6,7 +6,7 @@
     height: 85vh;
     /* bottom: 0px; */
     /* z-index: 150; */
-}
+}yarn
 
 .commentlist-header {
     display: flex;
@@ -23,13 +23,19 @@
     right: 15px;
 }
 
+.commentlist-list {
+    margin-bottom: 56px;
+    z-index: 150;
+}
+
 .commentlist-writer {
     display: flex;
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     /* max-width: 600px; */
     height: 55px;
+    background: white;
     border-style: solid;
     border-color: #CCC;
     border-width: 1px 0 0 0;
@@ -43,8 +49,8 @@
 .commentlist-writer-button {
     position: absolute;
     display: flex;
-    right: 0px;
-    width: 110px;
+    right: 0;
+    width: 50px;
     height: 100%;
 }
 

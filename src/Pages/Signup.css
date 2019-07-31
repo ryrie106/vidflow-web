@@ -6,12 +6,14 @@
     margin-left: auto;
     margin-right: auto;
     background-color: #FFFFFF;
+    z-index: 500;
 }
 
 .signup-navbar {
     position: absolute;
     width: 100%;
     background: transparent;
+    z-index: 510;
 }
 
 .signup-logo {
@@ -22,6 +24,7 @@
     height: 100px;
     border-radius: 100px;
     background-color: purple;
+    z-index: 510;
 }
 
 .signup-logo-name {
@@ -31,12 +34,14 @@
     color: white;
     font-size: 50px;
     line-height: 100px;
+    z-index: 510;
 }
 
 .signup-title {
     position: absolute;
     top: 200px;
     left: 20px;
+    z-index: 510;
 }
 
 .signup-input {
@@ -45,25 +50,28 @@
     width: calc(100% - 40px);
     padding-left: 20px;
     padding-right: 20px;
+    z-index: 510;
 }
 
 .signup-input-item {
-    padding-left: 0px !important;
+    padding-left: 0 !important;
     border-bottom-style: solid;
-    border-bottom-width: 0.5px;
+    border-bottom-width: 1px;
     border-bottom-color: gray;
+    z-index: 510;
 }
 
 #signup-login-instead {
     position: absolute;
     padding-top: 10px;
     left: 20px;
+    z-index: 510;
 }
 
 #signup-button {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     max-width: 600px;
-    z-index: 100;
+    z-index: 510;
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink} from "react-router-dom";
-
 import { Grid } from 'antd-mobile';
+
+import { UPLOAD_SRC} from "../../constants";
 
 /**
  * Component UserPosts ( App -> Main -> UserInfo -> UserPosts )
@@ -15,7 +16,7 @@ import { Grid } from 'antd-mobile';
 
     render() {
         const data1 = Array.from(this.props.posts).map((post) => ({
-            icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
+            icon: UPLOAD_SRC + post.thumbnailSrc,
             text: post.postId,
             id: post.postId
         }));
