@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
-import { WEBSOCKET_VIDEOUPLOAD_URL, WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE } from '../constants';
 import { createPost } from '../utils/APIUtils';
 import './Write.css';
 
@@ -24,90 +23,9 @@ class Write extends Component {
         })
     };
 
+    // src는 파일을 
     submitFile = (file, src) => () => {
-        // e.preventDefault();
 
-        if(!file) return;
-
-        console.log(file.size);
-        const ws = new WebSocket(WEBSOCKET_VIDEOUPLOAD_URL);
-        this.setState({
-            currentChunk: 0,
-            numChunks: Math.ceil(file.size / WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE)
-        });
-        ws.binaryType = "arraybuffer";
-
-        ws.onopen = (e) => {
-            console.log('Connected: ' + e);
-            let sendmsg = {
-                type: "VIDEOFILE_INFO",
-                userid: this.props.currentUser.id,
-                fileSize:  file.size,
-                numChunks: this.state.numChunks,
-                extension: file.name.split(".").pop().toLowerCase()
-            };
-            ws.send(JSON.stringify(sendmsg));
-        };
-
-        ws.onmessage = (e) => {
-
-            if(e.data instanceof ArrayBuffer) {
-                // TODO: Text 메시지가 온 다음 왜 ArrayBuffer 메시지가 오는거지?
-                console.log("Array");
-            }
-            else {
-                console.log(e);
-                const msg = JSON.parse(e.data);
-                let sendmsg;
-                let senddata;
-                switch(msg.type) {
-                    case "TRANSFER_START":
-                        senddata = file.slice(this.state.currentChunk * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE,
-                            Math.min((this.state.currentChunk + 1) * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE, file.size));
-                        console.log(this.state.currentChunk + "/" + this.state.numChunks + " transfered");
-                        this.setState({
-                            currentChunk: this.state.currentChunk + 1
-                        });
-                        ws.send(senddata);
-                        break;
-
-                    case "PROGRESS_INFO":
-                        // progress bar 갱신
-                        this.setState({
-                            progress: (this.state.currentChunk / this.state.numChunks) * 100
-                        });
-                        senddata = file.slice(this.state.currentChunk * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE,
-                            Math.min((this.state.currentChunk + 1) * WEBSOCKET_VIDEOUPLOAD_CHUNKSIZE, file.size));
-                        // Toast.loading(this.state.currentChunk / this.state.numChunks + "%");
-                        this.setState({
-                            currentChunk: this.state.currentChunk + 1
-                        });
-                        ws.send(senddata);
-                        break;
-
-                    case "TRANSFER_COMPLETE":
-                        sendmsg = {
-                            type: "TRANSFER_COMPLETE",
-                            userid: this.props.currentUser.id
-                        };
-                        ws.send(sendmsg);
-                        this.setState({
-                            numChunks: 0,
-                            currentChunk: 0,
-                            [src]: msg.fileName
-                        });
-
-                        if(src === "videoSrc")
-                            this.submitFile(this.props.thumbnail, "thumbnailSrc")();
-                        else
-                            this.afterSubmit();
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
     };
 
     afterSubmit = () => {
@@ -154,7 +72,7 @@ class Write extends Component {
 
                 <div className="write-buttons">
                     <Button className="write-button">임시 저장</Button>
-                    <Button className="write-button" type="warning" onClick={this.submitFile(this.props.selectedFile, "videoSrc")}>게시</Button>
+                    <Button className="write-button" type="warning" onClick={this.submitFile}>게시</Button>
                 </div>
 
             </div>

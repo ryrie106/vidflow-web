@@ -1,4 +1,4 @@
-import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
+import { VIDFLOW_URL, VIDFLOW_MEDIA_URL, ACCESS_TOKEN } from '../constants';
 
 const request = (options) => {
     const headers = new Headers({
@@ -36,7 +36,7 @@ const request = (options) => {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/user/login",
+        url: VIDFLOW_URL + "/user/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -44,7 +44,7 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/user/create",
+        url: VIDFLOW_URL + "/user/create",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -52,49 +52,49 @@ export function signup(signupRequest) {
 
 export function getPostId() {
     return request({
-        url: API_BASE_URL + "/posts/postId",
+        url: VIDFLOW_URL + "/posts/postId",
         method: 'GET'
     })
 }
 
 export function getPosts(postId, page) {
     return request({
-        url: API_BASE_URL + "/posts?id=" + postId + "&page=" + page,
+        url: VIDFLOW_URL + "/posts?id=" + postId + "&page=" + page,
         method: 'GET'
     });
 }
 
 export function getUserInfo(userId) {
     return request({
-        url: API_BASE_URL + "/user/info/" + userId,
+        url: VIDFLOW_URL + "/user/info/" + userId,
         method: 'GET'
     })
 }
 
 export function getUserPosts(userId) {
     return request({
-        url: API_BASE_URL + "/posts/user/" + userId,
+        url: VIDFLOW_URL + "/posts/user/" + userId,
         method: 'GET'
     })
 }
 
 export function getUserLikes(userId) {
     return request({
-        url: API_BASE_URL + "/posts/likes/" + userId,
+        url: VIDFLOW_URL + "/posts/likes/" + userId,
         method: 'GET'
     })
 }
 
 export function getPostById(postId) {
     return request({
-        url: API_BASE_URL + "/posts/" + postId,
+        url: VIDFLOW_URL + "/posts/" + postId,
         method: 'GET'
     });
 }
 
 export function createPost(postData) {
     return request({
-        url: API_BASE_URL + "/posts",
+        url: VIDFLOW_URL + "/posts",
         method: 'POST',
         body: JSON.stringify(postData)
     });
@@ -102,21 +102,21 @@ export function createPost(postData) {
 
 export function deletePost(postId) {
     return request({
-        url: API_BASE_URL + "/posts/" + postId,
+        url: VIDFLOW_URL + "/posts/" + postId,
         method: 'DELETE'
     })
 }
 
 export function getCommentsByPostId(postId) {
     return request({
-        url: API_BASE_URL + "/comments/" + postId,
+        url: VIDFLOW_URL + "/comments/" + postId,
         method: 'GET'
     });
 }
 
 export function createComment(postId, commentData) {
     return request({
-        url: API_BASE_URL + "/comments/" + postId,
+        url: VIDFLOW_URL + "/comments/" + postId,
         method: 'POST',
         body: JSON.stringify(commentData)
     });
@@ -124,7 +124,7 @@ export function createComment(postId, commentData) {
 
 export function deleteComment(commentId) {
     return request({
-        url: API_BASE_URL + "/comments/" + commentId,
+        url: VIDFLOW_URL + "/comments/" + commentId,
         method: 'DELETE'
     });
 }
@@ -135,77 +135,77 @@ export function getCurrentUser() {
     }
 
     return request({
-        url: API_BASE_URL + "/user/me",
+        url: VIDFLOW_URL + "/user/me",
         method: 'GET'
     });
 }
 
 export function likePost(postId) {
     return request({
-        url: API_BASE_URL +"/posts/like/" + postId,
+        url: VIDFLOW_URL +"/posts/like/" + postId,
         method: 'POST'
     })
 }
 
 export function unlikePost(postId) {
     return request({
-        url: API_BASE_URL + "/posts/like/" + postId,
+        url: VIDFLOW_URL + "/posts/like/" + postId,
         method: 'DELETE'
     })
 }
 
 export function queryPostContent(content) {
     return request({
-        url: API_BASE_URL + "/posts/query?content=" + content,
+        url: VIDFLOW_URL + "/posts/query?content=" + content,
         method: 'GET'
     })
 }
 
 export function queryUserName(name) {
     return request({
-        url: API_BASE_URL + "/user/query?name=" + name,
+        url: VIDFLOW_URL + "/user/query?name=" + name,
         method: 'GET'
     })
 }
 
 export function followUser(userId) {
     return request({
-        url: API_BASE_URL + "/user/follow/" + userId,
+        url: VIDFLOW_URL + "/user/follow/" + userId,
         method: 'POST'
     })
 }
 
 export function unfollowUser(userId) {
     return request({
-        url: API_BASE_URL + "/user/follow/" + userId,
+        url: VIDFLOW_URL + "/user/follow/" + userId,
         method: 'DELETE'
     })
 }
 
 export function isFollowing(from, to) {
     return request({
-        url: API_BASE_URL + "/user/following/?from=" + from + "&to=" + to,
+        url: VIDFLOW_URL + "/user/following/?from=" + from + "&to=" + to,
         method: 'GET'
     })
 }
 
 export function getNotifications(userId) {
     return request({
-        url: API_BASE_URL + "/user/notification/" + userId,
+        url: VIDFLOW_URL + "/user/notification/" + userId,
         method: 'GET'
     });
 }
 
 export function checkNameAvailability(name) {
     return request({
-        url: API_BASE_URL + "/user/checkNameAvailability?name=" + name,
+        url: VIDFLOW_URL + "/user/checkNameAvailability?name=" + name,
         method: 'GET'
     });
 }
 
 export function checkEmailAvailability(email) {
     return request({
-        url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
+        url: VIDFLOW_URL + "/user/checkEmailAvailability?email=" + email,
         method: 'GET'
     });
 }
