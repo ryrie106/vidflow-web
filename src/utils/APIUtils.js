@@ -34,6 +34,24 @@ const request = (options) => {
     
 };
 
+const request2 = (options) => {
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+    });
+    
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
+    
+    return fetch(options.url, options)
+    .then(response => {
+        // console.log(response);
+        if(response) 
+            return response.json();
+        else
+            return {};
+    })  
+};
+
 export function login(loginRequest) {
     return request({
         url: VIDFLOW_URL + "/user/login",
@@ -207,5 +225,41 @@ export function checkEmailAvailability(email) {
     return request({
         url: VIDFLOW_URL + "/user/checkEmailAvailability?email=" + email,
         method: 'GET'
+    });
+}
+
+
+/////////////////////////
+
+
+export function uploadImageInfo(info) {
+    return request2({
+        url: VIDFLOW_MEDIA_URL + "/images",
+        method: 'POST',
+        body: JSON.stringify(info)
+    });
+}
+
+export function uploadImage(imageId, image) {
+    return request2({
+        url: VIDFLOW_MEDIA_URL + "/images/" + imageId,
+        method: 'PUT',
+        body: image
+    });
+}
+
+export function uploadVideoInfo(info) {
+    return request2({
+        url: VIDFLOW_MEDIA_URL + "/videos",
+        method: 'POST',
+        body: JSON.stringify(info)
+    });
+}
+
+export function uploadVideo(videoId, video) {
+    return request2({
+        url: VIDFLOW_MEDIA_URL + "/videos/" + videoId,
+        method: 'PUT',
+        body: video
     });
 }

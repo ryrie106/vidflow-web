@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
-import { createPost } from '../utils/APIUtils';
+import { createPost, uploadImage, uploadImageInfo, uploadVideo, uploadVideoInfo } from '../utils/APIUtils';
 import './Write.css';
 
+/**
+ * Component Write
+ * 
+ */
 class Write extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             content: '',
-            videoSrc: '',
-            thumbnailSrc: '',
-            currentChunk: 0,
-            numChunks: 0,
-            progress: 0,
         }
     }
 
@@ -23,26 +22,41 @@ class Write extends Component {
         })
     };
 
-    // src는 파일을 
-    submitFile = (file, src) => () => {
+    submit = async () => {
+        const fileInfo = {
+            uid: this.props.currentUser.id
+        };
 
-    };
+        let imageInfoResponse = await uploadImageInfo(fileInfo);
+        let imageId = imageInfoResponse.foo();
+        await uploadImage(imageId, this.props.selectedFile);
 
-    afterSubmit = () => {
+        let videoInfoResponse = await uploadVideoInfo(fileInfo);
+        let videoId = videoInfoResponse
+        await uploadVideo(videoId, this.props.thumbnail);
+
         const postRequest = Object.assign({}, {
-            "videoSrc": this.state.videoSrc,
-            "thumbnailSrc": this.state.thumbnailSrc,
+            "videoSrc": videoId,
+            "thumbnailSrc": imageId,
             "content": this.state.content
         });
-        createPost(postRequest)
-            .then(response => {
-                // message에 따른 처리
-                this.props.history.push("/");
-                Toast.success("작성 성공!", 2)
-            }).catch(error => {
-            Toast.error("작성 실패!", 1);
-        })
+        
+        await createPost(postRequest);
+        this.props.history.push("/");
+        Toast.success("작성 성공!", 2);
+
     };
+
+    // afterSubmit = () => {
+    //     createPost(postRequest)
+    //         .then(response => {
+    //             // message에 따른 처리
+    //             this.props.history.push("/");
+    //             Toast.success("작성 성공!", 2)
+    //         }).catch(error => {
+    //         Toast.error("작성 실패!", 1);
+    //     })
+    // };
 
     render() {
         return (
@@ -72,7 +86,7 @@ class Write extends Component {
 
                 <div className="write-buttons">
                     <Button className="write-button">임시 저장</Button>
-                    <Button className="write-button" type="warning" onClick={this.submitFile}>게시</Button>
+                    <Button className="write-button" type="warning" onClick={this.submit}>게시</Button>
                 </div>
 
             </div>
