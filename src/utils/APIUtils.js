@@ -1,4 +1,4 @@
-import { VIDFLOW_URL, VIDFLOW_MEDIA_URL, ACCESS_TOKEN } from '../constants';
+import { VIDFLOW_URL, ACCESS_TOKEN } from '../constants';
 
 const request = (options) => {
     const headers = new Headers({
@@ -34,27 +34,9 @@ const request = (options) => {
     
 };
 
-const request2 = (options) => {
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-    });
-    
-    const defaults = {headers: headers};
-    options = Object.assign({}, defaults, options);
-    
-    return fetch(options.url, options)
-    .then(response => {
-        // console.log(response);
-        if(response) 
-            return response.json();
-        else
-            return {};
-    })  
-};
-
 export function login(loginRequest) {
     return request({
-        url: VIDFLOW_URL + "/user/login",
+        url: VIDFLOW_URL + "/auth/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -62,46 +44,68 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: VIDFLOW_URL + "/user/create",
+        url: VIDFLOW_URL + "/users",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
 }
 
-export function getPostId() {
+export function queryUserName(name) {
     return request({
-        url: VIDFLOW_URL + "/posts/postId",
+        url: VIDFLOW_URL + "/users?name=" + name,
         method: 'GET'
     })
 }
 
-export function getPosts(postId, page) {
-    return request({
-        url: VIDFLOW_URL + "/posts?id=" + postId + "&page=" + page,
-        method: 'GET'
-    });
-}
-
 export function getUserInfo(userId) {
     return request({
-        url: VIDFLOW_URL + "/user/info/" + userId,
+        url: VIDFLOW_URL + "/users/" + userId,
         method: 'GET'
     })
 }
 
 export function getUserPosts(userId) {
     return request({
-        url: VIDFLOW_URL + "/posts/user/" + userId,
+        url: VIDFLOW_URL + "/users/" + userId + "/posts",
         method: 'GET'
     })
 }
 
 export function getUserLikes(userId) {
     return request({
-        url: VIDFLOW_URL + "/posts/likes/" + userId,
+        url: VIDFLOW_URL + "/users/" + userId + "/likes",
         method: 'GET'
     })
 }
+
+export function followUser(userId) {
+    return request({
+        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        method: 'POST'
+    })
+}
+
+export function unfollowUser(userId) {
+    return request({
+        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        method: 'DELETE'
+    })
+}
+
+export function isFollowing(userId) {
+    return request({
+        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        method: 'GET'
+    })
+}
+
+export function getNotifications(userId) {
+    return request({
+        url: VIDFLOW_URL + "/users/" + userId + "/notification",
+        method: 'GET'
+    });
+}
+
 
 export function getPostById(postId) {
     return request({
@@ -125,6 +129,20 @@ export function deletePost(postId) {
     })
 }
 
+export function getPostId() {
+    return request({
+        url: VIDFLOW_URL + "/posts/postId",
+        method: 'GET'
+    })
+}
+
+export function getPosts(postId, page) {
+    return request({
+        url: VIDFLOW_URL + "/posts?id=" + postId + "&page=" + page,
+        method: 'GET'
+    });
+}
+
 export function getCommentsByPostId(postId) {
     return request({
         url: VIDFLOW_URL + "/comments/" + postId,
@@ -140,9 +158,9 @@ export function createComment(postId, commentData) {
     });
 }
 
-export function deleteComment(commentId) {
+export function deleteComment(postId, commentId) {
     return request({
-        url: VIDFLOW_URL + "/comments/" + commentId,
+        url: VIDFLOW_URL + "/comments/" + postId + "/" + commentId,
         method: 'DELETE'
     });
 }
@@ -153,113 +171,42 @@ export function getCurrentUser() {
     }
 
     return request({
-        url: VIDFLOW_URL + "/user/me",
+        url: VIDFLOW_URL + "/users/me",
         method: 'GET'
     });
 }
 
 export function likePost(postId) {
     return request({
-        url: VIDFLOW_URL +"/posts/like/" + postId,
+        url: VIDFLOW_URL +"/posts/" + postId + "/like",
         method: 'POST'
     })
 }
 
 export function unlikePost(postId) {
     return request({
-        url: VIDFLOW_URL + "/posts/like/" + postId,
+        url: VIDFLOW_URL + "/posts/" + postId + "/like",
         method: 'DELETE'
     })
 }
 
 export function queryPostContent(content) {
     return request({
-        url: VIDFLOW_URL + "/posts/query?content=" + content,
+        url: VIDFLOW_URL + "/posts?content=" + content,
         method: 'GET'
     })
-}
-
-export function queryUserName(name) {
-    return request({
-        url: VIDFLOW_URL + "/user/query?name=" + name,
-        method: 'GET'
-    })
-}
-
-export function followUser(userId) {
-    return request({
-        url: VIDFLOW_URL + "/user/follow/" + userId,
-        method: 'POST'
-    })
-}
-
-export function unfollowUser(userId) {
-    return request({
-        url: VIDFLOW_URL + "/user/follow/" + userId,
-        method: 'DELETE'
-    })
-}
-
-export function isFollowing(from, to) {
-    return request({
-        url: VIDFLOW_URL + "/user/following/?from=" + from + "&to=" + to,
-        method: 'GET'
-    })
-}
-
-export function getNotifications(userId) {
-    return request({
-        url: VIDFLOW_URL + "/user/notification/" + userId,
-        method: 'GET'
-    });
 }
 
 export function checkNameAvailability(name) {
     return request({
-        url: VIDFLOW_URL + "/user/checkNameAvailability?name=" + name,
+        url: VIDFLOW_URL + "/users/checkNameAvailability?name=" + name,
         method: 'GET'
     });
 }
 
 export function checkEmailAvailability(email) {
     return request({
-        url: VIDFLOW_URL + "/user/checkEmailAvailability?email=" + email,
+        url: VIDFLOW_URL + "/users/checkEmailAvailability?email=" + email,
         method: 'GET'
-    });
-}
-
-
-/////////////////////////
-
-
-export function uploadImageInfo(info) {
-    return request2({
-        url: VIDFLOW_MEDIA_URL + "/images",
-        method: 'POST',
-        body: JSON.stringify(info)
-    });
-}
-
-export function uploadImage(imageId, image) {
-    return request2({
-        url: VIDFLOW_MEDIA_URL + "/images/" + imageId,
-        method: 'PUT',
-        body: image
-    });
-}
-
-export function uploadVideoInfo(info) {
-    return request2({
-        url: VIDFLOW_MEDIA_URL + "/videos",
-        method: 'POST',
-        body: JSON.stringify(info)
-    });
-}
-
-export function uploadVideo(videoId, video) {
-    return request2({
-        url: VIDFLOW_MEDIA_URL + "/videos/" + videoId,
-        method: 'PUT',
-        body: video
     });
 }

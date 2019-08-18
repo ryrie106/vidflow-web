@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
-import { createPost, uploadImage, uploadImageInfo, uploadVideo, uploadVideoInfo } from '../utils/APIUtils';
+import { ActivityIndicator, Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
+import { createPost } from '../utils/APIUtils';
+import { uploadFile } from '../utils/uploadFile';
 import './Write.css';
 
 /**
@@ -8,11 +9,11 @@ import './Write.css';
  * 
  */
 class Write extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             content: '',
+            uploading: false,
         }
     }
 
@@ -23,41 +24,53 @@ class Write extends Component {
     };
 
     submit = async () => {
-        const fileInfo = {
-            uid: this.props.currentUser.id
-        };
+        // e.preventDefault();
 
-        let imageInfoResponse = await uploadImageInfo(fileInfo);
-        let imageId = imageInfoResponse.foo();
-        await uploadImage(imageId, this.props.selectedFile);
+        this.setState({
+            uploading: true
+        });
 
-        let videoInfoResponse = await uploadVideoInfo(fileInfo);
-        let videoId = videoInfoResponse
-        await uploadVideo(videoId, this.props.thumbnail);
+        if(!this.props.selectedFile) {
+            Toast.error("선택한 영상이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
+        }
+        const videoSrc = await uploadFile(this.props.selectedFile, this.props.currentUser.id);
+        
+        console.log(videoSrc);
+
+        if(!videoSrc) {
+            Toast.error("영상 업로드 실패!", 1);
+            return;
+        } 
+
+        if(!this.props.selectedFile) {
+            Toast.error("썸네일이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
+        }
+        const thumbnailSrc = await uploadFile(this.props.thumbnail, this.props.currentUser.id);
+
+        console.log(thumbnailSrc);
+
+        if(!thumbnailSrc) {
+            Toast.error("이미지 업로드 실패!", 1);
+            return;
+        }
 
         const postRequest = Object.assign({}, {
-            "videoSrc": videoId,
-            "thumbnailSrc": imageId,
+            "videoSrc": videoSrc,
+            "thumbnailSrc": thumbnailSrc,
             "content": this.state.content
         });
-        
+    
         await createPost(postRequest);
+
+        this.setState({
+            uploading: false
+        });
+
         this.props.history.push("/");
         Toast.success("작성 성공!", 2);
 
     };
-
-    // afterSubmit = () => {
-    //     createPost(postRequest)
-    //         .then(response => {
-    //             // message에 따른 처리
-    //             this.props.history.push("/");
-    //             Toast.success("작성 성공!", 2)
-    //         }).catch(error => {
-    //         Toast.error("작성 실패!", 1);
-    //     })
-    // };
-
+    
     render() {
         return (
             <div className="write">
@@ -88,6 +101,14 @@ class Write extends Component {
                     <Button className="write-button">임시 저장</Button>
                     <Button className="write-button" type="warning" onClick={this.submit}>게시</Button>
                 </div>
+                <div className="write-upload-indicator">
+                    <ActivityIndicator
+                        toast
+                        text="Uploading..."
+                        animating={this.state.uploading}
+                    />
+                </div>
+              />
 
             </div>
         );

@@ -21,7 +21,6 @@ class UserInfo extends Component {
         this.state = {
             id: 0,
             myInfo: false,
-
             following: false,
 
             name: '',
@@ -38,7 +37,7 @@ class UserInfo extends Component {
     componentDidMount() {
         let id;
         // url에 parameter를 가지고 routing되면 this.props.match를 가진다.
-        // 자기 자신의 포스트인지, 아니라면 팔로우 되어 있는 유저인지 확인
+        // 자기 자신의 포스트인지 확인하고, 아니라면 다른 유저의 포스트인지 확인
         if(this.props.match) {
             id = parseInt(this.props.match.params.userId);
             if(id === this.props.currentUser.id) {
@@ -46,7 +45,7 @@ class UserInfo extends Component {
                     myInfo: true
                 })
             } else {
-                isFollowing(this.props.currentUser.id, id).then(response => {
+                isFollowing(id).then(response => {
                     this.setState({
                         following: response
                     })
