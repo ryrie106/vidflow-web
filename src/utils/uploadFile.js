@@ -66,5 +66,9 @@ export function uploadFile(file, uid) {
         ws.onclose = (e) => {
             resolve(fileName);
         }
+
+        ws.onerror = (err) => {
+            reject(err);
+        }
     });
 }
