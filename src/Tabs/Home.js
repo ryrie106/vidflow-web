@@ -44,29 +44,32 @@ class Home extends Component {
                     response.videoRef = React.createRef();
                     this.setState({
                         posts: [response],
-                        currentPostId: response.id,
-                        currentPostWriterId: response.writerid
                     });
                 }).catch(null);
                 await this.state.posts[0].videoRef.current.play();
                 return;
             }
-
-            await getPostId().then(response => {
-                this.setState({startPostId: response.message});
-            }).catch(null);
-            if (this.state.startPostId !== 0) {
-                await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
-                    // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
-                    response.map(r => r.videoRef = React.createRef());
-                    this.setState(prevState => ({
-                        posts: [...prevState.posts, ...response],
-                        currentPostId: response[0].id,
-                        currentPostWriterId: response[0].writerid
-                    }));
-                });
-                await this.state.posts[0].videoRef.current.play();
-                await this.getNextPage();
+            else {
+                await getPostId().then(response => {
+                    this.setState({startPostId: response.message});
+                }).catch(null);
+                if (this.state.startPostId !== 0) {
+                    await getPosts(this.state.startPostId, this.state.loadedPage).then(response => {
+                        // 비디오의 재생을 관리하기 위해 ref을 생성하여 Post -> VideoPlayer에 넘겨준다.
+                        response.map(r => r.videoRef = React.createRef());
+                        this.setState(prevState => ({
+                            posts: [...prevState.posts, ...response],
+                        }));
+                    });
+                    await this.state.posts[0].videoRef.current.play();
+                    await this.getNextPage();
+                }
+            }
+            if(this.state.posts.length != 0) {
+                this.setState({
+                    currentPostId: this.state.posts[0].id,
+                    currentPostWriterId: this.state.posts[0].writerid 
+                })
             }
         } catch(err) {
             console.log(err);

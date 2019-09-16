@@ -1,13 +1,10 @@
-
-// export const VIDFLOW_URL = 'https://vidflow.ryrie.xyz:8080';
-// export const VIDFLOW_URL = 'http://localhost:8080';
-export const VIDFLOW_URL = 'http://192.168.0.153:8080';
+export const VIDFLOW_URL = process.env.VIDFLOW_BASE_URL || 'http://localhost:8080';
 
 export const ACCESS_TOKEN = 'accessToken';
 
 // File upload를 위한 Raw Websocket Endpoint
 // export const UPLOAD_URL = "wss://vidflow.ryrie.xyz:8080/upload";
-export const UPLOAD_URL = 'ws://192.168.0.153:8080/upload';
+export const UPLOAD_URL = 'ws://localhost:8080/upload';
 export const UPLOAD_CHUNKSIZE = 1024 * 1024; // 1MB
 
 export const UPLOAD_SRC = 'https://vidflow.ryrie.xyz/uploads/';
