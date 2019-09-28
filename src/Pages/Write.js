@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
 import { createPost } from '../utils/APIUtils';
-import { uploadFile } from '../utils/uploadFile';
+import { uploadVideo, uploadImage } from '../utils/upload-s3';
 import './Write.css';
 
 /**
@@ -33,7 +33,8 @@ class Write extends Component {
         if(!this.props.selectedFile) {
             Toast.error("선택한 영상이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
         }
-        const videoSrc = await uploadFile(this.props.selectedFile, this.props.currentUser.id);
+
+        const videoSrc = await uploadVideo(this.props.selectedFile, this.props.currentUser.id);
         
         console.log(videoSrc);
 
@@ -42,10 +43,10 @@ class Write extends Component {
             return;
         } 
 
-        if(!this.props.selectedFile) {
+        if(!this.props.thumbnail) {
             Toast.error("썸네일이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
         }
-        const thumbnailSrc = await uploadFile(this.props.thumbnail, this.props.currentUser.id);
+        const thumbnailSrc = await uploadImage(this.props.thumbnail, this.props.currentUser.id);
 
         console.log(thumbnailSrc);
 

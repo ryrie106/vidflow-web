@@ -2,13 +2,8 @@ export const VIDFLOW_URL = process.env.VIDFLOW_BASE_URL || 'http://localhost:808
 
 export const ACCESS_TOKEN = 'accessToken';
 
-// File upload를 위한 Raw Websocket Endpoint
-// export const UPLOAD_URL = "wss://vidflow.ryrie.xyz:8080/upload";
-export const UPLOAD_URL = 'ws://localhost:8080/upload';
-export const UPLOAD_CHUNKSIZE = 1024 * 1024; // 1MB
-
-export const UPLOAD_SRC = 'https://vidflow.ryrie.xyz/uploads/';
-// export const VIDEO_SRC = '';
+export const VIDEO_SRC = 'https://s3.ap-northeast-2.amazonaws.com/vidflow/videos/';
+export const IMAGE_SRC = 'https://s3.ap-northeast-2.amazonaws.com/vidflow/images/';
 
 export const PAGE_SIZE = 3;
 
@@ -19,3 +14,7 @@ export const EMAIL_MAX_LENGTH = 40;
 
 export const PASSWORD_MIN_LENGTH = 6;
 export const PASSWORD_MAX_LENGTH = 20;
+
+export const BucketName = '';
+export const bucketRegion = '';
+export const IdentityPoolId = '';

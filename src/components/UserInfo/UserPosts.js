@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink} from "react-router-dom";
 import { Grid } from 'antd-mobile';
 
-import { UPLOAD_SRC } from "../../constants";
+import { IMAGE_SRC } from "../../constants";
 
 /**
  * Component UserPosts ( App -> Main -> UserInfo -> UserPosts )
@@ -16,7 +16,7 @@ import { UPLOAD_SRC } from "../../constants";
 
     render() {
         const data1 = Array.from(this.props.posts).map((post) => ({
-            icon: UPLOAD_SRC + post.thumbnailSrc,
+            icon: IMAGE_SRC + post.thumbnailSrc,
             text: post.postId,
             id: post.postId
         }));

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import videojs from 'video.js';
 
-import { UPLOAD_SRC } from '../../constants';
+import { VIDEO_SRC } from '../../constants';
 import 'video.js/dist/video-js.css';
 
 /**
@@ -18,7 +18,7 @@ class VideoPlayer extends Component {
             loop: true,
             preload: "auto",
             sources: [{
-                src: UPLOAD_SRC + this.props.videoSrc,
+                src: VIDEO_SRC + this.props.videoSrc,
                 type: 'video/mp4'
             }]
         };

@@ -65,7 +65,7 @@ class Home extends Component {
                     await this.getNextPage();
                 }
             }
-            if(this.state.posts.length != 0) {
+            if(this.state.posts.length !== 0) {
                 this.setState({
                     currentPostId: this.state.posts[0].id,
                     currentPostWriterId: this.state.posts[0].writerid 
