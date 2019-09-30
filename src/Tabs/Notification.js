@@ -32,7 +32,7 @@ class Notification extends Component {
     }
     render() {
         return (
-            <div className="notification">
+            <div className="main-tab" id="notification">
                 <NavBar
                     id="notification-navbar"
                 >알림</NavBar>

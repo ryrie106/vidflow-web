@@ -42,12 +42,12 @@ class Search extends Component {
         ];
         
         return (
-            <div id="search">
+            <div className="main-tab" id="search">
                 <div id="search-top">
                 <SearchBar
                     className="search-bar"
                     onChange={this.onChange}
-                    cancelText="지워"/>
+                    cancelText="x"/>
                 <Button
                     id="search-submit"
                     onClick={this.onClick}>

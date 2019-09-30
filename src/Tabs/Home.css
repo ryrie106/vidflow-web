@@ -1,7 +1,5 @@
-.home {
-    height: 100%;
-    width: 100%;
-
+#home {
+    
 }
 
 #home-navbar {
@@ -12,7 +10,6 @@
     background: transparent;
     z-index: 100;
 }
-
 
 .swiper-wrapper {
     width: 100%;

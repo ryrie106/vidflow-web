@@ -1,10 +1,6 @@
-.userinfo {
-    position: fixed;
-    width: 100%;
-    max-width: 600px;
+#userinfo {
     height: calc(100% - 50px);
     margin-bottom: 50px;
-    z-index: 300;
     background: #161824;
 }
 
@@ -16,7 +12,7 @@
     background: transparent;
 }
 
-.userinfo-head-icons {
+#userinfo-head-icons {
     display: flex;
     /* position: absolute; */
     /*top: 50px;*/
@@ -25,14 +21,14 @@
     padding-left: 15px;
 }
 
-.userinfo-thumbnail {
+#userinfo-thumbnail {
     height: 100px;
     width: 100px;
     border-radius: 100px;
     background: #333;
 }
 
-.userinfo-thumbnail-name {
+#userinfo-thumbnail-name {
     width: 100%;
     text-align: center;
     color: white;
@@ -40,12 +36,12 @@
     line-height: 100px;
 }
 
-.userinfo-head-buttons {
+#userinfo-head-buttons {
     display: flex;
     margin: auto;
 }
 
-.userinfo-head-info {
+#userinfo-head-info {
     /* position: absolute; */
     /*top: 170px;*/
     width: 100%;
@@ -53,22 +49,22 @@
     margin-bottom: 20px;
 }
 
-.userinfo-name {
+#userinfo-name {
     color: white;
     font-size: 25px;
 }
 
-.userinfo-introduce {
+#userinfo-introduce {
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-.userinfo-stat {
+#userinfo-stat {
     color: white;
 }
 
-.userinfo-content {
+#userinfo-content {
     /* position: absolute; */
     /*top: 320px;*/
     width: 100%;

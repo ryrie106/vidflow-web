@@ -187,7 +187,7 @@ class Home extends Component {
         );
 
         return(
-            <div className="home">
+            <div className="main-tab" id="home">
                 {this.props.match ?
                     <NavBar
                         id="home-navbar"

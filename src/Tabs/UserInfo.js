@@ -110,19 +110,19 @@ class UserInfo extends Component {
             { title: '좋아요', sub: '2' },
         ];
         return (
-            <div className="userinfo">
+            <div className="main-tab" id="userinfo">
                 {this.props.match ?
                 <NavBar
                     id="userinfo-navbar"
                     icon={<Icon type="left"/>}
                     onLeftClick={() => {this.props.history.goBack()}}/>:null}
-                <div className="userinfo-head-icons">
-                    <div className="userinfo-thumbnail">
-                        <div className="userinfo-thumbnail-name">
+                <div id="userinfo-head-icons">
+                    <div id="userinfo-thumbnail">
+                        <div id="userinfo-thumbnail-name">
                             {(this.state.name) ? this.state.name.charAt(0) : ''}
                         </div>
                     </div>
-                    <div className="userinfo-head-buttons">
+                    <div id="userinfo-head-buttons">
                         {this.state.myInfo ?
                             <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
                             :
@@ -133,20 +133,20 @@ class UserInfo extends Component {
                         }
                     </div>    
                 </div>
-                <div className="userinfo-head-info">
-                    <div className="userinfo-name">
+                <div id="userinfo-head-info">
+                    <div id="userinfo-name">
                         {this.state.name}
                     </div>
 
-                    <div className="userinfo-introduce">
+                    <div id="userinfo-introduce">
                         {this.state.introduction === "" ? "자기 소개를 입력해보세요" : this.state.introduction}
                     </div>
                     
-                    <div className="userinfo-stat">
+                    <div id="userinfo-stat">
                         {this.state.numLikes} 좋아요 {this.state.numFollowing} 팔로잉 {this.state.numFollower} 팔로워
                     </div>
                 </div>
-                <div className="userinfo-content">
+                <div id="userinfo-content">
                 <Tabs
                     tabs={tabs}
                     initialPage={0}
@@ -156,10 +156,10 @@ class UserInfo extends Component {
                     tabBarActiveTextColor="white"
                     tabBarInactiveTextColor="gray"
                 >
-                <div >
+                <div>
                     <UserPosts columnNum={3} posts={this.state.userPosts}/>
                 </div>
-                <div >
+                <div>
                     <UserPosts columnNum={3} posts={this.state.userLikes}/>
                 </div>
                 </Tabs>

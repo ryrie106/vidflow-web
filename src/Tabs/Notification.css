@@ -1,9 +1,9 @@
-.notification {
+#notification {
     margin-bottom: 50px;
 }
 
 #notification-navbar {
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     max-width: 600px;
     top: 0;
