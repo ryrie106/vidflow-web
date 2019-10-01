@@ -148,7 +148,6 @@ class Home extends Component {
                             currentPostId: this.state.posts[this.state.postIndex+1].id,
                             currentPostWriterId: this.state.posts[this.state.postIndex+1].writerid
                         });
-
                     }
                     /*
                         게시물은 페이지 단위로 불러온다.
@@ -227,7 +226,7 @@ class Home extends Component {
                             <Button onClick={this.showAlert}>삭제</Button>
                             :
                             <div>
-                                공
+                                공유하기(미지원)
                             </div>
                         }
                     </div>

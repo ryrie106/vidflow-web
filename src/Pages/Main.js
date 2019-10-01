@@ -54,7 +54,7 @@ class Main extends Component {
   
     render() {
         return (
-            <div className="main">
+            <div id="main">
             <TabBar
                 class="tabbar-main"
                 unselectedTintColor="gray"

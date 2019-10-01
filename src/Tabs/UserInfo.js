@@ -39,7 +39,6 @@ class UserInfo extends Component {
         this.setState({
             infoId: infoId
         });
-        console.log("UserInfo: InfoId 설정 했음");
 
         if(infoId !== 0) {
             getUserPosts(infoId).then(response => {
@@ -66,7 +65,8 @@ class UserInfo extends Component {
                 <NavBar
                     id="userinfo-navbar"
                     icon={<Icon type="left"/>}
-                    onLeftClick={() => {this.props.history.goBack()}}/>:null}
+                    onLeftClick={() => {this.props.history.goBack()}}/>:
+                <div class="navbar-null" style={{width: "100%", height: "50px"}}/>}
                 {this.state.infoId ?
                 <UserInfoHead 
                     currentUser={this.props.currentUser}

@@ -59,7 +59,7 @@ class UserInfoHead extends Component {
     refreshUserInfo = following => () => {
         let stateCopy = Object.assign({}, this.state);
         stateCopy.following = following;
-        getUserInfo(this.state.id).then(response => {
+        getUserInfo(this.props.infoId).then(response => {
             stateCopy.numLikes = response.numLikes;
             stateCopy.numFollowing = response.numFollowing;
             stateCopy.numFollower = response.numFollower;

@@ -31,11 +31,11 @@ class App extends Component {
             },
             loading: false,
             
-            // Main Page
+            // Main Page 에서 사용
             selectedTab: 'homeTab',
             loginModal: false,
 
-            // VideoEdit, Write
+            // VideoEdit, Write Page 에서 사용
             selectedFile: null,
             preview: null, // write에서 보여지는 그림
             thumbnail: null // 실제로 보낼 파일
@@ -72,7 +72,8 @@ class App extends Component {
         this.setState({
             currentUser: null,
         });
-        window.location.reload();
+        this.props.history.push("/");
+        Toast.info('로그아웃 하였습니다', 1);        
     };
 
     onLogin = () => {
@@ -92,7 +93,6 @@ class App extends Component {
             thumbnail: file
         })
     };
-
 
     setPreview = (base64) => {
         this.setState({
@@ -115,7 +115,6 @@ class App extends Component {
     render() {
         return (
             <div id="app">
-
                 <Route path="/videoedit"
                     render={(props) => <VideoEdit 
                                         onChangeVideoSelector={this.onChangeVideoSelector}
@@ -130,26 +129,31 @@ class App extends Component {
                                         preview={this.state.preview}
                                         {...props} />}/>
                 <Route path="/login" 
-                    render={(props) => <Login onLogin={this.onLogin} {...props} />} />
+                    render={(props) => <Login 
+                        onLogin={this.onLogin} 
+                        {...props} />}/>
+
                 <Route path="/signup" component={Signup} />
 
                 <Route path="/user/:userId"
                     render={(props) => <UserInfo
-                                            currentUser={this.state.currentUser}
-                                            onLogout={this.onLogout}
-                                            {...props} />}/>
+                        currentUser={this.state.currentUser}
+                        onLogout={this.onLogout}
+                        {...props} />}/>
 
                 <Route path="/posts/:postId"
                     render={(props) => <Home
-                                            currentUser={this.state.currentUser}
-                                            {...props} />}/>
+                        currentUser={this.state.currentUser}
+                        {...props} />}/>
+
                 <Route exact path="/"
-                       render={(props) => <Main
-                           currentUser={this.state.currentUser}
-                           selectedTab={this.state.selectedTab}
-                           onLogout={this.onLogout}
-                           showLoginModal={this.showLoginModal}
-                           {...props} />}/>
+                    render={(props) => <Main
+                        currentUser={this.state.currentUser}
+                        selectedTab={this.state.selectedTab}
+                        onLogout={this.onLogout}
+                        showLoginModal={this.showLoginModal}
+                        {...props} />}/>
+
                <Modal
                     popup
                     visible={this.state.loginModal}
@@ -158,15 +162,15 @@ class App extends Component {
                     afterClose={()=>{}}
                 >
                     <div className="login-modal"> 
-                    계속하려면 Vidflow 계정이 필요합니다.
-                    <Button type="warning" onClick={() => {
-                        this.setState({loginModal:false});
-                        this.props.history.push("/signup");
-                        }}>회원가입</Button>
-                    <Button className="redirect-to-login" onClick={() => {
-                        this.setState({loginModal:false});                        
-                        this.props.history.push("/login")
-                        }}>이미 계정이 있으신가요? 로그인</Button>
+                        계속하려면 Vidflow 계정이 필요합니다.
+                        <Button type="warning" onClick={() => {
+                            this.setState({loginModal:false});
+                            this.props.history.push("/signup");
+                            }}>회원가입</Button>
+                        <Button className="redirect-to-login" onClick={() => {
+                            this.setState({loginModal:false});                        
+                            this.props.history.push("/login")
+                            }}>이미 계정이 있으신가요? 로그인</Button>
                     </div>
                 </Modal>
             </div>

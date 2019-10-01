@@ -3,6 +3,7 @@ import { NavLink} from "react-router-dom";
 import { Grid } from 'antd-mobile';
 
 import { IMAGE_SRC } from "../../constants";
+import './UserPosts.css';
 
 /**
  * Component UserPosts ( App -> Main -> UserInfo -> UserPosts )
@@ -27,7 +28,7 @@ import { IMAGE_SRC } from "../../constants";
                   renderItem={ (item) => (
                       <NavLink key={item.id} className="userposts-item" to={"/posts/" + item.id}>
                           <div>
-                              <img src={item.icon} style={{height: "150px"}} alt="" />
+                              <img src={item.icon} style={{width: "100%", height: "100%", padding: "0"}} alt="" />
                           </div>
                       </NavLink>
                   )}
