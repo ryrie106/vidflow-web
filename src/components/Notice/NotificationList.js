@@ -9,7 +9,7 @@ const Brief = Item.Brief;
 
 class NotificationList extends Component {
     render() {
-        const notificationlist = this.props.notifications.map(notification =>
+        const notificationlist = this.props.notifications.map(notification => 
             <NavLink key={notification.id} className="notification-item" to={notification.link}>
                 <Item align="top" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" multipleLine>
                     {notification.category === "LIKE" &&
@@ -25,7 +25,7 @@ class NotificationList extends Component {
         );
 
         return (
-            <List className="notification-list">
+            <List id="notification-list">
                 {notificationlist}
             </List>
         );

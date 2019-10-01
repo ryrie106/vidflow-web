@@ -24,10 +24,13 @@ class Notification extends Component {
     }
 
     componentDidMount() {
-        getNotifications(this.props.currentUser.id).then(response =>
-            this.setState({
-                notifications: response
-            })
+        getNotifications(this.props.currentUser.id).then(response => {
+                if(response) {
+                    this.setState({
+                        notifications: response
+                    })
+                }
+            }
         );
     }
     render() {
@@ -36,8 +39,10 @@ class Notification extends Component {
                 <NavBar
                     id="notification-navbar"
                 >알림</NavBar>
-                <NotificationList
-                    notifications={this.state.notifications}/>
+                {this.state.notifications.length !== 0 ?
+                <NotificationList notifications={this.state.notifications}/>
+                : <div> 도착한 알람이 없습니다. </div>
+                }
             </div>
         );
     }

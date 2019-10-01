@@ -114,7 +114,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="app">
+            <div id="app">
 
                 <Route path="/videoedit"
                     render={(props) => <VideoEdit 
