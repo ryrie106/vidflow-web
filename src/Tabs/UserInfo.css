@@ -1,4 +1,5 @@
 #userinfo {
+
 }
 
 #userinfo-navbar {
@@ -16,49 +17,6 @@
     /* margin-top: 50px; */
     margin-bottom: 20px;
     padding-left: 15px;
-}
-
-#userinfo-thumbnail {
-    height: 100px;
-    width: 100px;
-    border-radius: 100px;
-    background: #333;
-}
-
-#userinfo-thumbnail-name {
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-size: 50px;
-    line-height: 100px;
-}
-
-#userinfo-head-buttons {
-    display: flex;
-    margin: auto;
-}
-
-#userinfo-head-info {
-    /* position: absolute; */
-    /*top: 170px;*/
-    width: 100%;
-    padding-left: 15px;
-    margin-bottom: 20px;
-}
-
-#userinfo-name {
-    color: white;
-    font-size: 25px;
-}
-
-#userinfo-introduce {
-    color: white;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
-#userinfo-stat {
-    color: white;
 }
 
 #userinfo-content {

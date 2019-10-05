@@ -70,7 +70,11 @@ class App extends Component {
     onLogout = () => {
         localStorage.removeItem(ACCESS_TOKEN);
         this.setState({
-            currentUser: null,
+            currentUser: {
+                id: 0,
+                email: 'guest',
+                name: 'guest'
+            }
         });
         this.props.history.push("/");
         Toast.info('로그아웃 하였습니다', 1);        

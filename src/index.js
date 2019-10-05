@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import "typeface-nanum-gothic";
 
 const Index = () => (
     /* github-pages에 deploy시 필요함 */

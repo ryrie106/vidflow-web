@@ -21,12 +21,11 @@ class UserInfoHead extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.infoId, this.props.currentUser.id);
         if(this.props.infoId === this.props.currentUser.id) {
             this.setState({
                 myInfo: true
             });
-        } else {
+        } else if(this.props.currentUser.id) {
             isFollowing(this.props.infoId).then(response => {
                 this.setState({
                     following: response
@@ -76,16 +75,14 @@ class UserInfoHead extends Component {
                             {(this.state.name) ? this.state.name.charAt(0) : ''}
                         </div>
                     </div>
-                    <div id="userinfo-head-buttons">
-                        {this.state.myInfo ?
-                            <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
-                            :
-                            <UserInfoHeadButtons
-                                follow={this.follow}
-                                unfollow={this.unfollow}
-                                following={this.state.following}/>
-                        }
-                    </div>    
+                    {this.state.myInfo ?
+                    <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
+                    :
+                    <UserInfoHeadButtons
+                        follow={this.follow}
+                        unfollow={this.unfollow}
+                        following={this.state.following}/>
+                    }    
                 </div>
                 <div id="userinfo-head-info">
                     <div id="userinfo-name">

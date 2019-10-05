@@ -66,11 +66,12 @@ class UserInfo extends Component {
                     id="userinfo-navbar"
                     icon={<Icon type="left"/>}
                     onLeftClick={() => {this.props.history.goBack()}}/>:
-                <div class="navbar-null" style={{width: "100%", height: "50px"}}/>}
+                <div className="navbar-null" style={{width: "100%", height: "50px"}}/>}
                 {this.state.infoId ?
                 <UserInfoHead 
                     currentUser={this.props.currentUser}
                     infoId={this.state.infoId}
+                    onLogout={this.props.onLogout}
                 />:null}
                 <div id="userinfo-content">
                     <Tabs

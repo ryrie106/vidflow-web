@@ -8,7 +8,7 @@ class MyUserInfoHeadButtons extends Component {
 
     render() {
         return(
-            <div>
+            <div id="userinfo-my-head-buttons">
                 <Button
                     id="userinfo-edit-profile"
                     size='small'
