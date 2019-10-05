@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {getUserInfo, isFollowing, followUser, unfollowUser} from '../../utils/APIUtils';
+import DefaultThumbnail from "../Common/DefaultThumbnail";
 import UserInfoHeadButtons from "./UserInfoHeadButtons";
 import MyUserInfoHeadButtons from "./MyUserInfoHeadButtons";
 import './UserInfoHead.css';
@@ -68,13 +69,11 @@ class UserInfoHead extends Component {
     render() {
         return (
             <div id="userinfo-head">
+                <div id="userinfo-head-background" />
                 <div id="userinfo-head-icons">
-                    <div id="userinfo-thumbnail">
-                        {/*첫 번째 글자를 사용한 google식 기본 썸네일임. 유저 썸네일을 추가하면 제거할것*/}
-                        <div id="userinfo-thumbnail-name">
-                            {(this.state.name) ? this.state.name.charAt(0) : ''}
-                        </div>
-                    </div>
+                    <DefaultThumbnail
+                        style={{"margin-top": "-100px"}}
+                        name={this.state.name}/>
                     {this.state.myInfo ?
                     <MyUserInfoHeadButtons onLogout={this.props.onLogout}/>
                     :

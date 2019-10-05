@@ -10,15 +10,6 @@
     background: transparent;
 }
 
-#userinfo-head-icons {
-    display: flex;
-    /* position: absolute; */
-    /*top: 50px;*/
-    /* margin-top: 50px; */
-    margin-bottom: 20px;
-    padding-left: 15px;
-}
-
 #userinfo-content {
     /* position: absolute; */
     /*top: 320px;*/
