@@ -1,5 +1,7 @@
 import { UPLOAD_URL, UPLOAD_CHUNKSIZE } from '../constants';
-
+/**
+ * 웹소켓을 이용한 파일 업로드 구현. 지금은 사용하지 않음.
+ */
 
 export function uploadFile(file, uid) {
     return new Promise(function(resolve, reject) {

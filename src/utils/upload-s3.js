@@ -1,5 +1,11 @@
 import * as AWS from 'aws-sdk';
-import { BucketName, bucketRegion, IdentityPoolId } from '../constants';
+/**
+ * AWS S3에 직접 업로드 하는 코드. 사용하기 위해서는 API Key가 필요하다 현재 사용하지 않음.
+ */
+const BucketName = '';
+const bucketRegion = '';
+const IdentityPoolId = '';
+
 // Set the region 
 AWS.config.update({
     region: bucketRegion,

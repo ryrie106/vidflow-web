@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, Button, Icon,  NavBar, TextareaItem, Toast } from 'antd-mobile';
-import { createPost } from '../utils/APIUtils';
-import { uploadVideo, uploadImage } from '../utils/upload-s3';
+import { createPost, uploadFileRequest, putFilesToPresignedURL } from '../utils/APIUtils';
 import './Write.css';
 
 /**
@@ -30,34 +29,47 @@ class Write extends Component {
             uploading: true
         });
 
+        /**
+         * video 업로드
+         */
         if(!this.props.selectedFile) {
             Toast.error("선택한 영상이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
         }
 
-        const videoSrc = await uploadVideo(this.props.selectedFile, this.props.currentUser.id);
-        
-        console.log(videoSrc);
+        const videoInfo = await uploadFileRequest('video');
+        const videoId = videoInfo.fileId;
+        console.log(videoId);
+        await putFilesToPresignedURL(videoInfo.url, this.props.selectedFile);
 
-        if(!videoSrc) {
+        // TODO: 업로드가 실패했는지 검사해야함
+        if(!videoId) {
             Toast.error("영상 업로드 실패!", 1);
             return;
-        } 
+        }
 
+        /**
+         * thumbnail 업로드
+         */
         if(!this.props.thumbnail) {
             Toast.error("썸네일이 올바르지 않았습니다. 처음부터 다시 시도해 주세요", 1);
         }
-        const thumbnailSrc = await uploadImage(this.props.thumbnail, this.props.currentUser.id);
 
-        console.log(thumbnailSrc);
+        const thumbnailInfo = await uploadFileRequest('image');
+        const thumbnailId = thumbnailInfo.fileId;
+        console.log(thumbnailId);
+        await putFilesToPresignedURL(thumbnailInfo.url, this.props.thumbnail);
 
-        if(!thumbnailSrc) {
+        // TODO: 업로드가 실패했는지 검사해야함
+        if(!thumbnailId) {
             Toast.error("이미지 업로드 실패!", 1);
             return;
         }
 
+        // TODO: ...Src를 ...Id로 바꿔야함 그런데 이걸 바꾸려면 API 서버의 많은 부분을 변경 해야 하므로 나중에 하기로
+
         const postRequest = Object.assign({}, {
-            "videoSrc": videoSrc,
-            "thumbnailSrc": thumbnailSrc,
+            "videoSrc": videoId,
+            "thumbnailSrc": thumbnailId,
             "content": this.state.content
         });
     
