@@ -27,6 +27,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "homepage": "https://ryrie.github.io/vidflow-web",
   "browserslist": {
     "production": [
       ">0.2%",
