@@ -1,4 +1,5 @@
-export const VIDFLOW_URL = process.env.VIDFLOW_BASE_URL || 'https://vidflow.ryrie.xyz:8080';
+// export const VIDFLOW_URL = process.env.VIDFLOW_BASE_URL || 'https://vidflow.ryrie.xyz:8080';
+export const VIDFLOW_URL = 'http://localhost:8080';
 
 export const ACCESS_TOKEN = 'accessToken';
 

@@ -181,6 +181,7 @@ class Home extends Component {
                     showModal={this.showModal}
                     currentUser={this.props.currentUser}
                     refreshPost={this.refreshPost}
+                    showLoginModal={this.showLoginModal}
                 />
             </div>
         );

@@ -31,6 +31,7 @@ class Post extends Component {
                     postId={this.props.post.id}
                     postWriterId={this.props.post.writerid}
                     showModal={this.props.showModal}
+                    showLoginModal={this.props.showLoginModal}
                     numComment={this.props.post.num_comment}
                     numLike={this.props.post.num_like}
 
