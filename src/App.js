@@ -104,6 +104,12 @@ class App extends Component {
         })
     };
 
+    selectTab = (tab) => {
+        this.setState({
+            selectedTab: tab
+        })
+    }
+
     showLoginModal = () => {
         this.setState({
             loginModal: true
@@ -154,6 +160,7 @@ class App extends Component {
                     render={(props) => <Main
                         currentUser={this.state.currentUser}
                         selectedTab={this.state.selectedTab}
+                        selectTab={this.selectTab}
                         onLogout={this.onLogout}
                         showLoginModal={this.showLoginModal}
                         {...props} />}/>

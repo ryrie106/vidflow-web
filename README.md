@@ -1,3 +1,39 @@
-# Vidflow-view
+# Vidflow-web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[api server](https://github.com/ryrie/vidflow)
+
+demo : https://ryrie.github.io/vidflow-web
+
+vidflow의 web frontend입니다. 
+
+tiktok의 clone 프로젝트로 시작을 했기 때문에 동영상을 열람하는 방식이 swipe 입니다. 
+
+mobile 모바일에서 접속을 권장하지만 desktop에서도 drag&drop 으로 동영상을 swipe할 수 있습니다.
+
+브라우저에서는 기본적으로 페이지를 로드 하자마자 자동으로 동영상을 재생하는 것이 막혀 있습니다. 그래서 처음 들어가실 때에는 화면을 한번 터치 해야 재생이 됩니다.
+
+## 지금까지 개발된 기능들
+
+- Home(영상 열람 페이지) 페이지
+- 글쓰기(영상 편집 미지원)
+- 댓글쓰기
+- 팔로우
+- 알림
+- 검색(해시태그 검색 x)
+- 회원가입 로그인
+- 마이페이지, 다른 사람 정보 보기
+
+## 개발하면서 했던 고민
+
+### 로그인시 password를 암호화 해야 하며 어디서 해야 하는가?
+물론 password는 backend에서 db에 암호화해서 저장을 하지만 사용자가 로그인할때 password를 암호화 해서 보내야 되지 않을까 라고 생각을 했다. 그렇지만 검색을 해보고, 실제 유명 웹 사이트들에서 디버깅 툴을 살펴본 결과 https가 적용 되었다면 frontend에서 암호화 하지 않아야 오히려 더 안전하다는 결론을 내렸다. 실제 많은 사이트들이 password를 그대로 보내고 있었다. 이런 점에서 봤을때 https는 선택이 아닌 필수다..
+
+### AWS S3에 어떻게 안전하게 업로드 할 수 있을까?
+
+## 앞으로의 계획
+
+- 처음에는 tiktok을 똑같이 만들어 보려고 억지로 끼워 맞추었던 적이 많았습니다. 그렇지만 이제는 그것을 벗어나 제가 만들어 보고 싶은 대로 만들 예정입니다.
+- redux 적용하기 : 이전에 프로젝트에서는 아무것도 모른 상태에서 redux를 적용하였는데 코드를 이렇게 짜도 되는건지 의심스러웠으며 좀 더 react스럽게 state관리를 하기 위해서 이번에는 redux를 사용하지 않았습니다. 어느정도 성공은 한것 같지만 개발을 하면서 redux를 사용했으면 훨씬 더 자연스럽게 state관리를 할 수 있을 것 같다고 생각 했습니다. 지금 상태에서 바로 redux로 바꾸기는 쉽지 않고 점진적으로 적용해볼 예정입니다.  
+- hooks 적용 : hooks는 react의 새로운 기능이며 의미없는 컴포넌트의 과도한 중첩인 component hell을 줄이기 위해 나온 새로운 component입니다.
+- 편집 기능 추가 : 처음에는 영상 자르기라도 구현하려고 했으나 특정한 브라우저에서만 돌아가 결국 아무 기능도 구현하지 못했습니다. 좀 더 연구하여 추가할 예정입니다.
+

@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "antd-mobile": "^2.2.13",
-    "aws-sdk": "^2.534.0",
     "cross-env": "^5.2.0",
+    "prop-types": "^15.7.2",
     "rc-form": "^2.4.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

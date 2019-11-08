@@ -14,16 +14,9 @@ import './Main.css';
  * 2. Tabbar를 표시해 원하는 탭으로 전환
  */
 class Main extends Component {
-    /**
-     * Props
-     * currentUser : 
-     * onLogout : () => void 
-     * showLoginModal 
-     */
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'homeTab',
             tabbarColor: 'transparent'
         };
     }
@@ -43,12 +36,11 @@ class Main extends Component {
             });
         }
 
+        // 로그인을 요구하는 tab일 경우 로그인이 되어 있지 않으면 loginModal을 띄운다.
         if(login && !this.props.currentUser.id) {
             this.props.showLoginModal();
         } else {
-            this.setState({
-                selectedTab: tab
-            })
+            this.props.selectTab(tab);
         }
     };
   
@@ -66,7 +58,7 @@ class Main extends Component {
                 key="Home"
                 icon={<FaHome className="tabbar-main-pic" />}
                 selectedIcon={<FaHome className="tabbar-main-pic" />}
-                selected={this.state.selectedTab === 'homeTab'}
+                selected={this.props.selectedTab === 'homeTab'}
                 onPress={this.onPress(false, 'homeTab')}
                 data-seed="logId"
             >
@@ -78,7 +70,7 @@ class Main extends Component {
                 key="Search"
                 icon={<FaGlobe className="tabbar-main-pic"/>}
                 selectedIcon={<FaGlobe className="tabbar-main-pic"/>}
-                selected={this.state.selectedTab === 'searchTab'}
+                selected={this.props.selectedTab === 'searchTab'}
                 onPress={this.onPress(false, 'searchTab')}
                 data-seed="logId1"
             >
@@ -89,7 +81,7 @@ class Main extends Component {
                 key="write"
                 icon={<FaFolderPlus className="tabbar-main-pic"/>}
                 selectedIcon={<FaFolderPlus className="tabbar-main-pic"/>}
-                selected={this.state.selectedTab === 'writeTab'}
+                selected={this.props.selectedTab === 'writeTab'}
                 onPress={() => {
                     if(!this.props.currentUser.id) {
                         this.props.showLoginModal();
@@ -104,7 +96,7 @@ class Main extends Component {
                 key="notification"
                 icon={<FaComment className="tabbar-main-pic" />}
                 selectedIcon={<FaComment className="tabbar-main-pic" />}
-                selected={this.state.selectedTab === 'notificationTab'}
+                selected={this.props.selectedTab === 'notificationTab'}
                 onPress={this.onPress(true, 'notificationTab')}
                 data-seed="logId2"
             >
@@ -117,7 +109,7 @@ class Main extends Component {
                 key="userinfo"
                 icon={<FaUser className="tabbar-main-pic" />}
                 selectedIcon={<FaUser className="tabbar-main-pic" />}
-                selected={this.state.selectedTab === 'userinfoTab'}
+                selected={this.props.selectedTab === 'userinfoTab'}
                 onPress={this.onPress(true, 'userinfoTab')}
                 data-seed="logId3"
             >
