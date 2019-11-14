@@ -13,9 +13,6 @@ import './Home.css';
  * Component Home (App -> Main -> Home)
  * 1. 게시물 불러오기
  * 2. 댓글, 공유 Modal 관리
- * 
- * Prop list
- * currentUser :
  */
 class Home extends Component {
     constructor(props) {
@@ -181,7 +178,7 @@ class Home extends Component {
                     showModal={this.showModal}
                     currentUser={this.props.currentUser}
                     refreshPost={this.refreshPost}
-                    showLoginModal={this.showLoginModal}
+                    showLoginModal={this.props.showLoginModal}
                 />
             </div>
         );

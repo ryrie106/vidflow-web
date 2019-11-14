@@ -8,11 +8,6 @@ import './Post.css';
 /**
  * Component Post (App -> Main -> Home -> Post)
  * 1. 각 게시물의 정보 표시
- * 
- * Prop list
- * post
- * showModal
- * currentUser
  */
 class Post extends Component {
     

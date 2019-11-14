@@ -11,27 +11,27 @@ import './Icons.css';
  * 2. 아이콘들을 누르면 각 아이콘에 대한 요청 발생
  * 3. 각 Modal은 Home에서 생성하고 관리. Icons Component가 여러개 생성되기 때문.
  * 
- * Prop list
- * currentUser : 
- * postId: number
- * postWriterId: number
- * showModal : (key) => () => void
- * numComment : number
- * numLike : number
- * isLiked : boolean
- * myPost : boolean
  */
 class Icons extends Component {
 
     likePost = () => {
-        // likePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-        likePost(this.props.postId).then(this.props.refreshPost);
-
+        if(this.props.currentUser.id === 0) {
+            this.props.showLoginModal();
+        }
+        else {
+            // likePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+            likePost(this.props.postId).then(this.props.refreshPost);
+        }
     };
 
     unlikePost = () => {
-        // unlikePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-        unlikePost(this.props.postId).then(this.props.refreshPost);
+        if(this.props.currentUser.id === 0) {
+            this.props.showLoginModal();
+        }
+        else {
+            // unlikePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
+            unlikePost(this.props.postId).then(this.props.refreshPost);
+        }
     };
 
     render() {

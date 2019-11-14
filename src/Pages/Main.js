@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FaHome, FaGlobe, FaFolderPlus, FaComment, FaUser  } from 'react-icons/fa';
-import { TabBar, Toast } from 'antd-mobile';
+import { TabBar } from 'antd-mobile';
 
 import Home from '../Tabs/Home';
 import Search from '../Tabs/Search';
@@ -19,10 +19,6 @@ class Main extends Component {
         this.state = {
             tabbarColor: 'transparent'
         };
-    }
-
-    componentDidMount() {
-        Toast.info("위 아래로 움직여보세요", 2);
     }
 
     onPress = (login, tab) => () => {
