@@ -10,12 +10,6 @@ import './CommentList.css';
  * Component CommentList (App -> Main -> Home -> CommentList)
  * 1. 게시물의 댓글 불러오기
  * 2. 댓글 작성하기
- * 
- * Prop list
- * showModal : (key) => () => void
- * closeModal : (key) => () => void
- * currentUser :
- * currentPostId : number
  */
 class CommentList extends Component{
 
@@ -44,7 +38,7 @@ class CommentList extends Component{
     };
 
     onSubmit = () => { 
-        if(this.props.currentUser == null) {
+        if(this.props.currentUser.id === 0) {
             this.props.showLoginModal();
             return;
         }
