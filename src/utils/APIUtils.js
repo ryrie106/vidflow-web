@@ -1,4 +1,4 @@
-import { VIDFLOW_URL, ACCESS_TOKEN } from '../constants';
+import { API_ROOT_URL, ACCESS_TOKEN } from '../constants';
 
 const request = (options) => {
     if(localStorage.getItem(ACCESS_TOKEN)) {
@@ -23,7 +23,7 @@ export function login(loginRequest) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/auth/login",
+        url: API_ROOT_URL + "/auth/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -35,7 +35,7 @@ export function signup(signupRequest) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users",
+        url: API_ROOT_URL + "/users",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -47,7 +47,7 @@ export function queryUserName(name) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users?name=" + name,
+        url: API_ROOT_URL + "/users?name=" + name,
         method: 'GET'
     })
 }
@@ -58,7 +58,7 @@ export function getUserInfo(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId,
+        url: API_ROOT_URL + "/users/" + userId,
         method: 'GET'
     })
 }
@@ -69,7 +69,7 @@ export function getUserPosts(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/posts",
+        url: API_ROOT_URL + "/users/" + userId + "/posts",
         method: 'GET'
     })
 }
@@ -80,7 +80,7 @@ export function getUserLikes(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/likes",
+        url: API_ROOT_URL + "/users/" + userId + "/likes",
         method: 'GET'
     })
 }
@@ -91,7 +91,7 @@ export function followUser(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        url: API_ROOT_URL + "/users/" + userId + "/follow",
         method: 'POST'
     })
 }
@@ -102,7 +102,7 @@ export function unfollowUser(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        url: API_ROOT_URL + "/users/" + userId + "/follow",
         method: 'DELETE'
     })
 }
@@ -113,7 +113,7 @@ export function isFollowing(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/follow",
+        url: API_ROOT_URL + "/users/" + userId + "/follow",
         method: 'GET'
     })
 }
@@ -124,7 +124,7 @@ export function getNotifications(userId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/" + userId + "/notification",
+        url: API_ROOT_URL + "/users/" + userId + "/notification",
         method: 'GET'
     });
 }
@@ -136,7 +136,7 @@ export function getPostById(postId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts/" + postId,
+        url: API_ROOT_URL + "/posts/" + postId,
         method: 'GET'
     });
 }
@@ -147,7 +147,7 @@ export function uploadFileRequest(type) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/files/" + type,
+        url: API_ROOT_URL + "/files/" + type,
         method: 'POST',
     });
 }
@@ -177,7 +177,7 @@ export function createPost(postData) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts",
+        url: API_ROOT_URL + "/posts",
         method: 'POST',
         body: JSON.stringify(postData)
     });
@@ -189,7 +189,7 @@ export function deletePost(postId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts/" + postId,
+        url: API_ROOT_URL + "/posts/" + postId,
         method: 'DELETE'
     })
 }
@@ -200,7 +200,7 @@ export function getPostId() {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts/postId",
+        url: API_ROOT_URL + "/posts/postId",
         method: 'GET'
     })
 }
@@ -211,7 +211,7 @@ export function getPosts(postId, page) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts?id=" + postId + "&page=" + page,
+        url: API_ROOT_URL + "/posts?id=" + postId + "&page=" + page,
         method: 'GET'
     });
 }
@@ -222,7 +222,7 @@ export function getCommentsByPostId(postId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/comments/" + postId,
+        url: API_ROOT_URL + "/comments/" + postId,
         method: 'GET'
     });
 }
@@ -233,7 +233,7 @@ export function createComment(postId, commentData) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/comments/" + postId,
+        url: API_ROOT_URL + "/comments/" + postId,
         method: 'POST',
         body: JSON.stringify(commentData)
     });
@@ -245,7 +245,7 @@ export function deleteComment(postId, commentId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/comments/" + postId + "/" + commentId,
+        url: API_ROOT_URL + "/comments/" + postId + "/" + commentId,
         method: 'DELETE'
     });
 }
@@ -259,7 +259,7 @@ export function getCurrentUser() {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/me",
+        url: API_ROOT_URL + "/users/me",
         method: 'GET'
     });
 }
@@ -270,7 +270,7 @@ export function likePost(postId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL +"/posts/" + postId + "/like",
+        url: API_ROOT_URL +"/posts/" + postId + "/like",
         method: 'POST'
     })
 }
@@ -281,7 +281,7 @@ export function unlikePost(postId) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts/" + postId + "/like",
+        url: API_ROOT_URL + "/posts/" + postId + "/like",
         method: 'DELETE'
     })
 }
@@ -292,7 +292,7 @@ export function queryPostContent(content) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/posts?content=" + content,
+        url: API_ROOT_URL + "/posts?content=" + content,
         method: 'GET'
     })
 }
@@ -303,7 +303,7 @@ export function checkNameAvailability(name) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/checkNameAvailability?name=" + name,
+        url: API_ROOT_URL + "/users/checkNameAvailability?name=" + name,
         method: 'GET'
     });
 }
@@ -314,7 +314,7 @@ export function checkEmailAvailability(email) {
     });
     return request({
         headers: headers,
-        url: VIDFLOW_URL + "/users/checkEmailAvailability?email=" + email,
+        url: API_ROOT_URL + "/users/checkEmailAvailability?email=" + email,
         method: 'GET'
     });
 }
