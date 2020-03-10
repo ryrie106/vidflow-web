@@ -7,8 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import "typeface-nanum-gothic";
 
 const Index = () => (
-    /* github-pages에 deploy시 필요함 */
-    <BrowserRouter basename={process.env.PUBLIC_URL} >
+    <BrowserRouter>
         <App />
     </BrowserRouter>
 );
