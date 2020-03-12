@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
+import React from "react";
 
-import Icons from './Icons';
-import PostContent from './PostContent';
-import VideoPlayer from './VideoPlayer';
-import './Post.css';
+import Icons from "./Icons";
+import PostContent from "./PostContent";
+import VideoPlayer from "./VideoPlayer";
+import "./Post.css";
 
-/**
- * Component Post (App -> Main -> Home -> Post)
- * 1. 각 게시물의 정보 표시
- */
-class Post extends Component {
-    
-    render() {
-        return (
-            <div className="post">
-                <VideoPlayer
-                    videoSrc={this.props.post.videosrc}
-                    videoRef={this.props.post.videoRef} />
-                <PostContent
-                    writer={this.props.post.writername}
-                    content={this.props.post.content}
-                />
-                <Icons
-                    currentUser={this.props.currentUser}
-                    postId={this.props.post.id}
-                    postWriterId={this.props.post.writerid}
-                    showModal={this.props.showModal}
-                    showLoginModal={this.props.showLoginModal}
-                    numComment={this.props.post.num_comment}
-                    numLike={this.props.post.num_like}
-
-                    isLiked={this.props.post.isliked}
-                    myPost={this.props.currentUser &&
-                        this.props.post.writerid === this.props.currentUser.id}
-                    refreshPost={this.props.refreshPost}
-                />
-            </div>
-        )
-    }
+function Post(props) {
+  return (
+    <div className="post">
+      <VideoPlayer
+        videoSrc={props.post.videosrc}
+        videoRef={props.post.videoRef}
+      />
+      <PostContent
+        writer={props.post.writername}
+        content={props.post.content}
+      />
+      <Icons
+        currentUser={props.currentUser}
+        postId={props.post.id}
+        postWriterId={props.post.writerid}
+        showModal={props.showModal}
+        showLoginModal={props.showLoginModal}
+        numComment={props.post.num_comment}
+        numLike={props.post.num_like}
+        isLiked={props.post.isliked}
+        myPost={
+          props.currentUser && props.post.writerid === props.currentUser.id
+        }
+        refreshPost={props.refreshPost}
+      />
+    </div>
+  );
 }
 export default Post;

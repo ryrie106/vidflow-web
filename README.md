@@ -1,6 +1,6 @@
 # Vidflow-web
 
-demo : https://ryrie.github.io/vidflow-web
+demo : https://vidflow.ryrie.xyz
 
 [Tiktok](https://www.tiktok.com)을 모티브로 한 mobile web application 입니다.
 
