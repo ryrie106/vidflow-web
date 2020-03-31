@@ -205,13 +205,13 @@ export function getPostId() {
     })
 }
 
-export function getPosts(postId, page) {
+export function getPosts(postId) {
     const headers = new Headers({
         'Content-Type': 'application/json'
     });
     return request({
         headers: headers,
-        url: API_ROOT_URL + "/posts?id=" + postId + "&page=" + page,
+        url: API_ROOT_URL + "/posts?id=" + postId,
         method: 'GET'
     });
 }
