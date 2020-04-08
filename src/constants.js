@@ -3,8 +3,8 @@ export const API_ROOT_URL = 'https://api.vidflow.ryrie.xyz';
 
 export const ACCESS_TOKEN = 'accessToken';
 
-export const VIDEO_SRC = 'https://vidflow-s3.s3.ap-northeast-2.amazonaws.com/videos/';
-export const IMAGE_SRC = 'https://vidflow-s3.s3.ap-northeast-2.amazonaws.com/images/';
+export const VIDEO_SRC = 'https://d3sflbrb02pqce.cloudfront.net/videos/';
+export const IMAGE_SRC = 'https://d3sflbrb02pqce.cloudfront.net/images/';
 
 export const PAGE_SIZE = 3;
 
