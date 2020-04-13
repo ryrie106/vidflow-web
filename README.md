@@ -8,7 +8,7 @@ demo : https://vidflow.ryrie.xyz
 
 ### 사용한 프레임워크/라이브러리
 
-Frontend : react.js
+Frontend : react.js(create-react-app)
 
 Backend : Spring Boot [저장소 바로가기](https://github.com/ryrie/vidflow)
 
@@ -20,7 +20,7 @@ mobile 모바일에서 접속을 권장하지만 desktop에서도 drag&drop 으�
 
 브라우저에서는 기본적으로 페이지를 로드 하자마자 자동으로 동영상을 재생하는 것이 막혀 있습니다. 그래서 처음 들어가실 때에는 화면을 한번 터치 해야 재생이 됩니다.
 
-![](docs/architecture.png)https://whimsical.com/8GuyXPfT9u4WDGciFb2tZU
+![](docs/structure.png)https://whimsical.com/8GuyXPfT9u4WDGciFb2tZU
 
 ## 지금까지 개발된 기능들
 
