@@ -78,6 +78,7 @@ class Home extends Component {
           response.map(r => (r.videoRef = React.createRef()));
           this.setState(prevState => ({
             posts: [...prevState.posts, ...response],
+            nextPostId: response[response.length-1].id-1
           }));
         }
       }
