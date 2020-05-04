@@ -1,17 +1,18 @@
-import { API_ROOT_URL, ACCESS_TOKEN } from "../constants";
+import { API_ROOT_URL, ACCESS_TOKEN } from "./constants";
 
 const request = (options) => {
-  if (localStorage.getItem(ACCESS_TOKEN)) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
     options.headers.append(
       "Authorization",
-      "Bearer " + localStorage.getItem(ACCESS_TOKEN)
+      "Bearer " + sessionStorage.getItem(ACCESS_TOKEN)
     );
   }
 
   return fetch(options.url, options).then(
     (response) => {
       if (!response.ok) {
-        throw new Error("response is not ok");
+        console.log("response is not ok");
+        throw new Error(response);
       }
       return response.json();
     },
@@ -21,7 +22,7 @@ const request = (options) => {
   );
 };
 
-export function login(loginRequest) {
+export function signIn(signInRequest) {
   const headers = new Headers({
     "Content-Type": "application/json",
   });
@@ -29,11 +30,11 @@ export function login(loginRequest) {
     headers: headers,
     url: API_ROOT_URL + "/auth/login",
     method: "POST",
-    body: JSON.stringify(loginRequest),
+    body: JSON.stringify(signInRequest),
   });
 }
 
-export function signup(signupRequest) {
+export function signUp(signUpRequest) {
   const headers = new Headers({
     "Content-Type": "application/json",
   });
@@ -41,7 +42,7 @@ export function signup(signupRequest) {
     headers: headers,
     url: API_ROOT_URL + "/users",
     method: "POST",
-    body: JSON.stringify(signupRequest),
+    body: JSON.stringify(signUpRequest),
   });
 }
 

@@ -3,14 +3,14 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "reducers";
 import App from "./App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import "typeface-nanum-gothic";
 
 const store = configureStore({
-  reducer: {
-  }
+  reducer: rootReducer
 });
 
 ReactDOM.render(

@@ -1,0 +1,9 @@
+.signin-modal {
+  height: 60vh;
+}
+
+.redirect-to-signin {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
