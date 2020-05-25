@@ -1,10 +1,10 @@
 import { API_ROOT_URL, ACCESS_TOKEN } from "./constants";
 
 const request = (options) => {
-  if (sessionStorage.getItem(ACCESS_TOKEN)) {
+  if (localStorage.getItem(ACCESS_TOKEN)) {
     options.headers.append(
       "Authorization",
-      "Bearer " + sessionStorage.getItem(ACCESS_TOKEN)
+      "Bearer " + localStorage.getItem(ACCESS_TOKEN)
     );
   }
 
