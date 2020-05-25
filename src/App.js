@@ -21,7 +21,11 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    try{
     dispatch(fetchCurrentUser());
+    } catch(err) {
+      console.log("user loading failed");
+    }
   }, []);
   
   return (

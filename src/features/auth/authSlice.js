@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { signIn, signUp, getCurrentUser } from "utils/APIUtils";
-import { ACCESS_TOKEN } from "utils/constants";
+import { addAccountToken, clearAccountToken } from "utils/storage";
 
 export const initialAccount = {
   id: 0,
@@ -10,7 +10,7 @@ export const initialAccount = {
 
 export const isGuest = (account) => {
   return account.id===0 && account.email==="guest" && account.name === "guest";
-} 
+}
 
 const initialState = {
   account: initialAccount,
@@ -33,7 +33,7 @@ const authSlice = createSlice({
     signInSuccess(state, action) {
       state.signInPending = false;
       state.signInError = null;
-      sessionStorage.setItem(ACCESS_TOKEN, action.payload.message);
+      addAccountToken(action.payload.message);
     },
     signInFailure(state, action) {
       state.signInPending = false;
@@ -62,7 +62,7 @@ const authSlice = createSlice({
     },
     getCurrentUserError(state, action) {
       state.getCurrentUserPending = false;
-      state.getCurrentUserError = action.payload;
+      // state.getCurrentUserError = action.payload;
     },
   },
 });
@@ -92,7 +92,7 @@ export const fetchSignIn = (request) => async (dispatch) => {
 };
 
 export const signOut = () => {
-  sessionStorage.clear(ACCESS_TOKEN);
+  clearAccountToken();
 }
 
 export const fetchSignUp = (request) => async (dispatch) => {
@@ -112,8 +112,9 @@ export const fetchCurrentUser = () => async (dispatch) => {
     const response = await getCurrentUser();
     dispatch(getCurrentUserSuccess(response));
   } catch (err) {
+    // TODO: 로그인한 상태가 아닌 경우와, 로그인이 정말 실패하는 경우를 구별해야 한다.
     dispatch(getCurrentUserError());
-    throw new Error("fetchCurrentUser");
+    // throw new Error("fetchCurrentUser");
   }
 };
 

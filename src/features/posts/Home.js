@@ -23,9 +23,9 @@ function Home() {
   }, [postIndex]);
 
   useEffect(() => {
-    dispatch(playCurrentPost());
+    // dispatch(playCurrentPost());
   }, []);
-  
+
   // react-id-swiper의 Swiper Component에 전달할 parameter이다.
   const params = {
     direction: "vertical",

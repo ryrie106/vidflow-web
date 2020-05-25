@@ -65,7 +65,7 @@ const postsSlice = createSlice({
       }
     },
     playCurrentPost(state) {
-      console.log(state.postIndex);
+      console.log(state.posts);
       state.posts[state.postIndex].playing = true;
     },
     pauseCurrentPost(state) {
