@@ -8,7 +8,7 @@ before_install:
 
 install: yarn
 
-script: yarn build
+script: CI=false yarn build # create-react-app에서 process.env.CI=true이면 warning이 발생하면 빌드가 실패한다.
 
 deploy:
   - provider: s3
