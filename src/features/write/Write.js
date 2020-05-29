@@ -32,6 +32,7 @@ function Write(props) {
       videoId = videoInfo.fileId;
       await putFilesToPresignedURL(videoInfo.url, selectedFile);
     } catch (err) {
+      console.log(err);
       setUploading(false);
       console.log("영상 업로드 실패");
       return;
@@ -71,7 +72,7 @@ function Write(props) {
       <NavBar
         id="write-navbar"
         icon={<Icon type="left" />}
-        onLeftClick={() => props.history.push("/videoedit")}
+        onLeftClick={gotoEdit}
       >
         게시
       </NavBar>
@@ -85,7 +86,7 @@ function Write(props) {
         />
         <div className="write-preview">
           <img
-            src={props.preview}
+            src={preview}
             style={{ width: "100%", height: "100%" }}
             alt="preview"
           />
