@@ -19,6 +19,7 @@ import { isGuest } from "features/auth/authSlice";
 import CommentsModal from "features/posts/CommentsModal";
 import { setUserInfoId } from "features/user/userSlice";
 import "./Main.css";
+import { PATH_WRITE } from "utils/constants";
 
 function Main() {
   const [tabbarColor, setTabbarColor] = useState("transparent");
@@ -78,7 +79,7 @@ function Main() {
             if (isGuest(account)) {
               dispatch(openSignInModal());
             } else {
-              history.push("/videoedit");
+              history.push(PATH_WRITE);
             }
           }}
         ></TabBar.Item>

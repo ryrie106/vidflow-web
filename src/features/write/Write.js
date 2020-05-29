@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Button,
@@ -16,26 +15,14 @@ import {
 import "./Write.css";
 
 function Write(props) {
+
+  const { selectedFile, thumbnail, preview, gotoEdit } = props;
+
   const [content, setContent] = useState("");
   const [uploading, setUploading] = useState(false);
-  const { selectedFile, thumbnail, preview } = useSelector((state) => state.write);
-
-	useEffect(() => {
-		if(!selectedFile) {
-			// Toast.error("영상 파일이 없습니다.", 1);
-			props.history.push("/videoedit");
-		}
-		if(!thumbnail) {
-			// Toast.error("썸네일 파일이 없습니다.", 1);
-			props.history.push("/videoedit");
-		}
-	})
-
-  function onChangeContent(e) {
-    setContent(e);
-  }
 
   async function submit() {
+    if(uploading) return;
     setUploading(true);
     // video 업로드
     let videoId;
@@ -43,13 +30,10 @@ function Write(props) {
       const videoInfo = await uploadFileRequest("video");
       if (!videoInfo) throw new Error();
       videoId = videoInfo.fileId;
-      console.log(videoId);
-
       await putFilesToPresignedURL(videoInfo.url, selectedFile);
     } catch (err) {
-      console.log(err);
       setUploading(false);
-      // Toast.error("영상 업로드 실패", 1);
+      console.log("영상 업로드 실패");
       return;
     }
 
@@ -61,9 +45,8 @@ function Write(props) {
       console.log(thumbnailId);
       await putFilesToPresignedURL(thumbnailInfo.url, thumbnail);
     } catch (err) {
-      console.log(err);
       setUploading(false);
-      // Toast.error("썸네일 업로드 실패", 1);
+      console.log("썸네일 업로드 실패");
       return;
     }
     // TODO: ...Src를 ...Id로 바꿔야 하지만 API 서버의 많은 부분을 변경 해야 한다.
@@ -84,7 +67,7 @@ function Write(props) {
   }
 
   return (
-    <div className="write">
+    <>
       <NavBar
         id="write-navbar"
         icon={<Icon type="left" />}
@@ -95,14 +78,14 @@ function Write(props) {
       <div className="write-content-preview">
         <TextareaItem
           className="write-content"
-          onChange={onChangeContent}
+          onChange={e => setContent(e)}
           placeholder="동영상을 설명하세요"
           rows={4}
           count={50}
         />
         <div className="write-preview">
           <img
-            src={preview}
+            src={props.preview}
             style={{ width: "100%", height: "100%" }}
             alt="preview"
           />
@@ -118,8 +101,7 @@ function Write(props) {
       <div className="write-upload-indicator">
         <ActivityIndicator toast text="Uploading..." animating={uploading} />
       </div>
-      />
-    </div>
+    </>
   );
 }
 

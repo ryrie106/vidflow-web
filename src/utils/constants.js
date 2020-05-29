@@ -8,7 +8,6 @@ export const IMAGE_SRC = "https://d3sflbrb02pqce.cloudfront.net/images/";
 
 export const PATH_SIGNIN = "/signin";
 export const PATH_SIGNUP = "/signup";
-export const PATH_VIDEOEDIT = "/videoedit";
 export const PATH_WRITE = "/write";
 export const PATH_USERINFO = "/user";
 
@@ -21,3 +20,8 @@ export const EMAIL_MAX_LENGTH = 40;
 
 export const PASSWORD_MIN_LENGTH = 6;
 export const PASSWORD_MAX_LENGTH = 20;
+
+export const WRITE_STAGE = {
+  EDIT: "edit",
+  WRITE: "write"
+};

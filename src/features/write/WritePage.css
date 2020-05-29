@@ -1,0 +1,10 @@
+.write-page {
+  position: fixed;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background: #161824;
+  z-index: 500;
+}
