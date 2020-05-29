@@ -175,7 +175,7 @@ export function putFilesToPresignedURL(url, file) {
       if (!response.ok) {
         throw new Error("response is not ok");
       }
-      return response.json();
+      // return response.json();
     },
     (error) => {
       throw new Error(error);
