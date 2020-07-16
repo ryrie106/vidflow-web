@@ -16,12 +16,12 @@ function SignIn() {
 
   // 로그인 정보 작성시 키보드로 인해 입력창이 가려지는 것을 방지
   function onFocus(height) {
-    return () => {
-      setTimeout(() => {
-        setHeight(document.getElementById("login-button").offsetTop);
-        scrollDown(height);
-      }, 400);
-    };
+    // return () => {
+    //   setTimeout(() => {
+    //     setHeight(document.getElementById("login-button").offsetTop);
+    //     scrollDown(height);
+    //   }, 400);
+    // };
   }
 
   function onBlur() {

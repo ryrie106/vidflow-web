@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
   FaPlusCircle,
   FaHeart,
@@ -6,38 +8,59 @@ import {
   FaCommentDots,
   FaEllipsisH,
 } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
-
-import { likePost, unlikePost } from "utils/APIUtils";
 import {
   openSignInModal,
   openShareModal,
   openCommentsModal,
 } from "features/meta/metaSlice";
+import { isGuest } from "features/auth/authSlice";
 import { refreshCurrentPost } from "features/posts/postsSlice";
-import { useSelector, useDispatch } from "react-redux";
 import "./Icons.css";
 
 function Icons({ postId, postWriterId, numComment, numLike, isLiked }) {
   const { account } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const myPost = postWriterId === account.id;
-  function like() {
-    if (account.id === 0) {
+
+  function likePost() {}
+  function unlikePost() {}
+
+  async function like() {
+    if (isGuest(account)) {
       openSignInModal();
     } else {
-      // likePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-      likePost(postId).then(refreshCurrentPost());
+      await dispatch(() => likePost(postId));
+      await dispatch(refreshCurrentPost);
     }
   }
 
-  function unlike() {
-    if (account.id === 0) {
+  async function unlike() {
+    if (isGuest(account)) {
       openSignInModal();
     } else {
-      // unlikePost 요청을 보낸 후 Home에 있는 refreshPost() 를 호출하여 Post의 state를 갱신한다.
-      unlikePost(postId).then(refreshCurrentPost());
+      await dispatch(() => unlikePost(postId));
+      await dispatch(refreshCurrentPost);
     }
+  }
+
+  let likeButton;
+  if (isLiked) {
+    likeButton = (
+      <FaHeart
+        className="icons-pic"
+        style={{ color: "red" }}
+        onClick={unlike}
+      />
+    );
+  } else {
+    likeButton = <FaHeart className="icons-pic" onClick={like} />;
+  }
+
+  let shareButton;
+  if (myPost) {
+    shareButton = <FaEllipsisH className="icons-pic" />;
+  } else {
+    shareButton = <FaShareAlt className="icons-pic" />;
   }
 
   return (
@@ -48,30 +71,19 @@ function Icons({ postId, postWriterId, numComment, numLike, isLiked }) {
         </NavLink>
       </div>
       <div className="like-button">
-        {isLiked ? (
-          <FaHeart
-            className="icons-pic"
-            style={{ color: "red" }}
-            onClick={unlike}
-          />
-        ) : (
-          <FaHeart className="icons-pic" onClick={like} />
-        )}
+        {likeButton}
         {numLike}
       </div>
-      <div className="comment-button" onClick={() => dispatch(openCommentsModal())}>
+      <div
+        className="comment-button"
+        onClick={() => dispatch(openCommentsModal())}
+      >
         <FaCommentDots className="icons-pic" />
         {numComment}
       </div>
-      {myPost ? (
-        <div className="my-share-button" onClick={() => dispatch(openShareModal())}>
-          <FaEllipsisH className="icons-pic" />
-        </div>
-      ) : (
-        <div className="share-button" onClick={() => dispatch(openShareModal())}>
-          <FaShareAlt className="icons-pic" />
-        </div>
-      )}
+      <div className="share-button" onClick={() => dispatch(openShareModal())}>
+        {shareButton}
+      </div>
     </div>
   );
 }

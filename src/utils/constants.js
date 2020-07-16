@@ -1,5 +1,5 @@
-export const API_ROOT_URL = "https://api.vidflow.ryrie.xyz";
-// export const API_ROOT_URL = 'http://localhost:8080';
+export const API_ROOT_URL = "https://api.vidflow.ryrie.me/v1";
+// export const API_ROOT_URL = 'http://localhost:8080/v1';
 
 export const ACCESS_TOKEN = "accessToken";
 

@@ -6,8 +6,15 @@ import UserList from "components/Search/UserList";
 import { queryPostContent, queryUserName } from "utils/APIUtils";
 import "./Search.css";
 
+const CATEGORY = {
+  USER: "user",
+  CONTENT: "content",
+  HASHTAG: "hashtag"
+}
+
 function Search() {
   const [value, setValue] = useState("");
+  const [category, setCategory] = useState(CATEGORY.USER);
   const [userResults, setUserResults] = useState([]);
   const [videoResults, setVideoResults] = useState([]);
 
@@ -16,17 +23,21 @@ function Search() {
   }
 
   function onClick() {
-    queryPostContent(value).then((response) => {
-      setVideoResults(response)
-    });
-    queryUserName(value).then((response) => {
-      setUserResults(response);
-    });
+    console.log(category)
+    if(category === CATEGORY.USER) {
+      queryUserName(value).then((response) => {
+        setUserResults(response);
+      });
+    } else if(category === CATEGORY.CONTENT) {
+      queryPostContent(value).then((response) => {
+        setVideoResults(response)
+      });
+    }
   };
   const tabs = [
-    { title: "사용자", sub: "1" },
-    { title: "동영상", sub: "2" },
-    { title: "해시테그", sub: "3" },
+    { title: "사용자", sub: CATEGORY.USER },
+    { title: "동영상", sub: CATEGORY.CONTENT },
+    { title: "해시테그", sub: CATEGORY.HASHTAG },
   ];
 
   return (
@@ -45,10 +56,8 @@ function Search() {
         tabs={tabs}
         initialPage={0}
         onChange={(tab, index) => {
+          setCategory(tab.sub);
           console.log("onChange", index, tab);
-        }}
-        onTabClick={(tab, index) => {
-          console.log("onTabClick", index, tab);
         }}
         tabBarBackgroundColor="transparent"
         tabBarActiveTextColor="white"

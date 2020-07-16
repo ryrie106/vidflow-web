@@ -16,7 +16,7 @@ import "./Write.css";
 
 function Write(props) {
 
-  const { selectedFile, thumbnail, preview, gotoEdit } = props;
+  const { selectedFile, thumbnail, preview, gotoEdit, gotoMain } = props;
 
   const [content, setContent] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -63,7 +63,7 @@ function Write(props) {
     await createPost(postRequest);
 
     setUploading(false);
-    props.history.push("/");
+    gotoMain();
     Toast.success("작성 성공!", 2);
   }
 

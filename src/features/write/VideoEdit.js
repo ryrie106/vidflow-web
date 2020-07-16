@@ -106,7 +106,7 @@ function VideoEdit(props) {
       <div id="video-edit-selector">
         <input
           type="file"
-          accept="video/mp4"
+          accept="video/*"
           onChange={onChangeVideoSelector}
         />
       </div>
