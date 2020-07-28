@@ -1,0 +1,18 @@
+.navbar-main {
+  position: fixed;
+  justify-content: space-around;
+  display: flex;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  max-width: 600px;
+  color: white;
+  z-index: 500;
+}
+
+/* .am-tab-bar-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 600px;
+} */

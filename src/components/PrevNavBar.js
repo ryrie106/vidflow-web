@@ -1,16 +1,21 @@
 import React from "react";
-import { NavBar, Icon } from "antd-mobile";
 import { useHistory } from "react-router";
+import { BsChevronLeft } from "react-icons/bs";
 import "./PrevNavBar.css";
 
 function PrevNavBar({ onLeftClick }) {
+  return (
+    <div className="navbar-prev">
+      <Left onLeftClick={onLeftClick}/>
+    </div>
+  );
+}
+
+function Left({onLeftClick}) {
   let history = useHistory();
   return (
-    <NavBar
-      icon={<Icon type="left" />}
-      onLeftClick={onLeftClick ? onLeftClick : () => history.goBack()}
-    />
-  );
+    <BsChevronLeft className="navbar-prev-left" onClick={onLeftClick ? onLeftClick : () => history.goBack()} />
+  )
 }
 
 export default PrevNavBar;

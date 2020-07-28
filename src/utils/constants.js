@@ -6,10 +6,15 @@ export const ACCESS_TOKEN = "accessToken";
 export const VIDEO_SRC = "https://d3sflbrb02pqce.cloudfront.net/videos/";
 export const IMAGE_SRC = "https://d3sflbrb02pqce.cloudfront.net/images/";
 
+export const PATH_HOME = "/";
+export const PATH_SEARCH = "/search";
+export const PATH_NOTIFICATION = "/notification";
+
 export const PATH_SIGNIN = "/signin";
 export const PATH_SIGNUP = "/signup";
 export const PATH_WRITE = "/write";
 export const PATH_USERINFO = "/user";
+
 
 export const PAGE_SIZE = 3;
 

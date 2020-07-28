@@ -1,32 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-
-import {
-  FaHome,
-  FaGlobe,
-  FaFolderPlus,
-  FaComment,
-  FaUser,
-} from "react-icons/fa";
-import { TabBar } from "antd-mobile";
 import Home from "features/posts/Home";
 import Search from "features/search/Search";
 import Notification from "features/notification/Notification";
 import UserInfo from "features/user/UserInfo";
-import { openSignInModal, setSelectedTab } from "features/meta/metaSlice";
-import { isGuest } from "features/auth/authSlice";
-import CommentsModal from "features/posts/CommentsModal";
 import { setUserInfoId } from "features/user/userSlice";
 import "./Main.css";
-import { PATH_WRITE } from "utils/constants";
 
 function Main() {
   const [tabbarColor, setTabbarColor] = useState("transparent");
-  const dispatch = useDispatch();
-  let history = useHistory();
-  const { selectedTab } = useSelector((state) => state.meta);
-  const { account } = useSelector((state) => state.auth);
 
   function onPress(login, tab) {
     if (tab === "homeTab") {
@@ -110,7 +93,6 @@ function Main() {
           <UserInfo />
         </TabBar.Item>
       </TabBar>
-      <CommentsModal />
     </div>
   );
 }

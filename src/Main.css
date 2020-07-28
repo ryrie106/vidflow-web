@@ -3,20 +3,3 @@
     height: 100%;
 }
 
-.main-tab {
-    width: 100%;
-    height: calc(100% - 50px);
-    margin-bottom: 50px;
-}
-
-.am-tab-bar-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 600px;
-}
-
-.tabbar-main-pic {
-    width: 35px;
-    height: 35px;
-}
