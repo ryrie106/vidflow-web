@@ -14,7 +14,7 @@ import {
   openCommentsModal,
 } from "features/meta/metaSlice";
 import { isGuest } from "features/auth/authSlice";
-import { refreshCurrentPost } from "features/posts/postsSlice";
+import { fetchLikePost, fetchUnlikePost, refreshCurrentPost } from "features/posts/postsSlice";
 import "./Icons.css";
 
 function Icons({ postId, postWriterId, numComment, numLike, isLiked }) {
@@ -22,25 +22,21 @@ function Icons({ postId, postWriterId, numComment, numLike, isLiked }) {
   const dispatch = useDispatch();
   const myPost = postWriterId === account.id;
 
-  // TODO: 
-  function likePost() {}
-  function unlikePost() {}
-
   async function like() {
     if (isGuest(account)) {
-      openSignInModal();
+      dispatch(openSignInModal());
     } else {
-      await dispatch(() => likePost(postId));
-      await dispatch(refreshCurrentPost);
+      await dispatch(fetchLikePost(postId));
+      await dispatch(refreshCurrentPost(postId));
     }
   }
 
   async function unlike() {
     if (isGuest(account)) {
-      openSignInModal();
+      dispatch(openSignInModal());
     } else {
-      await dispatch(() => unlikePost(postId));
-      await dispatch(refreshCurrentPost);
+      await dispatch(fetchUnlikePost(postId));
+      await dispatch(refreshCurrentPost(postId));
     }
   }
 

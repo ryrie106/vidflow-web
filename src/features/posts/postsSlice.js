@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getPosts, getPostById } from "utils/APIUtils";
+import { likePost, unlikePost, getPosts, getPostById } from "utils/APIUtils";
 
 const initialState = {
   posts: [],
@@ -10,6 +10,8 @@ const initialState = {
   loading: false,
   error: null,
   commentModal: false,
+
+
 };
 
 const postsSlice = createSlice({
@@ -71,6 +73,24 @@ const postsSlice = createSlice({
     pauseCurrentPost(state) {
       state.posts[state.postIndex].playing = false;
     },
+    likePostStart() {
+
+    },
+    likePostSuccess() {
+
+    },
+    likePostError() {
+
+    },
+    unlikePostStart() {
+
+    },
+    unlikePostSuccess() {
+
+    },
+    unlikePostError() {
+
+    }
   },
 });
 
@@ -85,10 +105,18 @@ export const {
   prevTransition,
   playCurrentPost,
   pauseCurrentPost,
+  likePostStart,
+  likePostSuccess,
+  likePostError,
+  unlikePostStart,
+  unlikePostSuccess,
+  unlikePostError,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
-
+/* 
+  APIUtils와 Slice의 함수 명이 겹치는 문제가 있음. 일단 fetch를 붙이는걸로
+*/
 export const fetchPosts = (nextPostId) => async (dispatch) => {
   try {
     dispatch(fetchPostsStart());
@@ -109,3 +137,24 @@ export const refreshCurrentPost = (postId) => async (dispatch) => {
     dispatch(refreshCurrentPostError());
   }
 };
+
+export const fetchLikePost = (postId) => async (dispatch) => {
+  try {
+    dispatch(likePostStart());
+    const response = await likePost(postId);
+    dispatch(likePostSuccess(response));
+  } catch (err) {
+    dispatch(likePostError());
+  }
+}
+
+export const fetchUnlikePost = (postId) => async (dispatch) => {
+  try {
+    dispatch(unlikePostStart());
+    const response = await unlikePost(postId);
+    dispatch(unlikePostSuccess(response));
+  } catch (err) {
+    dispatch(unlikePostError());
+  }
+}
+
