@@ -11,18 +11,17 @@ import PrevNavBar from "components/PrevNavBar";
 function UserInfo(props) {
   const dispatch = useDispatch();
   const { account } = useSelector((state) => state.auth);
-  const { userInfoId, userInfo, userPosts, userLikes, following } = useSelector(
+  const { userInfo, userPosts, userLikes, following } = useSelector(
     (state) => state.user
   );
   let myInfo = true;
   useEffect(() => {
-    if (userInfoId !== 0) {
-      myInfo = userInfoId === account.id;
-      dispatch(fetchUserInfo(userInfoId));
-      dispatch(fetchUserPosts(userInfoId));
-      dispatch(fetchUserLikes(userInfoId));
-    }
-  }, [userInfoId]);
+    const id = props.match.params.userId
+    myInfo = id === account.id;
+    dispatch(fetchUserInfo(id));
+    dispatch(fetchUserPosts(id));
+    dispatch(fetchUserLikes(id));
+  }, []);
 
   const tabs = [
     { title: "동영상", sub: "1" },
@@ -30,7 +29,7 @@ function UserInfo(props) {
   ];
   return (
     <div className="main-tab" id="userinfo">
-      {props.match ? <PrevNavBar /> : null}
+      <PrevNavBar />
       <UserInfoHead following={following} userInfo={userInfo} myInfo={myInfo} />
       <div id="userinfo-content">
         <Tabs

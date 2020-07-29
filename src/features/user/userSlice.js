@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserInfo, getUserPosts, getUserLikes, followUser, unfollowUser } from "utils/APIUtils";
 
-/**
- * 유저 정보는 userInfoId에 의존합니다.
- *  */ 
 const initialState = {
-  userInfoId: 0,
   following: false,
   followPending: false,
   followError: null,
@@ -34,9 +30,6 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserInfoId(state, action) {
-      state.userInfoId = action.payload;
-    },
     getUserInfoStart(state) {
       state.loadingInfo = true;
       state.loadingInfoError = null;

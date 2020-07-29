@@ -22,6 +22,7 @@ function Icons({ postId, postWriterId, numComment, numLike, isLiked }) {
   const dispatch = useDispatch();
   const myPost = postWriterId === account.id;
 
+  // TODO: 
   function likePost() {}
   function unlikePost() {}
 

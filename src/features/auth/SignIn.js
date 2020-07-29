@@ -88,10 +88,10 @@ function SignIn() {
         <div id="login-signup-instead">
           <Link to="/signup">회원가입하기</Link>
         </div>
+        <Button id="login-button" type="primary" onClick={onSubmit}>
+          로그인
+        </Button>
       </div>
-      <Button id="login-button" type="primary" onClick={onSubmit}>
-        로그인
-      </Button>
     </div>
   );
 }
